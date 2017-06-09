@@ -9,4 +9,11 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^base_configuracoes/$', views.base_configuracoes, name='base_configuracoes'),
     url(r'^base_aplicar_dinamica/$', views.base_aplicar_dinamica, name='base_aplicar_dinamica'),
+    # Cuidado com as URLS!
+    # Como estamos utilizando apenas um app, temos que colocar o class/xxx
+    url(r'^medico/$', views.medico_index, name='medico_index'),
+    url(r'^medico/edit/(?P<id>\d+)/$', views.medico_edit, name='medico_edit'),
+    url(r'^medico/delete/(?P<id>\d+)/$', views.medico_delete, name='medico_delete'),
+    url(r'^medico/new/$', views.medico_new, name='medico_new'),
+
 ]

@@ -6,17 +6,18 @@
         <div class="container-fluid">
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-{#                <ul class="nav navbar-nav">#}
-{#                     <li {% block medico %}{% endblock %}><a href="{% url 'medico:medico_index' %}">Médicos{% block medico_span %}{% endblock %}</a></li>#}
-{#                    <li {% block area %}{% endblock %}><a href="{% url 'area:area_index' %}">Áreas{% block area_span %}{% endblock %}</a></li>#}
-{#                    <li {% block modulo %}{% endblock %}><a href="{% url 'modulo:modulo_index' %}">Módulos{% block modulo_span %}{% endblock %}</a></li>#}
-{#                    <li {% block emprestimo %}{% endblock %}><a href="{% url 'emprestimo:emprestimo_index' %}">Empréstimos{% block emprestimo_span %}{% endblock %}</a></li>#}
-{#                    <li {% block classe_social %}{% endblock %}><a href="{% url 'classe_social:classe_social_index' %}">Classes Sociais{% block classe_social_span %}{% endblock %}</a></li>#}
-{#                    <li {% block evento %}{% endblock %}><a href="{% url 'evento:evento_index' %}">Eventos{% block evento_span %}{% endblock %}</a></li>#}
-{#                    <li {% block cenario %}{% endblock %}><a href="{% url 'cenario:cenario_index' %}">Cenários{% block cenario_span %}{% endblock %}</a></li>#}
-{#                    <li {% block rodada %}{% endblock %}><a href="{% url 'rodada:rodada_index' %}">Rodadas{% block rodada_span %}{% endblock %}</a></li>#}
-{#                    <li {% block time %}{% endblock %}><a href="{% url 'Time:time_index' %}">Times{% block time_span %}{% endblock %}</a></li>#}
-{#                </ul>#}
+                <ul class="nav navbar-nav">
+{#                Descomentar os blocos abaixo de acordo com a implementação/refatoração #}
+                     <li {% block medico %}{% endblock %}><a href="{% url 'jogo:medico_index' %}">Médicos{% block medico_span %}{% endblock %}</a></li>
+{#                    <li {% block area %}{% endblock %}><a href="{% url 'jogo:area_index' %}">Áreas{% block area_span %}{% endblock %}</a></li>#}
+{#                    <li {% block modulo %}{% endblock %}><a href="{% url 'jogo:modulo_index' %}">Módulos{% block modulo_span %}{% endblock %}</a></li>#}
+{#                    <li {% block emprestimo %}{% endblock %}><a href="{% url 'jogo:emprestimo_index' %}">Empréstimos{% block emprestimo_span %}{% endblock %}</a></li>#}
+{#                    <li {% block classe_social %}{% endblock %}><a href="{% url 'jogo:classe_social_index' %}">Classes Sociais{% block classe_social_span %}{% endblock %}</a></li>#}
+{#                    <li {% block evento %}{% endblock %}><a href="{% url 'jogo:evento_index' %}">Eventos{% block evento_span %}{% endblock %}</a></li>#}
+{#                    <li {% block cenario %}{% endblock %}><a href="{% url 'jogo:cenario_index' %}">Cenários{% block cenario_span %}{% endblock %}</a></li>#}
+{#                    <li {% block rodada %}{% endblock %}><a href="{% url 'jogo:rodada_index' %}">Rodadas{% block rodada_span %}{% endblock %}</a></li>#}
+{#                    <li {% block time %}{% endblock %}><a href="{% url 'jogo:time_index' %}">Times{% block time_span %}{% endblock %}</a></li>#}
+                </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
 

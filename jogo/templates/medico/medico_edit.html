@@ -1,0 +1,62 @@
+{% extends 'jogo/base_configuracoes.html' %}
+{# não é mais home/... é jogo/..#}
+{% block title%}Editar Médico{% endblock title%}
+{% block home %}{% endblock %}
+{% block home_span %}{% endblock %}
+{% block medico %}class="active"{% endblock %}
+{% block medico_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block modulo %}{% endblock %}
+{% block modulo_span %}{% endblock %}
+{% block emprestimo %}{% endblock %}
+{% block emprestimo_span %}{% endblock %}
+{% block body %}
+    <center><h1>Editar Médico</h1></center><br>
+
+<form action="." method="POST">{% csrf_token %}
+
+    <div style="width: 30%; position: absolute; top:20%; bottom: 0; left: 0; right: 0; margin: 0 auto;">
+        <table class="table table-striped" align="center">
+            <thead>
+            <tr>
+                <td align="right"><b>Atributos</b></td>
+                <td align="left"><b>Valores</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td align="right">ID:</td>
+                <td align="left">{{id}}</td>
+            </tr>
+            <tr>
+                <td align="right">Perfil:</td>
+                <td align="left">{{form.perfil}}</td>
+            </tr>
+            <tr>
+                <td align="right">Salário</td>
+                <td align="left">{{form.salario}}</td>
+            </tr>
+            <tr>
+                <td align="right">Expertise:</td>
+                <td align="left">{% for radio in form.expertise %} {{ radio }} {% endfor %}</td>
+            </tr>
+            <tr>
+                <td align="right">Atendimento:</td>
+                <td align="left">{% for radio in form.atendimento %} {{ radio }} {% endfor %}</td>
+            </tr>
+            <tr>
+                <td align="right">Pontualidade:</td>
+                <td align="left">{% for radio in form.pontualidade %} {{ radio }} {% endfor %}</td>
+            </tr>
+            <tr>
+                <td align="right"><a  style="text-decoration:none;" href="{% url 'jogo:medico_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
+{#                CUIDADO COM O 'NAMESPACE' NÃO É MAIS 'class:method', agora é 'jogo:method' #}
+                <td align="left"><button type="submit" class="btn btn-success btn-block" >Salvar</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{form.perfil.errors}}
+    {{form.salario.errors}}
+</form>
+
+{% endblock body %}
