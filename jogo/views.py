@@ -116,7 +116,6 @@ def medico_delete(request, id):
 
 def emprestimo_index(request):
     emprestimos = Emprestimo.objects.order_by('valor')
-    print(emprestimos)
     return render(request, 'emprestimo/emprestimo_index.html', {'emprestimos':emprestimos})
 
 def emprestimo_edit(request, id):
