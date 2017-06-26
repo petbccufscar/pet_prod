@@ -14,3 +14,7 @@ class Medico(models.Model):
     pontualidade = models.IntegerField(default=1, choices=classificacao)
     # Não esqueçam de fazer a migração para o novo BD:
     # Tools -> Run manage.py task -> makemigrations -> migrate
+
+
+class Emprestimo(models.Model):
+    valor = models.FloatField(validators=[MinValueValidator(1.0)])

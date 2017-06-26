@@ -1,0 +1,36 @@
+{% extends 'jogo/base_configuracoes.html' %}
+
+{% block title%}Editar Empréstimo{% endblock title%}
+
+{% block emprestimo_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block emprestimo %}class="active"{% endblock %}
+
+{% block body %}
+    <center><h1>Editar Empréstimo</h1></center><br>
+
+<form action="." method="POST">{% csrf_token %}
+
+    <div style="width: 25%; position: absolute; top:20%; bottom: 0; left: 0; right: 0; margin: 0 auto;">
+        <table class="table table-striped" align="center">
+            <thead>
+            <tr>
+                <td align="right"><b>Atributo</b></td>
+                <td align="left"><b>Valor</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td align="right">Valor:</td>
+                <td align="left">{{form.valor}}</td>
+            </tr>
+             <tr>
+                <td align="right"><a  style="text-decoration:none;" href="{% url 'jogo:emprestimo_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
+                <td align="left"><button type="submit" class="btn btn-success btn-block" >Salvar</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{form.valor.errors}}
+</form>
+
+{% endblock body %}
