@@ -8,12 +8,12 @@ class Medico_Form(forms.ModelForm):
         model = Medico
         fields = '__all__'
         widgets = {
-            'perfil': forms.TextInput(attrs={'class': 'col-xs-6'}),
-            'salario': forms.TextInput(attrs={'class': 'col-xs-6'}),
-            'expertise': forms.RadioSelect(attrs={'name': 'optradio'}),
-            'atendimento': forms.RadioSelect(attrs={'name': 'optradio'}),
-            'pontualidade': forms.RadioSelect(attrs={'name': 'optradio', 'class': 'radio-inline'}),
-        }
+                'perfil': forms.TextInput(),
+                'salario': forms.TextInput(),
+                'expertise': forms.RadioSelect(),
+                'atendimento': forms.RadioSelect(),
+                'pontualidade': forms.RadioSelect(),
+            }
         error_messages = {
             'perfil': {'invalid': "O campo Perfil deve conter um número inteiro.",
                        'required': "O campo Perfil deve ser preenchido.",
