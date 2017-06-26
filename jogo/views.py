@@ -108,3 +108,51 @@ def medico_delete(request, id):
     return HttpResponseRedirect('/medico')
 
 
+
+def modulo_index(request):
+    modulos = Modulo.objects.order_by('codigo')
+    return render(request, 'modulo/modulo_index.html', {'modulos':modulos})
+
+#@login_required(login_url='/adm/login/')
+def modulo_new(request):
+    modulo = None
+    try:
+        modulo = Modulo.objects.latest('id')
+    except:
+        pass
+    if modulo == None:
+        id = 1
+    else:
+        id = modulo.id+1
+    if request.method == 'POST':
+        form = Modulo_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/modulo')
+        else:
+            return render(request, 'modulo/modulo_new.html', {'form': form, 'id': id})
+    else:
+        form = Modulo_Form()
+        return render(request, 'modulo/modulo_new.html', {'form': form, 'id': id})
+
+
+#@login_required(login_url='/adm/login/')
+def modulo_edit(request, id):
+    modulo = get_object_or_404(Modulo, pk=id)
+    form = Modulo_Form(instance=modulo)
+
+    if request.method == 'POST':
+        form = Modulo_Form(request.POST, instance=modulo)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/modulo')
+
+    return render(request, 'modulo/modulo_edit.html', {'form': form, 'id': id})
+
+#@login_required(login_url='/adm/login/')
+def modulo_delete(request, id):
+    get_object_or_404(Modulo, pk=id).delete()
+    return HttpResponseRedirect('/modulo')
+
+
+
