@@ -14,3 +14,12 @@ class Medico(models.Model):
     pontualidade = models.IntegerField(default=1, choices=classificacao)
     # Não esqueçam de fazer a migração para o novo BD:
     # Tools -> Run manage.py task -> makemigrations -> migrate
+
+class Rodada(models.Model):
+    verbose_name = 'rodada'
+    verbose_name_plural = 'rodadas'
+
+    numeroRodada = models.IntegerField(validators=[MinValueValidator(1)])
+    duracao = models.IntegerField(validators=[MinValueValidator(1)])
+    # TODO implementar apos a implementacao da classe evento
+    # evento = models.ForeignKey(Evento, on_delete=models.CASCADE, default=1)

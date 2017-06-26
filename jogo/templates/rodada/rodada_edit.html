@@ -1,0 +1,51 @@
+{% extends 'jogo/base_configuracoes.html' %}
+
+{% block title%}Editar Rodada{% endblock title%}
+{% block home %}{% endblock %}
+{% block home_span %}{% endblock %}
+{% block rodada %}class="active"{% endblock %}
+{% block rodada_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block modulo %}{% endblock %}
+{% block modulo_span %}{% endblock %}
+{% block emprestimo %}{% endblock %}
+{% block emprestimo_span %}{% endblock %}
+{% block body %}
+    <center><h1>Editar Rodada</h1></center><br>
+
+<form action="." method="POST">{% csrf_token %}
+
+    <div style="width: 30%; position: absolute; top:20%; bottom: 0; left: 0; right: 0; margin: 0 auto;">
+        <table class="table table-striped" align="center">
+            <thead>
+            <tr>
+                <td align="right"><b>Atributos</b></td>
+                <td align="left"><b>Valores</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td align="right">Número rodada:</td>
+                <td align="left">{{form.numeroRodada}}</td>
+            </tr>
+            <tr>
+                <td align="right">Duração:</td>
+                <td align="left">{{form.duracao}}</td>
+            </tr>
+             <tr>
+                <td align="right">Evento:</td>
+                <td align="left">{{form.evento}}</td>
+            </tr>
+
+            <tr>
+                <td align="right"><a  style="text-decoration:none;" href="{% url 'jogo:rodada_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
+                <td align="left"><button type="submit" class="btn btn-success btn-block" >Salvar</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{form.duracao.errors}}
+    {{ form.numeroRodada.errors }}
+    {{ form.evento.errors }}
+</form>
+
+{% endblock body %}

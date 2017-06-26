@@ -1,0 +1,40 @@
+{% extends 'jogo/base_configuracoes.html' %}
+{% load staticfiles %}
+{% block title %}Rodada{% endblock title %}
+{% block rodada %}class="active"{% endblock %}
+{% block rodada_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block body %}
+
+ <!-- TABELA LISTA RODADA -->
+    <div class="container">
+        <center><h1>Rodadas</h1></center>
+
+        <div align="right" style="margin-right: 7%">
+            <a href="{% url 'jogo:rodada_new' %}"><button type="submit" class="btn btn-primary">Cadastrar Nova</button></a>
+        </div>
+        <br>
+
+
+        <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Número rodada</th>
+                <th>Duração</th>
+                <th>Evento</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rodada in jogo_rodadas %}
+                <tr>
+                    <td>{{rodada.numeroRodada}}</td>
+                    <td>{{rodada.duracao}}</td>
+                    <td>{{rodada.evento.nome}}</td>
+                    <td><a href="{% url 'jogo:rodada_edit' rodada.id %}"><button type="button" class="btn btn-warning">Editar</button></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+
+{% endblock body %}

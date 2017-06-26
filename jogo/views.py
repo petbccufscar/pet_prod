@@ -4,8 +4,8 @@ from django.contrib.auth import authenticate, login as django_login, logout as d
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 # NAO ESQUEÇAM DE ATUALIZAR OS IMPORTS
-from .models import Medico
-from .forms import Medico_Form
+from .models import Medico, Rodada
+from .forms import Medico_Form, Rodada_Form
 
 # from django.core.exceptions import ObjectDoesNotExist
 
@@ -66,6 +66,7 @@ def medico_index(request):
     medicos = Medico.objects.order_by('perfil')
     return render(request, 'medico/medico_index.html', {'medicos':medicos})
 
+# TODO login_required
 #@login_required(login_url='/adm/login/')
 def medico_new(request):
     medico = None
@@ -89,6 +90,7 @@ def medico_new(request):
         form = Medico_Form()
         return render(request, 'medico/medico_new.html', {'form': form, 'id':id})
 
+# TODO login_required
 #@login_required(login_url='/adm/login/')
 def medico_edit(request, id):
     medico = get_object_or_404(Medico,pk=id)
@@ -102,9 +104,51 @@ def medico_edit(request, id):
 
     return render(request, 'medico/medico_edit.html', {'form':form, 'id':id})
 
+# TODO login_required
 #@login_required(login_url='/adm/login/')
 def medico_delete(request, id):
     get_object_or_404(Medico, pk=id).delete()
     return HttpResponseRedirect('/medico')
 
+def rodada_index(request):
+    rodadas = Rodada.objects.order_by('numeroRodada')
+    return render(request, 'rodada/rodada_index.html', {'rodadas':rodadas})
 
+# TODO login_required
+#@login_required(login_url='/adm/login/')
+def rodada_new(request):
+    # TODO verificar se esta parte deve ser descomentada
+    # rodada = None
+    # try:
+    #     rodada = Rodada.objects.latest('numeroRodada')
+    # except:
+    #     pass
+    # if rodada == None:
+    #     numeroRodada = 1
+    # else:
+    #     numeroRodada = rodada.numeroRodada + 1
+
+    if request.method == 'POST':
+        form = Rodada_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/rodada')
+        else:
+            return render(request, 'rodada/rodada_new.html', {'form':form})
+    else:
+        form = Rodada_Form()
+        return render(request, 'rodada/rodada_new.html', {'form': form})
+
+# TODO login_required
+#@login_required(login_url='/adm/login/')
+def rodada_edit(request, id):
+    rodada = get_object_or_404(Rodada,pk=id)
+    form = Rodada_Form(instance=rodada)
+
+    if request.method == 'POST':
+        form = Rodada_Form(request.POST, instance=rodada)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/rodada')
+
+    return render(request, 'rodada/rodada_edit.html', {'form':form})

@@ -5,3 +5,4 @@ class JogoConfig(AppConfig):
     name = 'jogo'
 
 
+
