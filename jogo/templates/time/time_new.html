@@ -1,0 +1,73 @@
+{% extends 'jogo/base_configuracoes.html' %}
+{% load staticfiles %}
+{% block title%}Time{% endblock title%}
+{% block time %}class="active"{% endblock %}
+{% block time_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block body %}
+
+    <center><h1>Cadastrar Time</h1></center><br>
+      <div align="right" style="margin-right: 11%">
+            <a href="{% url 'jogo:time_new' %}"><button type="submit" class="btn btn-primary">Cadastrar Novo</button></a>
+        </div>
+        <br>
+<form action="." method="POST">{% csrf_token %}
+
+    <div style="width: 30%; position: absolute; top:20%; bottom: 0; left: 0; right: 0; margin: 0 auto;">
+        <table class="table table-striped" align="center">
+            <thead>
+            <tr>
+                <td></td>
+                <td align="right"><b>Atributos</b></td>
+
+                <td align="left"><b>Valores</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td align="right">Nome:</td>
+                <td align="left">{{form.nome}}</td>
+
+            </tr>
+           <tr>
+
+                <td></td>
+                <td align="right">Login:</td>
+                <td align="left" >{{ form.login }}</td>
+            </tr>
+            <tr>
+
+                <td></td>
+                <td align="right">Senha:</td>
+                <td align="left">{{ form.senha }}</td>
+            </tr>
+            <tr>
+
+                <td></td>
+                <td align="right">Repita a Senha:</td>
+                    <td align="left"> {{ form.repetesenha }}
+                        <!--<input type="password" class="col-xs-6" id="repetesenha" name="repetesenha" size="14">-->
+                        </td>
+            </tr>
+            <tr>
+
+                <td></td>
+                <td align="right">Caixa:</td>
+                <td align="left" >{{ form.caixa }}</td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td align="right"><a  style="text-decoration:none;" href="{% url 'jogo:time_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
+
+                <td align="left"><button type="submit" class="btn btn-success btn-block" >Cadastrar</button></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{form.nome.errors}}
+    {{ form.errors }} {# Melhorar a exibição de erros para o caso de Código e Area já existirem #}
+</form>
+
+{% endblock body %}

@@ -1,0 +1,59 @@
+{% extends 'jogo/base_configuracoes.html' %}
+{% block title%}Editar Time{% endblock title%}
+{% block time %}class="active"{% endblock %}
+{% block time_span %}{% endblock %}
+{% block body %}
+    <center><h1>Editar Time</h1></center><br>
+
+<form action="." method="POST">{% csrf_token %}
+
+    <div style="width: 30%; position: absolute; top:20%; bottom: 0; left: 0; right: 0; margin: 0 auto;">
+        <table class="table table-striped" align="center">
+            <thead>
+            <tr>
+                <td align="right"><b>Atributos</b></td>
+                <td align="left"><b>Valores</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td align="right">ID:</td>
+                <td align="left">{{id}}</td>
+            </tr>
+            <tr>
+
+                <td align="right">Nome:</td>
+                <td align="left">{{form.nome}}</td>
+
+            </tr>
+           <tr>
+                <td align="right">Login:</td>
+                <td align="left" >{{ form.login }}</td>
+            </tr>
+            <tr>
+
+
+                <td align="right">Senha:</td>
+                <td align="left">{{ form.senha }}</td>
+            </tr>
+              <tr>
+                <td align="right">Repita a Senha:</td>
+                <td align="left">{{ form.repetesenha }}</td>
+            </tr>
+            <tr>
+
+                <td align="right">Caixa:</td>
+                <td align="left" >{{ form.caixa }}</td>
+            </tr>
+            <tr>
+                <td align="right"><a  style="text-decoration:none;" href="{% url 'jogo:time_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
+                <td align="left"><button type="submit" class="btn btn-success btn-block" >Salvar</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{form.perfil.errors}}
+    {{form.salario.errors}}
+</form>
+
+{% endblock body %}

@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-
+from django import forms
 
 # Tabela Médico
 class Medico(models.Model):
@@ -14,3 +14,11 @@ class Medico(models.Model):
     pontualidade = models.IntegerField(default=1, choices=classificacao)
     # Não esqueçam de fazer a migração para o novo BD:
     # Tools -> Run manage.py task -> makemigrations -> migrate
+
+#Tabela Time
+class Time(models.Model):
+    nome = models.CharField(max_length=20) #NOME DO TIME
+    login = models.CharField(max_length=15) #LOGIN PARA ENTRAR NO SISTEMA
+    senha = models.CharField(max_length=20)
+    caixa = models.FloatField(validators=[MinValueValidator(0.0)]) #QUANTIDADE NO CAIXA
+

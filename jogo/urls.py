@@ -16,4 +16,10 @@ urlpatterns = [
     url(r'^medico/delete/(?P<id>\d+)/$', views.medico_delete, name='medico_delete'),
     url(r'^medico/new/$', views.medico_new, name='medico_new'),
 
+    #URLs para Time
+    url(r'^time/$', views.time_index, name='time_index'),
+    url(r'^time/edit/(?P<id>\d+)/$', views.time_edit, name='time_edit'),
+    url(r'^time/delete/(?P<id>\d+)/$', views.time_delete, name='time_delete'),
+    url(r'^time/new/$', views.time_new, name='time_new'),
+
 ]

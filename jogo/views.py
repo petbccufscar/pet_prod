@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 # NAO ESQUEÇAM DE ATUALIZAR OS IMPORTS
 from .models import Medico
 from .forms import Medico_Form
+from .models import Time
+from .forms import Time_Form
 
 # from django.core.exceptions import ObjectDoesNotExist
 
@@ -108,3 +110,43 @@ def medico_delete(request, id):
     return HttpResponseRedirect('/medico')
 
 
+#VIEWS PARA TIME
+def time_index(request):
+    times = Time.objects.order_by('id')
+    return render(request, 'time/time_index.html', {'times': times})
+
+#@login_required(login_url='/adm/login/')
+def time_new(request):
+    if request.method == 'POST':
+        form = Time_Form(request.POST)
+        if form.is_valid():
+            repetesenha =  form.cleaned_data['repetesenha']
+            senha = form.cleaned_data['senha']
+            if(repetesenha == senha):
+                form.save()
+                return HttpResponseRedirect('/time')
+            else:
+                return render(request, 'time/time_new.html', {'form': form, 'id': id})
+        else:
+            return render(request, 'time/time_new.html', {'form': form, 'id': id})
+    else:
+        form = Time_Form()
+        return render(request, 'time/time_new.html', {'form': form, 'id': id})
+
+#@login_required(login_url='/adm/login/')
+def time_edit(request, id):
+    time = get_object_or_404(Time,pk=id)
+    form = Time_Form(instance=time)
+
+    if request.method == 'POST':
+        form = Time_Form(request.POST, instance=time)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/time')
+
+    return render(request, 'time/time_edit.html', {'form':form, 'id':id})
+
+#@login_required(login_url='/adm/login/')
+def time_delete(request, id):
+    get_object_or_404(Time, pk=id).delete()
+    return HttpResponseRedirect('/time')
