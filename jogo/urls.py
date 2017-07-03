@@ -10,7 +10,6 @@ urlpatterns = [
     url(r'^base_configuracoes/$', views.base_configuracoes, name='base_configuracoes'),
     url(r'^base_aplicar_dinamica/$', views.base_aplicar_dinamica, name='base_aplicar_dinamica'),
     # Cuidado com as URLS!
-
     # Como estamos utilizando apenas um app, temos que colocar o class/xxx
     url(r'^medico/$', views.medico_index, name='medico_index'),
     url(r'^medico/edit/(?P<id>\d+)/$', views.medico_edit, name='medico_edit'),
@@ -25,4 +24,10 @@ urlpatterns = [
     url(r'^emprestimo/edit/(?P<id>\d+)/$', views.emprestimo_edit, name='emprestimo_edit'),
     url(r'^emprestimo/delete/(?P<id>\d+)/$', views.emprestimo_delete, name='emprestimo_delete'),
     url(r'^emprestimo/new/$', views.emprestimo_new, name='emprestimo_new'),
+    #URLs para Time
+    url(r'^time/$', views.time_index, name='time_index'),
+    url(r'^time/edit/(?P<id>\d+)/$', views.time_edit, name='time_edit'),
+    url(r'^time/delete/(?P<id>\d+)/$', views.time_delete, name='time_delete'),
+    url(r'^time/new/$', views.time_new, name='time_new'),
+
 ]
