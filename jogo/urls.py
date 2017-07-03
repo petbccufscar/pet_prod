@@ -30,4 +30,8 @@ urlpatterns = [
     url(r'^time/delete/(?P<id>\d+)/$', views.time_delete, name='time_delete'),
     url(r'^time/new/$', views.time_new, name='time_new'),
 
+    url(r'^classe_social/$', views.classe_social_index, name='classe_social_index'),
+    url(r'^classe_social/edit/(?P<id>\d+)/$', views.classe_social_edit, name='classe_social_edit'),
+    url(r'^classe_social/delete/(?P<id>\d+)/$', views.classe_social_delete, name='classe_social_delete'),
+    url(r'^classe_social/new/$', views.classe_social_new, name='classe_social_new'),
 ]
