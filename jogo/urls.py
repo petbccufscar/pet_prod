@@ -19,6 +19,9 @@ urlpatterns = [
     url(r'^evento/edit/(?P<id>\d+)/$', views.evento_edit, name='evento_edit'),
     url(r'^evento/delete/(?P<id>\d+)/$', views.evento_delete, name='evento_delete'),
     url(r'^evento/new/$', views.evento_new, name='evento_new'),
+    url(r'^rodada/$', views.rodada_index, name='rodada_index'),
+    url(r'^rodada/edit/(?P<id>\d+)/$', views.rodada_edit, name='rodada_edit'),
+    url(r'^rodada/new/$', views.rodada_new, name='rodada_new'),
 
     url(r'^emprestimo/$', views.emprestimo_index, name='emprestimo_index'),
     url(r'^emprestimo/edit/(?P<id>\d+)/$', views.emprestimo_edit, name='emprestimo_edit'),

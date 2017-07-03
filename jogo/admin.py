@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .models import Medico, Rodada
 from .models import Medico
 from .models import Evento
 from .models import Emprestimo
@@ -12,3 +13,4 @@ admin.site.register(Evento)
 admin.site.register(Emprestimo)
 
 admin.site.register(Classe_Social)
+admin.site.register(Rodada)

@@ -51,3 +51,11 @@ class Classe_Social(models.Model):
     nivel_tecnologia = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
     media_conforto = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
     velocidade_atendimento = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
+class Rodada(models.Model):
+    verbose_name = 'rodada'
+    verbose_name_plural = 'rodadas'
+
+    numeroRodada = models.IntegerField(validators=[MinValueValidator(1)])
+    duracao = models.IntegerField(validators=[MinValueValidator(1)])
+    # TODO implementar apos a implementacao da classe evento
+    # evento = models.ForeignKey(Evento, on_delete=models.CASCADE, default=1)
