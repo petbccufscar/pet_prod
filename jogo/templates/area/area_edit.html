@@ -1,0 +1,77 @@
+{% extends 'jogo/base_configuracoes.html' %}
+{# não é mais home/... é jogo/..#}
+{% block title%}Área{% endblock title%}
+{% block home %}{% endblock %}
+{% block home_span %}{% endblock %}
+{% block medico %}{% endblock %}
+{% block medico_span %}{% endblock %}
+{% block modulo %}{% endblock %}
+{% block modulo_span %}{% endblock %}
+{% block emprestimo %}{% endblock %}
+{% block emprestimo_span %}{% endblock %}
+{% block area %}class="active"{% endblock %}
+{% block area_span %}<span class="sr-only">(current)</span>{% endblock %}
+
+{% block body %}
+    <center><h1>Editar Área</h1></center><br>
+
+<form action="." method="POST">{% csrf_token %}
+
+    <div style="width: 30%; position: absolute; top:20%; bottom: 0; left: 0; right: 0; margin: 0 auto;">
+        <table class="table table-striped" align="center">
+            <thead>
+            <tr>
+
+                <td align="right"><b>Atributos</b></td>
+                 <td></td>
+                <td align="left"><b>Valores</b></td>
+            </tr>
+            </thead>
+            <tbody>
+             <tr>
+
+                <td align="right">Id:</td>
+
+                <td>{{id}}</td>
+                 <td></td>
+
+
+            </tr>
+            <tr>
+                <td align="right">Nome:</td>
+
+                <td align="left">{{form.nome}}</td>
+                <td></td>
+
+            </tr>
+            <tr>
+
+                <td></td>
+                <td align="left">Entradas Iniciais</td>
+                <td align="left" >Desvios</td>
+            </tr>
+
+           {% for classe, nome in list%}
+            <tr>
+                <td align="right">Classe {{nome}} </td>
+                <td align="right">{{classe.entrada}}</td>
+                <td align="left">{{classe.desvios}}</td>
+
+            </tr>
+            {% endfor%}
+
+            <tr>
+                <td></td>
+                <td align="right"><a  style="text-decoration:none;" href="{% url 'jogo:area_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
+
+                <td align="left"><button type="submit" class="btn btn-success btn-block" >Salvar</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{form_ac.errors}}
+    {{ form_area_classesocial.errors }}
+    {{ form.errors }}
+</form>
+
+{% endblock body %}

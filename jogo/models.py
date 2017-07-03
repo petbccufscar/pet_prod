@@ -3,7 +3,6 @@ from django.core.validators import MinValueValidator
 from django import forms
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-
 # Tabela Médico
 class Medico(models.Model):
     classificacao = ((1,'1'),(2,'2'),(3,'3'))
@@ -42,6 +41,18 @@ class Time(models.Model):
     caixa = models.FloatField(validators=[MinValueValidator(0.0)]) #QUANTIDADE NO CAIXA
 
 
+#template -> views -> models
+# Tabela Area
+class Area(models.Model):
+    # id = models.AutoField(u'id', primary_key=True, unique=True)
+    nome = models.CharField(max_length=200)
+    def __str__(self):
+        return self.nome
+    def __unicode__(self):
+        return self.nome
+
+# Classe_Social
+
 class Classe_Social(models.Model):
     classificacao = ((1, '1'), (2, '2'), (3, '3'))
     #id = models.AutoField(u'id', primary_key=True, unique=True)
@@ -59,3 +70,12 @@ class Rodada(models.Model):
     duracao = models.IntegerField(validators=[MinValueValidator(1)])
     # TODO implementar apos a implementacao da classe evento
     # evento = models.ForeignKey(Evento, on_delete=models.CASCADE, default=1)
+
+
+# Tabela Area_Classe_Social TODO
+
+class Area_Classe_Social(models.Model):
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    classe_social = models.ForeignKey(Classe_Social, on_delete=models.CASCADE)
+    entrada = models.IntegerField(validators=[MinValueValidator(1)])
+    desvios = models.IntegerField(validators=[MinValueValidator(0)])

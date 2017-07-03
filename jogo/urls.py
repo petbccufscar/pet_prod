@@ -32,6 +32,11 @@ urlpatterns = [
     url(r'^time/edit/(?P<id>\d+)/$', views.time_edit, name='time_edit'),
     url(r'^time/delete/(?P<id>\d+)/$', views.time_delete, name='time_delete'),
     url(r'^time/new/$', views.time_new, name='time_new'),
+    # URLs para area
+    url(r'^area/$', views.area_index, name='area_index'),
+    url(r'^area/edit/(?P<id>\d+)/$', views.area_edit, name='area_edit'),
+    url(r'^area/delete/(?P<id>\d+)/$', views.area_delete, name='area_delete'),
+    url(r'^area/new/$', views.area_new, name='area_new'),
 
     url(r'^classe_social/$', views.classe_social_index, name='classe_social_index'),
     url(r'^classe_social/edit/(?P<id>\d+)/$', views.classe_social_edit, name='classe_social_edit'),

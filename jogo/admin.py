@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import Medico, Rodada
-from .models import Medico
+from .models import Rodada
 from .models import Evento
-from .models import Emprestimo
+from .models import Emprestimo, Area
 from .models import Medico, Classe_Social
 
 # Register your models here.
@@ -11,6 +10,6 @@ from .models import Medico, Classe_Social
 admin.site.register(Medico)
 admin.site.register(Evento)
 admin.site.register(Emprestimo)
-
+admin.site.register(Area)
 admin.site.register(Classe_Social)
 admin.site.register(Rodada)

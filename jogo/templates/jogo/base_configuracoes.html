@@ -9,7 +9,7 @@
                 <ul class="nav navbar-nav">
 {#                Descomentar os blocos abaixo de acordo com a implementação/refatoração #}
                      <li {% block medico %}{% endblock %}><a href="{% url 'jogo:medico_index' %}">Médicos{% block medico_span %}{% endblock %}</a></li>
-{#                    <li {% block area %}{% endblock %}><a href="{% url 'jogo:area_index' %}">Áreas{% block area_span %}{% endblock %}</a></li>#}
+{#                   <li {% block area %}{% endblock %}><a href="{% url 'jogo:area_index' %}">Áreas{% block area_span %}{% endblock %}</a></li>
 {#                    <li {% block modulo %}{% endblock %}><a href="{% url 'jogo:modulo_index' %}">Módulos{% block modulo_span %}{% endblock %}</a></li>#}
                     <li {% block emprestimo %}{% endblock %}><a href="{% url 'jogo:emprestimo_index' %}">Empréstimos{% block emprestimo_span %}{% endblock %}</a></li>
 {#                    <li {% block classe_social %}{% endblock %}><a href="{% url 'jogo:classe_social_index' %}">Classes Sociais{% block classe_social_span %}{% endblock %}</a></li>#}
