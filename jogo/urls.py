@@ -15,5 +15,9 @@ urlpatterns = [
     url(r'^medico/edit/(?P<id>\d+)/$', views.medico_edit, name='medico_edit'),
     url(r'^medico/delete/(?P<id>\d+)/$', views.medico_delete, name='medico_delete'),
     url(r'^medico/new/$', views.medico_new, name='medico_new'),
+    url(r'^evento/$', views.evento_index, name='evento_index'),
+    url(r'^evento/edit/(?P<id>\d+)/$', views.evento_edit, name='evento_edit'),
+    url(r'^evento/delete/(?P<id>\d+)/$', views.evento_delete, name='evento_delete'),
+    url(r'^evento/new/$', views.evento_new, name='evento_new'),
 
 ]

@@ -14,3 +14,17 @@ class Medico(models.Model):
     pontualidade = models.IntegerField(default=1, choices=classificacao)
     # Não esqueçam de fazer a migração para o novo BD:
     # Tools -> Run manage.py task -> makemigrations -> migrate
+
+
+class Evento(models.Model):
+    class Meta:
+        verbose_name = 'evento'
+        verbose_name_plural = 'eventos'
+
+    nome = models.CharField(max_length=50)
+    multiplicador_classeA = models.FloatField(validators=[MinValueValidator(0.0)])
+    multiplicador_classeB = models.FloatField(validators=[MinValueValidator(0.0)])
+    multiplicador_classeC = models.FloatField(validators=[MinValueValidator(0.0)])
+    multiplicador_classeD = models.FloatField(validators=[MinValueValidator(0.0)])
+    multiplicador_classeE = models.FloatField(validators=[MinValueValidator(0.0)])
+

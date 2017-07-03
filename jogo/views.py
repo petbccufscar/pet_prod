@@ -5,7 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 # NAO ESQUEÇAM DE ATUALIZAR OS IMPORTS
 from .models import Medico
+from .models import Evento
 from .forms import Medico_Form
+from .forms import Evento_Form
 
 # from django.core.exceptions import ObjectDoesNotExist
 
@@ -68,15 +70,15 @@ def medico_index(request):
 
 #@login_required(login_url='/adm/login/')
 def medico_new(request):
-    medico = None
-    try:
-        medico = Medico.objects.latest('id')
-    except:
-        pass
-    if medico == None:
-        id = 1
-    else:
-        id = medico.id + 1
+    # medico = None
+    # try:
+    #     medico = Medico.objects.latest('id')
+    # except:
+    #     pass
+    # if medico == None:
+    #     id = 1
+    # else:
+    #     id = medico.id + 1
 
     if request.method == 'POST':
         form = Medico_Form(request.POST)
@@ -84,10 +86,10 @@ def medico_new(request):
             form.save()
             return HttpResponseRedirect('/medico')
         else:
-            return render(request, 'medico/medico_new.html', {'form':form, 'id':id})
+            return render(request, 'medico/medico_new.html', {'form':form})
     else:
         form = Medico_Form()
-        return render(request, 'medico/medico_new.html', {'form': form, 'id':id})
+        return render(request, 'medico/medico_new.html', {'form': form})
 
 #@login_required(login_url='/adm/login/')
 def medico_edit(request, id):
@@ -106,5 +108,28 @@ def medico_edit(request, id):
 def medico_delete(request, id):
     get_object_or_404(Medico, pk=id).delete()
     return HttpResponseRedirect('/medico')
+
+def evento_index(request):
+    eventos = Evento.objects.all()
+    print(eventos)
+    return render(request, 'evento/evento_index.html', {'eventos': eventos})
+
+def evento_new(request):
+    if request.method == 'POST':
+        form = Evento_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/evento')
+        else:
+            return render(request, 'evento/evento_new.html', {'form': form})
+    else:
+        form = Evento_Form()
+        return render(request, 'evento/evento_new.html', {'form': form})
+
+def evento_edit(request, id):
+    pass
+
+def evento_delete(request, id):
+    pass
 
 
