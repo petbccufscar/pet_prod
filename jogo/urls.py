@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^base_configuracoes/$', views.base_configuracoes, name='base_configuracoes'),
     url(r'^base_aplicar_dinamica/$', views.base_aplicar_dinamica, name='base_aplicar_dinamica'),
     # Cuidado com as URLS!
+
     # Como estamos utilizando apenas um app, temos que colocar o class/xxx
     url(r'^medico/$', views.medico_index, name='medico_index'),
     url(r'^medico/edit/(?P<id>\d+)/$', views.medico_edit, name='medico_edit'),
@@ -20,4 +21,8 @@ urlpatterns = [
     url(r'^evento/delete/(?P<id>\d+)/$', views.evento_delete, name='evento_delete'),
     url(r'^evento/new/$', views.evento_new, name='evento_new'),
 
+    url(r'^emprestimo/$', views.emprestimo_index, name='emprestimo_index'),
+    url(r'^emprestimo/edit/(?P<id>\d+)/$', views.emprestimo_edit, name='emprestimo_edit'),
+    url(r'^emprestimo/delete/(?P<id>\d+)/$', views.emprestimo_delete, name='emprestimo_delete'),
+    url(r'^emprestimo/new/$', views.emprestimo_new, name='emprestimo_new'),
 ]

@@ -2,6 +2,7 @@ from django import forms
 # Não esqueçam de dar o import do .models da classe a ser implementado o forms
 from .models import Medico
 from .models import Evento
+from .models import Emprestimo
 
 # Forms para Médicos:
 class Medico_Form(forms.ModelForm):
@@ -59,4 +60,19 @@ class Evento_Form(forms.ModelForm):
 
             'nome': {'required': 'O campo Nome deve ser preenchido',}
 
+        }
+
+class Emprestimo_Form(forms.ModelForm):
+    class Meta:
+        model = Emprestimo
+        fields = '__all__'
+        widgets = {
+            'valor': forms.TextInput(attrs={'class': 'col-xs-6'}),
+        }
+        error_messages = {
+            'valor': {'invalid': "O campo Valor deve conter um número inteiro ou decimal.",
+                      'required': "O campo Valor deve ser preenchido.",
+                      'max_value': "O campo Valor não deve conter um número inteiro maior que 2147483647.0.",
+                      'min_value': "O campo Valor deve conter um número inteiro maior que zero.",
+                      },
         }

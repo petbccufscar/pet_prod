@@ -28,3 +28,7 @@ class Evento(models.Model):
     multiplicador_classeD = models.FloatField(validators=[MinValueValidator(0.0)])
     multiplicador_classeE = models.FloatField(validators=[MinValueValidator(0.0)])
 
+
+
+class Emprestimo(models.Model):
+    valor = models.FloatField(validators=[MinValueValidator(1.0)])
