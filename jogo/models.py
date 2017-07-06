@@ -1,6 +1,4 @@
 from django.db import models
-from django.core.validators import MinValueValidator
-from django import forms
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Tabela Médico
@@ -79,3 +77,14 @@ class Area_Classe_Social(models.Model):
     classe_social = models.ForeignKey(Classe_Social, on_delete=models.CASCADE)
     entrada = models.IntegerField(validators=[MinValueValidator(1)])
     desvios = models.IntegerField(validators=[MinValueValidator(0)])
+
+class Modulo(models.Model):
+    classificacao = ((1, '1'), (2, '2'), (3, '3'))
+    codigo = models.IntegerField(validators=[MinValueValidator(1)])
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    custo_de_aquisicao = models.FloatField(validators=[MinValueValidator(0.0)])
+    custo_mensal = models.FloatField(validators=[MinValueValidator(0.0)])
+    tecnologia = models.IntegerField(default=1, choices=classificacao)
+    conforto = models.IntegerField(default=1, choices=classificacao)
+    capacidade = models.IntegerField(validators=[MinValueValidator(1)])
+    preco_do_tratamento = models.FloatField(validators=[MinValueValidator(0.0)])

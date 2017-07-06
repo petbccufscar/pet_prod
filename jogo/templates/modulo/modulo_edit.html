@@ -1,0 +1,76 @@
+{% extends 'home/base_configuracoes.html' %}
+
+{% block title%}Editar Módulo{% endblock title%}
+{% block home %}{% endblock %}
+{% block home_span %}{% endblock %}
+{% block medico %}{% endblock %}
+{% block medico_span %}{% endblock %}
+{% block modulo %}class="active"{% endblock %}
+{% block modulo_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block emprestimo %}{% endblock %}
+{% block emprestimo_span %}{% endblock %}
+{% block body %}
+    <center><h1>Editar Módulo</h1></center><br>
+
+<form action="." method="POST">{% csrf_token %}
+
+    <div style="width: 40%; position: absolute; top:20%; bottom: 0; left: 0; right: 0; margin: 0 auto;">
+        <table class="table table-striped" align="center">
+            <thead>
+            <tr>
+                <td align="right"><b>Atributos</b></td>
+                <td align="left"><b>Valores</b></td>
+            </tr>
+            </thead>
+            <tbody>
+             <tr>
+                <td align="right">Id:</td>
+                <td align="left">{{id}}</td>
+            </tr>
+            <tr>
+                <td align="right">Código:</td>
+                <td align="left">{{form.codigo}}</td>
+            </tr>
+            <tr>
+                <td align="right">Área:</td>
+                <td align="left">{{form.area}}</td>
+            </tr>
+            <tr>
+                <td align="right">Custo de Aquisição:</td>
+                <td align="left">{{form.custo_de_aquisicao}}</td>
+            </tr>
+            <tr>
+                <td align="right">Custo Mensal:</td>
+                <td align="left">{{form.custo_mensal}}</td>
+            </tr>
+            <tr>
+                <td align="right">Tecnologia:</td>
+                <td align="left">{% for radio in form.tecnologia %} {{ radio }} {% endfor %}</td>
+            </tr>
+            <tr>
+                <td align="right">Conforto:</td>
+                <td align="left">{% for radio in form.conforto %} {{ radio }} {% endfor %}</td>
+            </tr>
+            <tr>
+                <td align="right">Capacidade:</td>
+                <td align="left">{{form.capacidade}}</td>
+            </tr>
+            <tr>
+                <td align="right">Preço do Tratamento:</td>
+                <td align="left">{{form.preco_do_tratamento}}</td>
+            </tr>
+            <tr>
+                <td align="right"><a  style="text-decoration:none;" href="{% url 'modulo:modulo_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
+                <td align="left"><button type="submit" class="btn btn-success btn-block" >Salvar</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{form.area.errors}}
+    {{form.custo_de_aquisicao.errors}}
+    {{form.custo_mensal.errors}}
+    {{form.capacidade.errors}}
+    {{form.preco_do_tratamento.errors}}
+</form>
+
+{% endblock body %}

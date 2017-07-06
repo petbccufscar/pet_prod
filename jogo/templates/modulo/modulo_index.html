@@ -1,0 +1,57 @@
+{% extends 'home/base_configuracoes.html' %}
+
+{% block title%}Módulos{% endblock title%}
+{% block home %}{% endblock %}
+{% block home_span %}{% endblock %}
+{% block medico %}{% endblock %}
+{% block medico_span %}{% endblock %}
+{% block modulo %}class="active"{% endblock %}
+{% block modulo_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block emprestimo %}{% endblock %}
+{% block emprestimo_span %}{% endblock %}
+{% block body %}
+<div class="container">
+    <center><h1>Módulos</h1></center>
+
+    <div align="right" style="margin-right: 7%">
+        <a href="{% url 'modulo:modulo_new' %}"><button type="submit" class="btn btn-primary">Cadastrar Novo</button></a>
+    </div>
+    <br>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Codigo</th> {# Remover na versão final #}
+            <th>Área</th>
+            <th>Custo de Aquisição</th>
+            <th>Custo Mensal</th>
+            <th>Tecnologia</th>
+            <th>Conforto</th>
+            <th>Capacidade</th>
+            <th>Preço do Tratamento</th>
+            <th>Editar</th>
+            <th>Deletar</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for modulo in modulos %}
+        <tr>
+            <td>{{modulo.id}}</td>
+            <td>{{modulo.codigo}}</td>
+            <td>{{modulo.area}}</td>
+            <td>{{modulo.custo_de_aquisicao | floatformat:2}}</td>
+            <td>{{modulo.custo_mensal | floatformat:2}}</td>
+            <td>{{modulo.tecnologia}}</td>
+            <td>{{modulo.conforto}}</td>
+            <td>{{modulo.capacidade}}</td>
+            <td>{{modulo.preco_do_tratamento | floatformat:2}}</td>
+            <td><a href="{% url 'modulo:modulo_edit' modulo.id %}"><button type="button" class="btn btn-warning">Editar</button></a></td>
+            <td><a href="{% url 'modulo:modulo_delete' modulo.id %}"><button type="button" class="btn btn-danger">Deletar</button></a></td>
+        </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock body %}
