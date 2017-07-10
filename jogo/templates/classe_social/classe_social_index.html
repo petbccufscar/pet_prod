@@ -40,11 +40,11 @@
         <tr>
             <td>{{classe.id}}</td>
             <td>{{classe.nome}}</td>
-            <td>{{classe.preco_atendimento | floatformat:2}}</td>
-            <td>{{classe.nivel_especialidade | floatformat:1}}</td>
-            <td>{{classe.nivel_tecnologia | floatformat:1}}</td>
-            <td>{{classe.media_conforto | floatformat:1}}</td>
-            <td>{{classe.velocidade_atendimento | floatformat:1}}</td>
+            <td>{{classe.preco_atendimento}}</td>
+            <td>{{classe.nivel_especialidade}}</td>
+            <td>{{classe.nivel_tecnologia }}</td>
+            <td>{{classe.media_conforto }}</td>
+            <td>{{classe.velocidade_atendimento }}</td>
             <td><a href="{% url 'jogo:classe_social_edit' classe.id %}"><button type="button" class="btn btn-warning">Editar</button></a></td>
             <td><a href="{% url 'jogo:classe_social_delete' classe.id %}"><button type="button" class="btn btn-danger">Deletar</button></a></td>
         </tr>

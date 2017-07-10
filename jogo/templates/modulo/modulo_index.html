@@ -1,4 +1,4 @@
-{% extends 'home/base_configuracoes.html' %}
+{% extends 'jogo/base_configuracoes.html' %}
 
 {% block title%}Módulos{% endblock title%}
 {% block home %}{% endblock %}
@@ -14,7 +14,7 @@
     <center><h1>Módulos</h1></center>
 
     <div align="right" style="margin-right: 7%">
-        <a href="{% url 'modulo:modulo_new' %}"><button type="submit" class="btn btn-primary">Cadastrar Novo</button></a>
+        <a href="{% url 'jogo:modulo_new' %}"><button type="submit" class="btn btn-primary">Cadastrar Novo</button></a>
     </div>
     <br>
 
@@ -46,8 +46,8 @@
             <td>{{modulo.conforto}}</td>
             <td>{{modulo.capacidade}}</td>
             <td>{{modulo.preco_do_tratamento | floatformat:2}}</td>
-            <td><a href="{% url 'modulo:modulo_edit' modulo.id %}"><button type="button" class="btn btn-warning">Editar</button></a></td>
-            <td><a href="{% url 'modulo:modulo_delete' modulo.id %}"><button type="button" class="btn btn-danger">Deletar</button></a></td>
+            <td><a href="{% url 'jogo:modulo_edit' modulo.id %}"><button type="button" class="btn btn-warning">Editar</button></a></td>
+            <td><a href="{% url 'jogo:modulo_delete' modulo.id %}"><button type="button" class="btn btn-danger">Deletar</button></a></td>
         </tr>
 
             {% endfor %}

@@ -42,4 +42,9 @@ urlpatterns = [
     url(r'^classe_social/edit/(?P<id>\d+)/$', views.classe_social_edit, name='classe_social_edit'),
     url(r'^classe_social/delete/(?P<id>\d+)/$', views.classe_social_delete, name='classe_social_delete'),
     url(r'^classe_social/new/$', views.classe_social_new, name='classe_social_new'),
+
+    url(r'^modulo/$', views.modulo_index, name='modulo_index'),
+    url(r'^modulo/edit/(?P<id>\d+)/$', views.modulo_edit, name='modulo_edit'),
+    url(r'^modulo/delete/(?P<id>\d+)/$', views.modulo_delete, name='modulo_delete'),
+    url(r'^modulo/new/$', views.modulo_new, name='modulo_new'),
 ]

@@ -14,11 +14,15 @@ class Medico(models.Model):
     # Não esqueçam de fazer a migração para o novo BD:
     # Tools -> Run manage.py task -> makemigrations -> migrate
 
-
 class Evento(models.Model):
     class Meta:
         verbose_name = 'evento'
         verbose_name_plural = 'eventos'
+
+    def __str__(self):
+        return self.nome
+    def __unicode__(self):
+        return self.nome
 
     nome = models.CharField(max_length=50)
     multiplicador_classeA = models.FloatField(validators=[MinValueValidator(0.0)])
@@ -28,16 +32,17 @@ class Evento(models.Model):
     multiplicador_classeE = models.FloatField(validators=[MinValueValidator(0.0)])
 
 
-
 class Emprestimo(models.Model):
     valor = models.FloatField(validators=[MinValueValidator(1.0)])
+    # Nao deveria ter uma chave de um time?
+    # TODO Não é "um time faz um emprestimo"?
+
 #Tabela Time
 class Time(models.Model):
     nome = models.CharField(max_length=20) #NOME DO TIME
     login = models.CharField(max_length=15) #LOGIN PARA ENTRAR NO SISTEMA
     senha = models.CharField(max_length=20)
     caixa = models.FloatField(validators=[MinValueValidator(0.0)]) #QUANTIDADE NO CAIXA
-
 
 #template -> views -> models
 # Tabela Area
@@ -56,10 +61,15 @@ class Classe_Social(models.Model):
     #id = models.AutoField(u'id', primary_key=True, unique=True)
     nome = models.CharField(max_length=200)
     preco_atendimento = models.FloatField(validators=[MinValueValidator(0.0)])
-    nivel_especialidade = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
-    nivel_tecnologia = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
-    media_conforto = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
-    velocidade_atendimento = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
+    # nivel_especialidade = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
+    # nivel_tecnologia = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
+    # media_conforto = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
+    # velocidade_atendimento = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
+    nivel_especialidade = models.IntegerField(default=1, choices=classificacao)
+    nivel_tecnologia = models.IntegerField(default=1, choices=classificacao)
+    media_conforto = models.IntegerField(default=1, choices=classificacao)
+    velocidade_atendimento = models.IntegerField(default=1, choices=classificacao)
+
 class Rodada(models.Model):
     verbose_name = 'rodada'
     verbose_name_plural = 'rodadas'
@@ -67,10 +77,9 @@ class Rodada(models.Model):
     numeroRodada = models.IntegerField(validators=[MinValueValidator(1)])
     duracao = models.IntegerField(validators=[MinValueValidator(1)])
     # TODO implementar apos a implementacao da classe evento
-    # evento = models.ForeignKey(Evento, on_delete=models.CASCADE, default=1)
+    evento = models.ForeignKey(Evento, on_delete=models.CASCADE, default=1)
 
 
-# Tabela Area_Classe_Social TODO
 
 class Area_Classe_Social(models.Model):
     area = models.ForeignKey(Area, on_delete=models.CASCADE)

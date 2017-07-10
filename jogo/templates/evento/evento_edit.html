@@ -1,0 +1,73 @@
+{% extends 'jogo/base_configuracoes.html' %}
+{% load staticfiles %}
+{% block title %}Eventos{% endblock title %}
+{% block evento %}class="active"{% endblock %}
+{% block evento_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block body %}
+
+    <h1 align="center">Editar Evento</h1><br>
+
+<form action="." method="POST">{% csrf_token %}
+
+    <div style="width: 30%; position: absolute; top:20%; bottom: 0; left: 0; right: 0; margin: 0 auto;">
+        <table class="table table-striped" align="center">
+            <thead>
+            <tr>
+                <td align="right"><b>Atributos</b></td>
+                <td align="left"><b>Valores</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td align="right">Nome:</td>
+                <td align="left">
+                    <div class="col-xs-6">{{form.nome}}</div>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">Multiplicador para Classe A</td>
+                <td align="left">
+                    <div class="col-xs-6">{{form.multiplicador_classeA}}</div>
+                </td>
+            </tr>
+             <tr>
+                <td align="right">Multiplicador para Classe B</td>
+                <td align="left">
+                    <div class="col-xs-6">{{form.multiplicador_classeB}}</div>
+                </td>
+            </tr>
+             <tr>
+                <td align="right">Multiplicador para Classe C</td>
+                <td align="left">
+                    <div class="col-xs-6">{{form.multiplicador_classeC}}</div>
+                </td>
+            </tr>
+             <tr>
+                <td align="right">Multiplicador para Classe D</td>
+                <td align="left">
+                    <div class="col-xs-6">{{form.multiplicador_classeD}}</div>
+                </td>
+            </tr>
+             <tr>
+                <td align="right">Multiplicador para Classe E</td>
+                <td align="left">
+                    <div class="col-xs-6">{{form.multiplicador_classeE}}</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td align="right"><a  style="text-decoration:none;" href="{% url 'jogo:evento_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
+                <td align="left"><button type="submit" class="btn btn-success btn-block" >Salvar</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{form.nome.errors}}
+    {{form.multiplicador_classeA.errors}}
+    {{form.multiplicador_classeB.errors}}
+    {{form.multiplicador_classeC.errors}}
+    {{form.multiplicador_classeD.errors}}
+    {{form.multiplicador_classeE.errors}}
+</form>
+
+{% endblock body %}

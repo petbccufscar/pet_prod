@@ -1,11 +1,11 @@
 {% extends 'jogo/base_configuracoes.html' %}
 {% load staticfiles %}
-{% block title %}Médicos{% endblock title %}
-{% block medico %}class="active"{% endblock %}
-{% block medico_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block title %}Eventos{% endblock title %}
+{% block evento %}class="active"{% endblock %}
+{% block evento_span %}<span class="sr-only">(current)</span>{% endblock %}
 {% block body %}
 
-    <h1 align="center">Editar Médico</h1><br>
+    <h1 align="center">Editar Evento</h1><br>
 
 <form action="." method="POST">{% csrf_token %}
 

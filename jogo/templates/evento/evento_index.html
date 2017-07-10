@@ -37,8 +37,8 @@
                     <td>{{evento.multiplicador_classeC | floatformat:2}}</td>
                     <td>{{evento.multiplicador_classeD | floatformat:2}}</td>
                     <td>{{evento.multiplicador_classeE | floatformat:2}}</td>
-{#                    <td><a href="{% url 'jogo:evento_edit' evento.id %}"><button type="button" class="btn btn-warning">Editar</button></a></td>#}
-{#                    <td><a href="{% url 'jogo:evento_delete' evento.id %}"><button type="button" class="btn btn-danger">Deletar</button></a></td>#}
+                    <td><a href="{% url 'jogo:evento_edit' evento.id %}"><button type="button" class="btn btn-warning">Editar</button></a></td>
+                    <td><a href="{% url 'jogo:evento_delete' evento.id %}"><button type="button" class="btn btn-danger">Deletar</button></a></td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -1,4 +1,4 @@
-{% extends 'home/base_configuracoes.html' %}
+{% extends 'jogo/base_configuracoes.html' %}
 
 {% block title%}Cadastrar Módulo{% endblock title%}
 {% block home %}{% endblock %}
@@ -23,10 +23,6 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td align="right">Id:</td>
-                <td align="left">{{id}}</td>
-            </tr>
             <tr>
                 <td align="right">Código:</td>
                 <td align="left">{{form.codigo}}</td>
@@ -60,7 +56,7 @@
                 <td align="left">{{form.preco_do_tratamento}}</td>
             </tr>
             <tr>
-                <td align="right"><a  style="text-decoration:none;" href="{% url 'modulo:modulo_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
+                <td align="right"><a  style="text-decoration:none;" href="{% url 'jogo:modulo_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
                 <td align="left"><button type="submit" class="btn btn-success btn-block" >Cadastrar</button></td>
             </tr>
             </tbody>
