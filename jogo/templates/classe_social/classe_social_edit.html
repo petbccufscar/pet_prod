@@ -39,20 +39,20 @@
             </tr>
             <tr>
                 <td align="right">Nível de Especialidade:</td>
-                <td align="left">{% for radio in form.nivel_especialidade %} {{ radio }} {% endfor %}</td>
+                <td align="left">{{ form.nivel_especialidade }}</td>
 
             </tr>
             <tr>
                 <td align="right">Nível de Tecnologia:</td>
-                <td align="left">{% for radio in form.nivel_tecnologia %} {{ radio }} {% endfor %}</td>
+                <td align="left">{{ form.nivel_tecnologia }}</td>
             </tr>
             <tr>
                 <td align="right">Média de Conforto:</td>
-                <td align="left">{% for radio in form.media_conforto %} {{ radio }} {% endfor %}</td>
+                <td align="left">{{ form.media_conforto }}</td>
             </tr>
             <tr>
                 <td align="right">Velocidade de Atendimento:</td>
-                <td align="left">{% for radio in form.velocidade_atendimento %} {{ radio }} {% endfor %}</td>
+                <td align="left">{{ form.velocidade_atendimento }}</td>
             </tr>
             <tr>
                 <td align="right"><a  style="text-decoration:none;" href="{% url 'jogo:classe_social_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>

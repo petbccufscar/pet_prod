@@ -61,14 +61,14 @@ class Classe_Social(models.Model):
     #id = models.AutoField(u'id', primary_key=True, unique=True)
     nome = models.CharField(max_length=200)
     preco_atendimento = models.FloatField(validators=[MinValueValidator(0.0)])
-    # nivel_especialidade = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
-    # nivel_tecnologia = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
-    # media_conforto = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
-    # velocidade_atendimento = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
-    nivel_especialidade = models.IntegerField(default=1, choices=classificacao)
-    nivel_tecnologia = models.IntegerField(default=1, choices=classificacao)
-    media_conforto = models.IntegerField(default=1, choices=classificacao)
-    velocidade_atendimento = models.IntegerField(default=1, choices=classificacao)
+    nivel_especialidade = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
+    nivel_tecnologia = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
+    media_conforto = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
+    velocidade_atendimento = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(3.0)])
+    # nivel_especialidade = models.IntegerField(default=1, choices=classificacao)
+    # nivel_tecnologia = models.IntegerField(default=1, choices=classificacao)
+    # media_conforto = models.IntegerField(default=1, choices=classificacao)
+    # velocidade_atendimento = models.IntegerField(default=1, choices=classificacao)
 
 class Rodada(models.Model):
     verbose_name = 'rodada'

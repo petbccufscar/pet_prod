@@ -170,10 +170,10 @@ class Classe_Social_Form(forms.ModelForm):
         widgets = {
             'nome': forms.TextInput(),
             'preco_atendimento': forms.TextInput(),
-            'nivel_especialidade': forms.RadioSelect(),
-            'nivel_tecnologia': forms.RadioSelect(),
-            'media_conforto': forms.RadioSelect(),
-            'velocidade_atendimento': forms.RadioSelect(),
+            'nivel_especialidade': forms.TextInput(),
+            'nivel_tecnologia': forms.TextInput(),
+            'media_conforto': forms.TextInput(),
+            'velocidade_atendimento': forms.TextInput(),
         }
         error_messages = {
             'nome': {'max_length': "O campo Nome deve conter no máximo 200 caracteres.",
