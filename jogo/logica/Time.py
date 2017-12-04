@@ -1,17 +1,4 @@
-class Time:
-    nome = ''
-    medicos = []
-    modulos = []
-    estatisticas = Estatistica()
-
-
-    def __init__(self, nome):
-        self.nome = nome
-
-
-    def gerar_link(self):
-        pass
-        # todo: gerar link (logica do jogo)
+from django.http import JsonResponse
 
 class Estatistica:
     entrada = []
@@ -31,6 +18,36 @@ class Estatistica:
         self.caixa.append(self.caixa[-1] + entrada - saida)
 
 
-    #todo get_ultimo_caixa
+    def get_ultimo_caixa(self):
+        return self.caixa[-1]
 
-    #todo implementar um get_estatisticas retornando JSON
+
+    def get_estatisticas(self):
+        data = {
+            'caixa' : self.caixa,
+            'entrada': self.entrada,
+            'saida': self.saida
+        }
+        return JsonResponse({
+            'status': 'ok',
+            'data': data
+        })
+
+
+
+class Time:
+    nome = ''
+    medicos = []
+    modulos = []
+    estatisticas = Estatistica()
+
+
+    def __init__(self, nome='Team with no name'):
+        self.nome = nome
+
+
+    def gerar_link(self):
+        pass
+        # todo: gerar link (logica do jogo)
+
+
