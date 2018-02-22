@@ -57,10 +57,10 @@ class Logica(object):
         # Fazer Calculo das estatisticas
 
         self.rodada_atual = self.rodada_atual + 1
-        print(self.rodada_atual)
+        #print(self.rodada_atual)
         if(self.rodada_atual == len(self.rodadas)):
             # Notificar fim de jogo
-            return 0
+            return None
 
         # Notificar os clients que a proxima rodada comecou
         return self.rodadas[self.rodada_atual].duracao * 60 * 1000000
@@ -68,14 +68,14 @@ class Logica(object):
     def atualiza_timer(self):
         timer = self.rodadas[0].duracao * 60 * 1000000
         anterior = datetime.datetime.utcnow()
-        print (anterior)
-        while(True):
+        #print (anterior)
+        while timer is not None:
             atual = datetime.datetime.utcnow()
             delta_time = atual - anterior
             anterior = datetime.datetime.utcnow()
             timer = timer - delta_time.microseconds - delta_time.seconds*1000000
-            print(timer)
+            #print(timer)
             sleep(0.1)
             if(timer < 0):
-                print("zerou")
+                #print("zerou")
                 timer = self.next()
