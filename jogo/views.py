@@ -22,6 +22,7 @@ from .forms import Rodada_Form
 from .forms import Modulo_Form
 from .forms import Area_Classe_Social_Form
 
+import jogo.logica.logica_de_jogo as logica_jogo
 
 # from django.core.exceptions import ObjectDoesNotExist
 
@@ -505,7 +506,9 @@ def modulo_delete(request, id):
 
 def iniciar_jogo(request):
     #TODO: codigo de inicialização de jogo
-    
+    rodadas = Rodada.objects.all()
+    times = [] #TODO: inicializar times
+    logica_jogo.inicializa_jogo(rodadas, times)
     return HttpResponse("foi")
 
 def tela_de_jogo(request, nome_time):

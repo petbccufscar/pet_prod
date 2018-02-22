@@ -75,7 +75,7 @@ class Rodada(models.Model):
     verbose_name_plural = 'rodadas'
 
     numeroRodada = models.IntegerField(validators=[MinValueValidator(1)])
-    duracao = models.IntegerField(validators=[MinValueValidator(1)])
+    duracao = models.FloatField(validators=[MinValueValidator(0)])
     # TODO implementar apos a implementacao da classe evento
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE, default=1)
 
