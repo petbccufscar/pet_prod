@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse #utilizado apenas para teste
 # NAO ESQUEÇAM DE ATUALIZAR OS IMPORTS
 from .models import Medico, Modulo
 from .models import Evento
@@ -502,5 +503,10 @@ def modulo_delete(request, id):
     Modulo.objects.get(id=id).delete()
     return HttpResponseRedirect('/modulo')
 
+def iniciar_jogo(request):
+    #TODO: codigo de inicialização de jogo
+    
+    return HttpResponse("foi")
 
-
+def tela_de_jogo(request, nome_time):
+    return render(request, 'jogo/tela_de_jogo.html', {"nome_time": nome_time})

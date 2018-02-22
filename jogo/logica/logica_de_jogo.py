@@ -1,5 +1,5 @@
 #-*-coding:utf-8-*-
-from Time import Time
+from jogo.logica.Time import Time
 
 class Logica():
     times = []
@@ -7,7 +7,10 @@ class Logica():
         self.qtd_rodadas = qtd_rodadas
         self.medicos_por_perfil = nrotimes*6
         self.modulos = []
+        self.times = dict()
 
+    def add_time(time):
+        self.times[time.nome] = time
 
     def comprar_modulo(self, id_time, id_modulo):
         if id_modulo in self.modulos:           # fazer verificação se existe esse módulo

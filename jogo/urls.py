@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from jogo import views
-
+from django.urls import path
+app_name = 'jogo'
 urlpatterns = [
     # URLs para home
     url(r'^$', views.index, name='index'),
@@ -47,4 +48,6 @@ urlpatterns = [
     url(r'^modulo/edit/(?P<id>\d+)/$', views.modulo_edit, name='modulo_edit'),
     url(r'^modulo/delete/(?P<id>\d+)/$', views.modulo_delete, name='modulo_delete'),
     url(r'^modulo/new/$', views.modulo_new, name='modulo_new'),
+    url(r'^jogo/(?P<nome_time>\w+)/', views.tela_de_jogo, name='tela_de_jogo'),
+    url(r'^irrelevante', views.iniciar_jogo, name='iniciar_jogo'),
 ]

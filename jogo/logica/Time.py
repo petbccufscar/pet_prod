@@ -5,7 +5,6 @@ class Estatistica:
     saida  = []
     caixa = []
 
-
     def __init__(self, caixa_inicial = 20000):
         self.entrada.append(0)
         self.saida.append(0)
@@ -48,6 +47,4 @@ class Time:
 
     def gerar_link(self):
         pass
-        # todo: gerar link (logica do jogo)
-
-
+        # TODO: gerar link (logica do jogo)
