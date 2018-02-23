@@ -6,7 +6,7 @@ class Medico(models.Model):
     classificacao = ((1,'1'),(2,'2'),(3,'3'))
     # id = models.AutoField(u'id', primary_key=True, unique=True)
     # Só deixei comentado aqui para lembrar todos de fazer isso!
-    perfil = models.IntegerField(validators=[MinValueValidator(1)])
+    perfil = models.IntegerField(validators=[MinValueValidator(1)], unique=True)
     salario = models.FloatField(validators=[MinValueValidator(0.0)])
     expertise = models.IntegerField(default=1, choices=classificacao)
     atendimento = models.IntegerField(default=1, choices=classificacao)
@@ -89,7 +89,7 @@ class Area_Classe_Social(models.Model):
 
 class Modulo(models.Model):
     classificacao = ((1, '1'), (2, '2'), (3, '3'))
-    codigo = models.IntegerField(validators=[MinValueValidator(1)])
+    codigo = models.IntegerField(validators=[MinValueValidator(1)], unique=True)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     custo_de_aquisicao = models.FloatField(validators=[MinValueValidator(0.0)])
     custo_mensal = models.FloatField(validators=[MinValueValidator(0.0)])

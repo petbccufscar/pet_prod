@@ -1,8 +1,9 @@
 #-*-coding:utf-8-*-
 from jogo.logica.time import Time
+from jogo.models import Medico, Modulo
+from time import sleep
 import datetime
 import _thread
-from time import sleep
 #para teste
 JogoAtual = None
 
@@ -25,10 +26,18 @@ class Logica(object):
     def __init__(self, qtd_rodadas, nrotimes, rodadas):
         self.qtd_rodadas = qtd_rodadas
         self.medicos_por_perfil = nrotimes*6
+        self.medicos= {}
         self.modulos = []
         self.rodadas = rodadas
         self.times = dict()
         self.rodada_atual = 0
+        med = Medico.objects.all()
+        mod = Modulo.objects.all()
+        for medico in med:
+            # inicia todos os perfis existentes no bd com 0 médicos
+            self.medicos[medico.perfil] = 0
+        for modulo in mod:
+            self.modulos.append(modulo.codigo)
 
     def add_time(self, time):
         self.times[time.nome] = time
@@ -49,6 +58,42 @@ class Logica(object):
             return False
         self.rodadas = []
         self.rodada_atual = 0
+
+    def comprar_medico(self, time_id, perfil_medico):
+        if (self.medicos[perfil_medico] > 0):
+            self.times[time_id].adicionar_medico(perfil_medico)
+            self.medicos[perfil_medico] -= 1
+            return True
+
+        return False
+
+
+    def vender_medico(self, time_id, perfil_medico):
+        # retorna true caso tenha tido sucesso, e false caso contrario
+        # lembrar disso quando criar a view para renderizar a resposta correta
+        if (self.times[time_id].remover_medico(perfil_medico)):
+            self.medicos[perfil_medico] += 1
+            return True
+
+        return False
+
+
+    def atributos_medicos(self, time_id):
+        time = self.times[time_id]
+        expertise = 0
+        atendimento = 0
+        pontualidade = 0
+        quantidade = len(time.medicos)
+        for medico in time.medicos:
+            med = Medico.objects.get(perfil=medico)
+            expertise += med.expertise
+            atendimento += med.atendimento
+            pontualidade += med.pontualidade
+        return {
+            'expertise' : expertise / quantidade,
+            'atendimento' : atendimento / quantidade,
+            'pontualidade' : pontualidade / quantidade
+        }
 
     def next(self):
         # TODO: tratar sincronização das threads

@@ -1,11 +1,11 @@
 from django.http import JsonResponse
 
 class Estatistica:
-    entrada = []
-    saida  = []
-    caixa = []
 
     def __init__(self, caixa_inicial = 20000):
+        self.entrada = []
+        self.saida = []
+        self.caixa = []
         self.entrada.append(0)
         self.saida.append(0)
         self.caixa.append(caixa_inicial)
@@ -35,15 +35,25 @@ class Estatistica:
 
 
 class Time:
-    nome = ''
-    medicos = []
-    modulos = []
-    estatisticas = Estatistica()
-
 
     def __init__(self, nome='Team with no name'):
         self.nome = nome
+        self.medicos = []
+        self.modulos = []
+        self.estatisticas = Estatistica()
+        self.atributos = {}
+        self.nome = nome
 
+    def adicionar_medico(self, med_id):
+        self.medicos.append(med_id)
+
+    # retorna true caso a operacao tenha sido bem sucedida
+    def remover_medico(self, med_id):
+        if med_id in self.medicos:
+            self.medicos.remove(med_id)
+            return True
+        else:
+            return False
 
     def gerar_link(self):
         pass
