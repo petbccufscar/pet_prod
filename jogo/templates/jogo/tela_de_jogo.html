@@ -3,6 +3,23 @@
 {% block tela_de_jogo_span %}<span class="sr-only">(current)</span>{% endblock %}
 {% block body %}
   <div class="container">
-    <p><br>{{nome_time}}</p>
+    <p><br>Time: {{nome_time}}</p>
+    <p id ="schu">1</p>
+    <script>
+      document.getElementById("schu").innerHTML = "My First JavaScript";
+      // Note that the path doesn't matter for routing; any WebSocket
+      // connection gets bumped over to WebSocket consumers
+      socket = new WebSocket("ws://" + window.location.host + "/time/");
+      socket.onmessage = function(e) {
+          document.getElementById("schu").innerHTML = e.data;
+      }
+
+      socket.onopen = function() {
+          socket.send("hello world");
+      }
+      // Call onopen directly if socket is already open
+      if (socket.readyState == WebSocket.OPEN) socket.onopen();
+
+      </script>
   </div>
 {% endblock body %}

@@ -2,6 +2,7 @@
 from jogo.logica.time import Time
 import datetime
 import _thread
+from channels import Group
 from time import sleep
 #para teste
 JogoAtual = None
@@ -57,6 +58,10 @@ class Logica(object):
         # Fazer Calculo das estatisticas
 
         self.rodada_atual = self.rodada_atual + 1
+        print(self.rodada_atual)
+        Group("time").send({
+        "text": "Rodada Atual: %s" % str(self.rodada_atual),
+        })
         #print(self.rodada_atual)
         if(self.rodada_atual == len(self.rodadas)):
             # Notificar fim de jogo
