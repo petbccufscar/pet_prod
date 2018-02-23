@@ -1,5 +1,5 @@
 #-*-coding:utf-8-*-
-from jogo.logica.Time import Time
+from jogo.logica.time import Time
 import datetime
 import _thread
 from time import sleep
@@ -30,7 +30,7 @@ class Logica(object):
         self.times = dict()
         self.rodada_atual = 0
 
-    def add_time(time):
+    def add_time(self, time):
         self.times[time.nome] = time
 
     def comprar_modulo(self, id_time, id_modulo):

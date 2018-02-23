@@ -23,6 +23,7 @@ from .forms import Modulo_Form
 from .forms import Area_Classe_Social_Form
 
 import jogo.logica.logica_de_jogo as logica_jogo
+from jogo.logica.time import Time as LTime
 
 # from django.core.exceptions import ObjectDoesNotExist
 
@@ -508,8 +509,15 @@ def iniciar_jogo(request):
     #TODO: codigo de inicialização de jogo
     rodadas = Rodada.objects.all()
     times = [] #TODO: inicializar times
+    #times hardcoded para fins de teste
+    times.append(LTime("time1"))
+    times.append(LTime("time2"))
+    times.append(LTime("time3"))
     logica_jogo.inicializa_jogo(rodadas, times)
-    return HttpResponse("foi")
+    return HttpResponse("Iniciou")
 
 def tela_de_jogo(request, nome_time):
-    return render(request, 'jogo/tela_de_jogo.html', {"nome_time": nome_time})
+    if logica_jogo.JogoAtual is None:
+        return HttpResponse("Jogo Não Iniciado")
+    time = logica_jogo.JogoAtual.times[nome_time]
+    return render(request, 'jogo/tela_de_jogo.html', {"nome_time": time.nome})
