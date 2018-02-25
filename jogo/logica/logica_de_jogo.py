@@ -19,17 +19,19 @@ def inicializa_jogo(rodadas, times):
         JogoAtual.add_time(time)
     init_timer(JogoAtual)
 
+
 def encerrar_jogo():
     pass
+
 
 class Logica(object):
     def __init__(self, qtd_rodadas, nrotimes, rodadas):
         self.qtd_rodadas = qtd_rodadas
         self.medicos_por_perfil = nrotimes*6
-        self.medicos= {}
+        self.medicos = {}
         self.modulos = []
-        self.rodadas = rodadas
         self.times = dict()
+        self.rodadas = rodadas
         self.rodada_atual = 0
         med = Medico.objects.all()
         mod = Modulo.objects.all()
@@ -52,12 +54,12 @@ class Logica(object):
     def vender_modulo(self, id_time, id_modulo):
         if id_modulo in self.times[id_time].modulos:        # fazer verificação se existe o time tem esse módulo
             i = self.times[id_time].modulos.index(id_modulo)
+            #TODO: tratar questão de preço do modulo 
             del self.times[id_time].modulos[i]
             return True
         else:
             return False
-        self.rodadas = []
-        self.rodada_atual = 0
+
 
     def comprar_medico(self, time_id, perfil_medico):
         if (self.medicos[perfil_medico] > 0):
