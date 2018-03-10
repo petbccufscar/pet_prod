@@ -6,7 +6,13 @@
   <div class="container">
     <p><br>Time: {{nome_time}}</p>
     <p id ="r_contador">1</p>
-
+    <div style="display: inline-block">
+      <button style="float:left" id="comp_modulo" onclick="comprar_modulo()" type="submit" class="btn btn-primary">Comprar Modulo</button>
+    </div>
+    <div style="display: inline-block">
+      <input style="float:left" type="text" class="form-control" id="modulo_id" placeholder="" value="" required>
+    </div>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/tela_de_jogo.js' %}"></script>
   </div>
 {% endblock body %}

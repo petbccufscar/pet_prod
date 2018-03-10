@@ -4,6 +4,7 @@ import datetime
 import _thread
 from channels import Group
 from time import sleep
+from django.http import HttpResponse
 #para teste
 JogoAtual = None
 
@@ -21,6 +22,11 @@ def inicializa_jogo(rodadas, times):
 
 def encerrar_jogo():
     pass
+
+def comprar_modulo(request, nome_time):
+    print(request.POST["modulo_id"], nome_time)
+    return HttpResponse("comprado")
+
 
 class Logica(object):
     def __init__(self, qtd_rodadas, nrotimes, rodadas):

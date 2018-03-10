@@ -1,3 +1,23 @@
+function comprar_modulo() {
+    console.log("create post is working!") // sanity check
+    $.ajax({
+        url : "comprar_modulo/", // the endpoint
+        type : "POST", // http method
+        data : { modulo_id : document.getElementById("modulo_id").value}, // data sent with the post request
+
+        // handle a successful response
+        success : function(json) {
+          //  $('#post-text').val(''); // remove the value from the input
+            console.log(json); // log the returned json to the console
+            console.log("success"); // another sanity check
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            console.log("erro"); // provide a bit more info about the error to the console
+        }
+    });
+};
 
 document.getElementById("r_contador").innerHTML = "Rodada Atual: 1";
 socket = new WebSocket("ws://" + window.location.host + "/time/");
