@@ -57,13 +57,18 @@ class Logica(object):
         self.rodadas = []
         self.rodada_atual = 0
 
-    def next(self):
+    def encerrar_rodada():
+        pass
+
+    def nova_rodada(self):
         # TODO: tratar sincronização das threads
         # TODO: código de fim de rodada
         # Notificar os clients que acabou a rodada (websockets)
         # Fazer Calculo das estatisticas
 
+        self.encerrar_rodada()
         self.rodada_atual = self.rodada_atual + 1
+
         print(self.rodada_atual)
         Group("time").send({
         "text": "Rodada Atual: %s" % str(self.rodada_atual),
@@ -79,14 +84,11 @@ class Logica(object):
     def atualiza_timer(self):
         timer = self.rodadas[0].duracao * 60 * 1000000
         anterior = datetime.datetime.utcnow()
-        #print (anterior)
         while timer is not None:
             atual = datetime.datetime.utcnow()
             delta_time = atual - anterior
             anterior = datetime.datetime.utcnow()
             timer = timer - delta_time.microseconds - delta_time.seconds*1000000
-            #print(timer)
             sleep(0.1)
             if(timer < 0):
-                #print("zerou")
-                timer = self.next()
+                timer = self.nova_rodada()
