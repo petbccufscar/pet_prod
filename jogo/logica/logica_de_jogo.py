@@ -2,11 +2,11 @@
 from jogo.logica.time import Time
 from jogo.models import Medico, Modulo
 from time import sleep
-import datetime
-import _thread
 from channels import Group
 from time import sleep
 from django.http import HttpResponse
+import datetime
+import _thread
 
 #para teste
 JogoAtual = None
@@ -106,7 +106,7 @@ class Logica(object):
             'pontualidade' : pontualidade / quantidade
         }
 
-    def encerrar_rodada():
+    def encerrar_rodada(self):
         pass
 
     def nova_rodada(self):
@@ -116,13 +116,14 @@ class Logica(object):
         # Fazer Calculo das estatisticas
 
         self.encerrar_rodada()
-        self.rodada_atual = self.rodada_atual + 1
 
+        # setup da nova rodada
+        self.rodada_atual = self.rodada_atual + 1
         print(self.rodada_atual)
         Group("time").send({
         "text": "Rodada Atual: %s" % str(self.rodada_atual),
         })
-        #print(self.rodada_atual)
+
         if(self.rodada_atual == len(self.rodadas)):
             # Notificar fim de jogo
             return None
