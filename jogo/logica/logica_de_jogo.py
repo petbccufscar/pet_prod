@@ -125,7 +125,7 @@ class Logica(object):
         # setup da nova rodada
         self.rodada_atual = self.rodada_atual + 1
         print(self.rodada_atual)
-        Group("time").send({
+        Group("rodada").send({
         "text": "Rodada Atual: %s" % str(self.rodada_atual),
         })
 

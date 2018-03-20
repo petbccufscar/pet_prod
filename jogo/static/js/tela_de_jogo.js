@@ -39,8 +39,8 @@ function vender_modulo() {
 };
 
 document.getElementById("r_contador").innerHTML = "Rodada Atual: 1";
-socket = new WebSocket("ws://" + window.location.host + "/time/");
-socket.onmessage = function(e) {
+socket_rodada = new WebSocket("ws://" + window.location.host + "/rodada/");
+socket_rodada.onmessage = function(e) {
     document.getElementById("r_contador").innerHTML = e.data;
 }
 
