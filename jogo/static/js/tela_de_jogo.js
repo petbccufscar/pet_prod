@@ -19,6 +19,25 @@ function comprar_modulo() {
     });
 };
 
+function vender_modulo() {
+    $.ajax({
+        url : "vender_modulo/",
+        type : "POST",
+        data : { modulo_id : document.getElementById("vend_modulo_id").value}, // data sent with the post request
+
+        // handle a successful response
+        success : function(json) {
+            console.log(json);
+            console.log("success");
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            console.log("erro");
+        }
+    });
+};
+
 document.getElementById("r_contador").innerHTML = "Rodada Atual: 1";
 socket = new WebSocket("ws://" + window.location.host + "/time/");
 socket.onmessage = function(e) {

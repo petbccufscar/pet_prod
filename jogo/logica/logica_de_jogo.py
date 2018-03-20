@@ -27,6 +27,11 @@ def inicializa_jogo(rodadas, times):
 def encerrar_jogo():
     pass
 
+def vender_modulo(request, nome_time):
+    print(request.POST["modulo_id"], nome_time)
+    print("vendido")
+    return HttpResponse("vendido")
+
 
 def comprar_modulo(request, nome_time):
     print(request.POST["modulo_id"], nome_time)
