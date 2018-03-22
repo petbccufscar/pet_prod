@@ -79,7 +79,7 @@ class Logica(object):
     def vender_modulo(self, id_time, id_modulo):
         if id_modulo in self.times[id_time].modulos:        # fazer verificação se existe o time tem esse módulo
             i = self.times[id_time].modulos.index(id_modulo)
-            #TODO: tratar questão de preço do modulo
+            #TODO: tratar questão de preço do modulo 
             del self.times[id_time].modulos[i]
             return True
         else:
@@ -150,11 +150,13 @@ class Logica(object):
     def atualiza_timer(self):
         timer = self.rodadas[0].duracao * 60 * 1000000
         anterior = datetime.datetime.utcnow()
+        #print (anterior)
         while timer is not None:
             atual = datetime.datetime.utcnow()
             delta_time = atual - anterior
             anterior = datetime.datetime.utcnow()
             timer = timer - delta_time.microseconds - delta_time.seconds*1000000
+            #print(timer)
             sleep(0.1)
             if(timer < 0):
                 timer = self.nova_rodada()

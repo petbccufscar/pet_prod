@@ -90,7 +90,7 @@ class Area_Classe_Social(models.Model):
 
 class Modulo(models.Model):
     classificacao = ((1, '1'), (2, '2'), (3, '3'))
-    codigo = models.IntegerField(validators=[MinValueValidator(1)], unique=True)
+    codigo = models.IntegerField(validators=[MinValueValidator(1)], unique=True)  # Está certo existir esse código?
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     custo_de_aquisicao = models.FloatField(validators=[MinValueValidator(0.0)])
     custo_mensal = models.FloatField(validators=[MinValueValidator(0.0)])
