@@ -13,8 +13,11 @@ def init_timer(jogo):
 
 
 def inicializa_jogo(rodadas, times):
+
     global JogoAtual # eu sei eu sei, chame de singleton e ta ok
     JogoAtual = Logica(len(rodadas), len(times), rodadas)
+
+
     for time in times:
         JogoAtual.add_time(time)
     init_timer(JogoAtual)
@@ -96,6 +99,7 @@ class Logica(object):
             'atendimento' : atendimento / quantidade,
             'pontualidade' : pontualidade / quantidade
         }
+
 
     def next(self):
         # TODO: tratar sincronização das threads
