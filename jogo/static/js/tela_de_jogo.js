@@ -44,11 +44,11 @@ socket_rodada.onmessage = function(e) {
     document.getElementById("r_contador").innerHTML = e.data;
 }
 
-socket.onopen = function() {
-    socket.send("hello world");
+socket_rodada.onopen = function() {
+    socket_rodada.send("hello world");
 }
 // Call onopen directly if socket is already open
-if (socket.readyState == WebSocket.OPEN) socket.onopen();
+if (socket_rodada.readyState == WebSocket.OPEN) socket_rodada.onopen();
 
 $(function() {
 
