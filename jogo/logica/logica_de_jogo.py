@@ -2,8 +2,12 @@
 from jogo.logica.time import Time
 from jogo.models import Medico, Modulo
 from time import sleep
+from channels import Group
+from time import sleep
+from django.http import HttpResponse
 import datetime
 import _thread
+
 #para teste
 JogoAtual = None
 
@@ -13,11 +17,8 @@ def init_timer(jogo):
 
 
 def inicializa_jogo(rodadas, times):
-
     global JogoAtual # eu sei eu sei, chame de singleton e ta ok
     JogoAtual = Logica(len(rodadas), len(times), rodadas)
-
-
     for time in times:
         JogoAtual.add_time(time)
     init_timer(JogoAtual)
@@ -25,6 +26,16 @@ def inicializa_jogo(rodadas, times):
 
 def encerrar_jogo():
     pass
+
+def vender_modulo(request, nome_time):
+    print(request.POST["modulo_id"], nome_time)
+    print("vendido")
+    return HttpResponse("vendido")
+
+
+def comprar_modulo(request, nome_time):
+    print(request.POST["modulo_id"], nome_time)
+    return HttpResponse("comprado")
 
 
 class Logica(object):
@@ -100,15 +111,24 @@ class Logica(object):
             'pontualidade' : pontualidade / quantidade
         }
 
+    def encerrar_rodada(self):
+        pass
 
-    def next(self):
+    def nova_rodada(self):
         # TODO: tratar sincronização das threads
         # TODO: código de fim de rodada
         # Notificar os clients que acabou a rodada (websockets)
         # Fazer Calculo das estatisticas
 
+        self.encerrar_rodada()
+
+        # setup da nova rodada
         self.rodada_atual = self.rodada_atual + 1
-        #print(self.rodada_atual)
+        print(self.rodada_atual)
+        Group("rodada").send({
+        "text": "Rodada Atual: %s" % str(self.rodada_atual),
+        })
+
         if(self.rodada_atual == len(self.rodadas)):
             # Notificar fim de jogo
             return None
@@ -128,5 +148,4 @@ class Logica(object):
             #print(timer)
             sleep(0.1)
             if(timer < 0):
-                #print("zerou")
-                timer = self.next()
+                timer = self.nova_rodada()
