@@ -22,6 +22,21 @@
       <input style="float:left" type="text" class="form-control" id="vend_modulo_id" placeholder="" value="" required>
     </div>
 
+    <div>
+      <button style="float:left" id="contratar_medico" onclick="contratar_medico()" type="submit" class="btn btn-primary">Contratar Médico</button>
+    </div>
+    <div style="display: inline-block">
+      <input style="float:left" type="text" class="form-control" id="medico_id" placeholder="" value="" required>
+    </div>
+
+    <div style="display:">
+      <button style="float:left" id="despedir_medico" onclick="despedir_medico()" type="submit" class="btn btn-primary">Despedir Médico</button>
+    </div>
+
+    <div style="display: inline-block">
+      <input style="float:left" type="text" class="form-control" id="despedir_medico_id" placeholder="" value="" required>
+    </div>
+
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/tela_de_jogo.js' %}"></script>
   </div>

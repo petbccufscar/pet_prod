@@ -37,6 +37,17 @@ def comprar_modulo(request, nome_time):
     print(request.POST["modulo_id"], nome_time)
     return HttpResponse("comprado")
 
+def contratar_medico(request, nome_time):
+    print(request.POST["medico_id"], nome_time)
+    print("contratado")
+    return HttpResponse("contratado")
+
+
+def despedir_medico(request, nome_time):
+    print(request.POST["medico_id"], nome_time)
+    print("despedido")
+    return HttpResponse("despedido")
+
 
 class Logica(object):
     def __init__(self, qtd_rodadas, nrotimes, rodadas):
