@@ -1,6 +1,6 @@
 #-*-coding:utf-8-*-
 from jogo.logica.time import Time
-from jogo.models import Medico, Modulo
+from jogo.models import Medico, Modulo, Area_Classe_Social
 from time import sleep
 from channels import Group
 from time import sleep
@@ -58,6 +58,9 @@ class Logica(object):
         self.times = dict()
         self.rodadas = rodadas
         self.rodada_atual = 0
+
+        self.areas_c_social = [] # PRECISA DISSO?
+
         med = Medico.objects.all()
         mod = Modulo.objects.all()
         for medico in med:
@@ -95,6 +98,7 @@ class Logica(object):
         return False
 
 
+
     def vender_medico(self, time_id, perfil_medico):
         # retorna true caso tenha tido sucesso, e false caso contrario
         # lembrar disso quando criar a view para renderizar a resposta correta
@@ -106,6 +110,31 @@ class Logica(object):
 
 
     def encerrar_rodada(self):
+
+ #       for time in self.times:
+
+            #LEO, AQUI CALCULAR DEMANDA (para cada time é diferente a demanda??) (se não for, fazer isso fora do for)
+
+
+            #  VERIFICAR SE AS CLASSES SAO DE ACORDO
+            # (o modelo está montado, mas o acesso a varias variaveis e dados estão incorretos ainda.
+            # Então ficará comentado o bloco abaixo por enquanto, para não atrapalhar o código a rodar em outras partes)
+
+            # atr_med = self.times[time].atributos_medicos()
+            # for area_c in self.areas_c_social:
+            #     ar_c = Area_Classe_Social.objects.get(area=area_c)  # COMO FAZ ISSO COM O AREA_CLASSE_SOCIAL? O ID SERIA COMO?
+            #
+            #     atr_mod = self.times[time].atributos_modulos(ar_c.area)
+            #
+            #     for classe in ar_c.classe_social:  # ESSE FOR TA ERRADO , oq quero é percorrer todas as classes sociais que tem daquela area
+            #         if ar_c.classe_social.media_conforto <= atr_mod['conforto'] and ar_c.classe_social.nivel_tecnologia <= atr_mod['tecnologia'] and ar_c.classe_social.preco_atendimento <= atr_mod['preco_do_tratamento'] and ar_c.classe_social.nivel_especialidade <= atr_med['expertise'] and ar_c.classe_social.velocidade_atendimento <= atr_med['atendimento']:
+            #             #é assim que acessa mesmo o dicionario?
+            #             #faltou o pontualidade. E velocidade_atendimento = atendimento?
+            #
+            #             # Se o IF for verdadeiro, então pode atender essa classe!
+            #             print("pode atender essa classe")
+
+
         pass
 
     def nova_rodada(self):
