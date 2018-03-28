@@ -68,6 +68,21 @@ class Time:
         else:
             return False
 
+    def atributos_medicos(self):
+        expertise = 0
+        atendimento = 0
+        pontualidade = 0
+        quantidade = len(self.medicos)
+        for medico in self.medicos:
+            med = Medico.objects.get(perfil=medico)
+            expertise += med.expertise
+            atendimento += med.atendimento
+            pontualidade += med.pontualidade
+        return {
+            'expertise': expertise / quantidade,
+            'atendimento': atendimento / quantidade,
+            'pontualidade': pontualidade / quantidade
+        }
 
     def atributos_modulos(self, area):
         tecnologia = 0

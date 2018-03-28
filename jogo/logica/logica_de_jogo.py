@@ -105,23 +105,6 @@ class Logica(object):
         return False
 
 
-    def atributos_medicos(self, time_id):
-        time = self.times[time_id]
-        expertise = 0
-        atendimento = 0
-        pontualidade = 0
-        quantidade = len(time.medicos)
-        for medico in time.medicos:
-            med = Medico.objects.get(perfil=medico)
-            expertise += med.expertise
-            atendimento += med.atendimento
-            pontualidade += med.pontualidade
-        return {
-            'expertise' : expertise / quantidade,
-            'atendimento' : atendimento / quantidade,
-            'pontualidade' : pontualidade / quantidade
-        }
-
     def encerrar_rodada(self):
         pass
 
