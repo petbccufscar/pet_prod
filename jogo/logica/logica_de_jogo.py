@@ -51,8 +51,8 @@ def despedir_medico(request, nome_time):
 
 class Logica(object):
     def __init__(self, qtd_rodadas, nrotimes, rodadas):
-        self.qtd_rodadas = qtd_rodadas
-        self.medicos_por_perfil = nrotimes*6
+        self.qtd_rodadas = qtd_rodadas #TODO: talvez pegar qtd_rodadas com len()
+        self.medicos_por_perfil = nrotimes*6 #TODO: Não deve ser hardcoded
         self.medicos = {}
         self.modulos = []
         self.times = dict()
@@ -63,6 +63,7 @@ class Logica(object):
 
         med = Medico.objects.all()
         mod = Modulo.objects.all()
+        #TODO: isso deve ser pego da interface
         for medico in med:
             # inicia todos os perfis existentes no bd com 0 médicos
             self.medicos[medico.perfil] = 0
@@ -82,7 +83,7 @@ class Logica(object):
     def vender_modulo(self, id_time, id_modulo):
         if id_modulo in self.times[id_time].modulos:        # fazer verificação se existe o time tem esse módulo
             i = self.times[id_time].modulos.index(id_modulo)
-            #TODO: tratar questão de preço do modulo 
+            #TODO: tratar questão de preço do modulo
             del self.times[id_time].modulos[i]
             return True
         else:
