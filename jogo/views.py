@@ -521,3 +521,6 @@ def tela_de_jogo(request, nome_time):
         return HttpResponse("Jogo Não Iniciado")
     time = logica_jogo.JogoAtual.times[nome_time]
     return render(request, 'jogo/tela_de_jogo.html', {"nome_time": time.nome})
+
+def pre_jogo_5(request):
+    return render(request, 'pre_jogo/tela_pre_jogo_5.html',{})

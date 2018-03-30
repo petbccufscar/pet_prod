@@ -58,4 +58,6 @@ urlpatterns = [
     url(r'^jogo/(?P<nome_time>\w+)/despedir_medico', logica_de_jogo.despedir_medico, name='despedir_medico'),
     url(r'^jogo/(?P<nome_time>\w+)/', views.tela_de_jogo, name='tela_de_jogo'),
 
+    #telas de pre jogo
+    url(r'^pre_jogo_5/$', views.pre_jogo_5, name='pre_jogo_5'),
 ]
