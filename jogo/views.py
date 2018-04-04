@@ -522,5 +522,11 @@ def tela_de_jogo(request, nome_time):
     time = logica_jogo.JogoAtual.times[nome_time]
     return render(request, 'jogo/tela_de_jogo.html', {"nome_time": time.nome})
 
+def pre_jogo_1(request):
+    return render(request, 'pre_jogo/tela_pre_jogo_1.html',{})
+
+def pre_jogo_3(request):
+    return render(request, 'pre_jogo/tela_pre_jogo_3.html',{})
+
 def pre_jogo_5(request):
     return render(request, 'pre_jogo/tela_pre_jogo_5.html',{})

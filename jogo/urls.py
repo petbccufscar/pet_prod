@@ -59,5 +59,7 @@ urlpatterns = [
     url(r'^jogo/(?P<nome_time>\w+)/', views.tela_de_jogo, name='tela_de_jogo'),
 
     #telas de pre jogo
+    url(r'^pre_jogo_1/$', views.pre_jogo_1, name='pre_jogo_1'),
+    url(r'^pre_jogo_3/$', views.pre_jogo_3, name='pre_jogo_3'),
     url(r'^pre_jogo_5/$', views.pre_jogo_5, name='pre_jogo_5'),
 ]

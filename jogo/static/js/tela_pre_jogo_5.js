@@ -10,7 +10,7 @@ function adiciona_emprestimo(){
     // Add some text to the new cells:
   cell1.innerHTML = input.value;
   cell2.setAttribute("style", "text-align:right");
-  cell2.innerHTML = "<button onclick=\"remover_emprestimo(this)\" class=\"btn btn-default inline\">-</button>"
+  cell2.innerHTML = "<button onclick=\"remover_emprestimo(this)\" class=\"btn btn-default inline\">x</button>"
 }
 
 function remover_emprestimo(but){

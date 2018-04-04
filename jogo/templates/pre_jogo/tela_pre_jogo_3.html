@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block tela_pre_jogo_1 %}class="active"{% endblock %}
+{% block tela_pre_jogo_1_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block body %}
+{% load staticfiles%}
+
+<style>
+.btn.btn-default.inline {
+    width:25px;
+    height:25px;
+    text-align: center;
+    padding: 0px 0px 0px 0px;
+    align-self: rigth;
+}
+tbody td, thead th {
+    width: 200px;
+}
+.table.borded{
+  width: 460px;
+  height: 300px;
+  border-collapse:separate;
+  border:solid #ddd 1px;
+  border-radius:6px;
+  -moz-border-radius:6px;
+}
+tbody{
+  display: block;
+  height: 290px;
+  overflow-y: auto;
+  overflow-x: hidden
+}
+
+.cabecalho{
+    text-align: center;
+}
+
+.linha_normal{
+  height:55px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+</style>
+
+<br><br><br>
+
+<table class="table borded" id="my_table" align="center">
+   <thead style="display: block;">
+    <tr>
+        <th class = "cabecalho" colspan=3>Módulos e Médicos</th>
+    </tr>
+     <tr>
+       <th class = "linha_normal">
+         Valores padrão
+       </th>
+       <th>
+         <input style="width:120px" type="number" id="my_input" class="form-control" placeholder="" value="1" required>
+       </th>
+       <th>
+         <div>
+           <font size = "1"><center> Selecionar todos </center></font>
+         </div>
+         <div align = "center">
+           <input type="checkbox" align="center">
+         </div>
+       </th>
+     </tr>
+   </thead>
+   <tbody></tbody>
+ </table>
+
+
+ <script src="{% static 'js/tela_pre_jogo_1.js' %}"></script>
+
+{% endblock body %}
