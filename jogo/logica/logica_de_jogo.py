@@ -6,6 +6,7 @@ from channels import Group
 from time import sleep
 from django.http import HttpResponse
 import datetime
+from random import randint
 import _thread
 
 #para teste
@@ -35,6 +36,7 @@ def vender_modulo(request, nome_time):
 
 def comprar_modulo(request, nome_time):
     print(request.POST["modulo_id"], nome_time)
+    encerrar_jogo()
     return HttpResponse("comprado")
 
 def contratar_medico(request, nome_time):
@@ -123,11 +125,16 @@ class Logica(object):
 
     def encerrar_rodada(self):
         areaClasse = Area_Classe_Social.objects.all()
-        demanda = []
+        demanda = {}
+        classeSocialDict = {}
         for i in areaClasse:
-            demanda.append(random.uniform(i.entrada - i.desvios, i.entrada + i.desvios))
-        print(areaClasse)
-        print(demanda)
+            try:
+                classeSocialDict = demanda[i.area.nome]
+            except KeyError:
+                classeSocialDict = {}
+                pass
+            classeSocialDict[i.classe_social.nome] = randint(i.entrada - i.desvios, i.entrada + i.desvios)
+            demanda[i.area.nome] = classeSocialDict
  #       for time in self.times:
 
             #LEO, AQUI CALCULAR DEMANDA (para cada time é diferente a demanda??) (se não for, fazer isso fora do for)
