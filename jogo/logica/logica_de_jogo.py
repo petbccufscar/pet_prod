@@ -1,11 +1,12 @@
 #-*-coding:utf-8-*-
 from jogo.logica.time import Time
-from jogo.models import Medico, Modulo, Area_Classe_Social, Evento
+from jogo.models import Medico, Modulo, Area_Classe_Social, Evento, Area, Classe_Social
 from time import sleep
 from channels import Group
 from time import sleep
 from django.http import HttpResponse
 import datetime
+from random import randint
 import _thread
 import random
 
@@ -36,6 +37,7 @@ def vender_modulo(request, nome_time):
 
 def comprar_modulo(request, nome_time):
     print(request.POST["modulo_id"], nome_time)
+    JogoAtual.encerrar_rodada()
     return HttpResponse("comprado")
 
 def contratar_medico(request, nome_time):
@@ -123,53 +125,63 @@ class Logica(object):
 
 
     def encerrar_rodada(self):
+        print("ENCERRAR RODADA")
         areaClasse = Area_Classe_Social.objects.all()
-        demanda = []
+        demanda = {}
+        classeSocialDict = {}
         for i in areaClasse:
-            demanda.append(random.uniform(i.entrada - i.desvios, i.entrada + i.desvios))
-        print(areaClasse)
-        print(demanda)
+
+            try:
+                classeSocialDict = demanda[i.area.nome]
+            except KeyError:
+                classeSocialDict = {}
+                pass
+            classeSocialDict[i.classe_social.nome] = randint(i.entrada - i.desvios, i.entrada + i.desvios)
+            demanda[i.area.nome] = classeSocialDict
 
         #  CALCULAR TOTAL ATENDIDOS
-        #self.calcular_total_atendidos(demanda)
+        self.calcular_total_atendidos(demanda)
 
-        pass
-"""
-    def calcular_total_atendidos(demanda):
+
+
+    def calcular_total_atendidos(self, demanda):
+        print("CALCULANDO ")
+        areas = Area.objects.all()
+        classes = Classe_Social.objects.all()
+
         for time in self.times:
 
             #  VERIFICAR SE AS CLASSES SAO DE ACORDO
 
             capacidade_ocupada = {}
 
-             atr_med = self.times[time].atributos_medicos()
-             for area_c in self.areas_c_social:
+            atr_med = self.times[time].atributos_medicos()
+            for ar in areas:
 
-                 ar_c = Area_Classe_Social.objects.get(area=area_c)  # COMO FAZ ISSO COM O AREA_CLASSE_SOCIAL? O ID SERIA COMO?
-
-                 atr_mod = self.times[time].atributos_modulos(ar_c.area)
+                atr_mod = self.times[time].atributos_modulos(ar)
 
                 capacidade_disponivel = atr_mod['capacidade']
 
-                 for classe in ar_c.classe_social:
-                     if ar_c.classe_social.media_conforto <= atr_mod['conforto'] and ar_c.classe_social.nivel_tecnologia <= atr_mod['tecnologia'] and ar_c.classe_social.preco_atendimento <= atr_mod['preco_do_tratamento'] and ar_c.classe_social.nivel_especialidade <= atr_med['expertise'] and ar_c.classe_social.velocidade_atendimento <= atr_med['atendimento']:
+                for classe in classes:
+                    if classe.media_conforto <= atr_mod['conforto'] and classe.nivel_tecnologia <= atr_mod['tecnologia'] and classe.preco_atendimento <= atr_mod['preco_do_tratamento'] and classe.nivel_especialidade <= atr_med['expertise'] and classe.velocidade_atendimento <= atr_med['atendimento']:
                          #faltou o pontualidade. E velocidade_atendimento = atendimento?
 
                          # Se o IF for verdadeiro, então pode atender essa classe!
-                         print("pode atender essa classe")
+                        print("pode atender essa classe ", classe )
 
                         # CALCULAR TOTAL DE ATENDIDOS
-
+                        print("demanda dessa area classe: ", demanda[ar.nome][classe.nome])
                                 # VER SE ACESSA A DEMANDA ASSIM
-                        if demanda[classe][ar_c.nome] < capacidade_disponivel:
-                            capacidade_disponivel -= demanda[classe][ar_c.nome]
+                        if demanda[ar.nome][classe.nome] < capacidade_disponivel:
+                            capacidade_disponivel -= demanda[ar.nome][classe.nome]
                         elif capacidade_disponivel > 0:
                             capacidade_disponivel = 0
                             break
+                print("capacidade disponivel", capacidade_disponivel)
                 # CALCULAR DEPOIS O DINHEIRO GANHO COM ISSO
                 # IRA UTILIZAR ALGO COMO
-                # capacidade_ocupada[ar_c.nome] = atr_mod['capacidade'] - capacidade_disponivel
-"""
+                # capacidade_ocupada[ar.nome] = atr_mod['capacidade'] - capacidade_disponivel
+
 
     def nova_rodada(self):
         # TODO: tratar sincronização das threads

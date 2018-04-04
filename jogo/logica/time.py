@@ -73,6 +73,12 @@ class Time:
         atendimento = 0
         pontualidade = 0
         quantidade = len(self.medicos)
+        if quantidade == 0:
+            return {
+                'expertise': 0,
+                'atendimento': 0,
+                'pontualidade': 0
+            }
         for medico in self.medicos:
             med = Medico.objects.get(perfil=medico)
             expertise += med.expertise
