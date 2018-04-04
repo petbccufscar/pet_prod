@@ -1,6 +1,6 @@
 #-*-coding:utf-8-*-
 from jogo.logica.time import Time
-from jogo.models import Medico, Modulo, Area_Classe_Social
+from jogo.models import Medico, Modulo, Area_Classe_Social, Evento
 from time import sleep
 from channels import Group
 from time import sleep
@@ -110,8 +110,24 @@ class Logica(object):
         return False
 
 
-    def encerrar_rodada(self):
+    def get_multiplicador(self, nomeEvento):
+        evento = Evento.objects.get(nome=nomeEvento)
+        multiplicadores  = {}
+        multiplicadores['A'] = evento.multiplicador_classeA
+        multiplicadores['B'] = evento.multiplicador_classeB
+        multiplicadores['C'] = evento.multiplicador_classeC
+        multiplicadores['D'] = evento.multiplicador_classeD
+        multiplicadores['E'] = evento.multiplicador_classeE
+        return multiplicadores
 
+
+    def encerrar_rodada(self):
+        areaClasse = Area_Classe_Social.objects.all()
+        demanda = []
+        for i in areaClasse:
+            demanda.append(random.uniform(i.entrada - i.desvios, i.entrada + i.desvios))
+        print(areaClasse)
+        print(demanda)
  #       for time in self.times:
 
             #LEO, AQUI CALCULAR DEMANDA (para cada time é diferente a demanda??) (se não for, fazer isso fora do for)
