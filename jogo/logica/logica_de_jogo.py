@@ -7,6 +7,7 @@ from time import sleep
 from django.http import HttpResponse
 import datetime
 import _thread
+import random
 
 #para teste
 JogoAtual = None
@@ -128,31 +129,47 @@ class Logica(object):
             demanda.append(random.uniform(i.entrada - i.desvios, i.entrada + i.desvios))
         print(areaClasse)
         print(demanda)
- #       for time in self.times:
 
-            #LEO, AQUI CALCULAR DEMANDA (para cada time é diferente a demanda??) (se não for, fazer isso fora do for)
-
-
-            #  VERIFICAR SE AS CLASSES SAO DE ACORDO
-            # (o modelo está montado, mas o acesso a varias variaveis e dados estão incorretos ainda.
-            # Então ficará comentado o bloco abaixo por enquanto, para não atrapalhar o código a rodar em outras partes)
-
-            # atr_med = self.times[time].atributos_medicos()
-            # for area_c in self.areas_c_social:
-            #     ar_c = Area_Classe_Social.objects.get(area=area_c)  # COMO FAZ ISSO COM O AREA_CLASSE_SOCIAL? O ID SERIA COMO?
-            #
-            #     atr_mod = self.times[time].atributos_modulos(ar_c.area)
-            #
-            #     for classe in ar_c.classe_social:  # ESSE FOR TA ERRADO , oq quero é percorrer todas as classes sociais que tem daquela area
-            #         if ar_c.classe_social.media_conforto <= atr_mod['conforto'] and ar_c.classe_social.nivel_tecnologia <= atr_mod['tecnologia'] and ar_c.classe_social.preco_atendimento <= atr_mod['preco_do_tratamento'] and ar_c.classe_social.nivel_especialidade <= atr_med['expertise'] and ar_c.classe_social.velocidade_atendimento <= atr_med['atendimento']:
-            #             #é assim que acessa mesmo o dicionario?
-            #             #faltou o pontualidade. E velocidade_atendimento = atendimento?
-            #
-            #             # Se o IF for verdadeiro, então pode atender essa classe!
-            #             print("pode atender essa classe")
-
+        #  CALCULAR TOTAL ATENDIDOS
+        #self.calcular_total_atendidos(demanda)
 
         pass
+"""
+    def calcular_total_atendidos(demanda):
+        for time in self.times:
+
+            #  VERIFICAR SE AS CLASSES SAO DE ACORDO
+
+            capacidade_ocupada = {}
+
+             atr_med = self.times[time].atributos_medicos()
+             for area_c in self.areas_c_social:
+
+                 ar_c = Area_Classe_Social.objects.get(area=area_c)  # COMO FAZ ISSO COM O AREA_CLASSE_SOCIAL? O ID SERIA COMO?
+
+                 atr_mod = self.times[time].atributos_modulos(ar_c.area)
+
+                capacidade_disponivel = atr_mod['capacidade']
+
+                 for classe in ar_c.classe_social:
+                     if ar_c.classe_social.media_conforto <= atr_mod['conforto'] and ar_c.classe_social.nivel_tecnologia <= atr_mod['tecnologia'] and ar_c.classe_social.preco_atendimento <= atr_mod['preco_do_tratamento'] and ar_c.classe_social.nivel_especialidade <= atr_med['expertise'] and ar_c.classe_social.velocidade_atendimento <= atr_med['atendimento']:
+                         #faltou o pontualidade. E velocidade_atendimento = atendimento?
+
+                         # Se o IF for verdadeiro, então pode atender essa classe!
+                         print("pode atender essa classe")
+
+                        # CALCULAR TOTAL DE ATENDIDOS
+
+                                # VER SE ACESSA A DEMANDA ASSIM
+                        if demanda[classe][ar_c.nome] < capacidade_disponivel:
+                            capacidade_disponivel -= demanda[classe][ar_c.nome]
+                        elif capacidade_disponivel > 0:
+                            capacidade_disponivel = 0
+                            break
+                # CALCULAR DEPOIS O DINHEIRO GANHO COM ISSO
+                # IRA UTILIZAR ALGO COMO
+                # capacidade_ocupada[ar_c.nome] = atr_mod['capacidade'] - capacidade_disponivel
+"""
 
     def nova_rodada(self):
         # TODO: tratar sincronização das threads
