@@ -45,6 +45,7 @@ class Time:
         self.atributos = {}
         self.nome = nome
 
+
     def adicionar_medico(self, med_id):
         self.medicos.append(med_id)
 
@@ -72,22 +73,26 @@ class Time:
         expertise = 0
         atendimento = 0
         pontualidade = 0
+        total_salarios =0
         quantidade = len(self.medicos)
         if quantidade == 0:
             return {
                 'expertise': 0,
                 'atendimento': 0,
-                'pontualidade': 0
+                'pontualidade': 0,
+                'total_salarios': 0
             }
         for medico in self.medicos:
             med = Medico.objects.get(perfil=medico)
             expertise += med.expertise
             atendimento += med.atendimento
             pontualidade += med.pontualidade
+            total_salarios += med.salario
         return {
             'expertise': expertise / quantidade,
             'atendimento': atendimento / quantidade,
-            'pontualidade': pontualidade / quantidade
+            'pontualidade': pontualidade / quantidade,
+            'total_salarios': total_salarios
         }
 
     def atributos_modulos(self, area):
@@ -95,13 +100,16 @@ class Time:
         conforto = 0
         capacidade = 0
         preco_do_tratamento = 0
+        total_custo_mensal = 0
         quantidade = len(self.modulos)
         if quantidade == 0:
             return {
             'tecnologia': 0,
             'conforto': 0,
             'preco_do_tratamento': 0,
-            'capacidade': 0
+            'capacidade': 0,
+            'total_custo_mensal': 0
+
         }
         for modulo_id in self.modulos:
             mod = Modulo.objects.get(codigo=modulo_id)
@@ -110,11 +118,13 @@ class Time:
                 conforto += mod.conforto
                 preco_do_tratamento += mod.preco_do_tratamento
                 capacidade += mod.capacidade
+                total_custo_mensal += mod.custo_mensal
         return {
             'tecnologia': tecnologia / quantidade,
             'conforto': conforto / quantidade,
             'preco_do_tratamento': preco_do_tratamento / quantidade,
-            'capacidade': capacidade
+            'capacidade': capacidade,
+            'total_custo_mensal': total_custo_mensal
         }
 
     def gerar_link(self):

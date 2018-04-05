@@ -142,9 +142,10 @@ class Logica(object):
         #  CALCULAR TOTAL ATENDIDOS
 
         for time in self.times:
-            capacidade_ocupada = self.calcular_total_atendidos(time,demanda)
+            capacidade_ocupada,entrada,saida = self.calcular_total_atendidos(time,demanda)
             # salvar em estatisticas
-            time.estatisticas.nova_rodada(0,0,demanda, capacidade_ocupada) #substituir os 0,0 por entrada e saida
+            print(capacidade_ocupada,entrada,saida)
+            time.estatisticas.nova_rodada(entrada,saida,demanda, capacidade_ocupada) #substituir os 0,0 por entrada e saida
 
 
     def calcular_total_atendidos(self, time, demanda):
@@ -152,38 +153,44 @@ class Logica(object):
         areas = Area.objects.all()
         classes = Classe_Social.objects.all()
 
-            #  VERIFICAR SE AS CLASSES SAO DE ACORDO
+        #  VERIFICAR SE AS CLASSES SAO DE ACORDO
 
-            capacidade_ocupada = {}
+        capacidade_ocupada = {}
+        entrada = 0
+        saida = 0
+        atr_med = self.times[time].atributos_medicos()
+        for ar in areas:
 
-            atr_med = self.times[time].atributos_medicos()
-            for ar in areas:
+            atr_mod = self.times[time].atributos_modulos(ar)
 
-                atr_mod = self.times[time].atributos_modulos(ar)
+            capacidade_disponivel = atr_mod['capacidade']
 
-                capacidade_disponivel = atr_mod['capacidade']
+            for classe in classes:
+                if classe.media_conforto <= atr_mod['conforto'] and classe.nivel_tecnologia <= atr_mod['tecnologia'] and classe.preco_atendimento <= atr_mod['preco_do_tratamento'] and classe.nivel_especialidade <= atr_med['expertise'] and classe.velocidade_atendimento <= atr_med['atendimento']:
+                     #faltou o pontualidade. E velocidade_atendimento = atendimento?
 
-                for classe in classes:
-                    if classe.media_conforto <= atr_mod['conforto'] and classe.nivel_tecnologia <= atr_mod['tecnologia'] and classe.preco_atendimento <= atr_mod['preco_do_tratamento'] and classe.nivel_especialidade <= atr_med['expertise'] and classe.velocidade_atendimento <= atr_med['atendimento']:
-                         #faltou o pontualidade. E velocidade_atendimento = atendimento?
+                     # Se o IF for verdadeiro, então pode atender essa classe!
+                    print("pode atender essa classe ", classe )
 
-                         # Se o IF for verdadeiro, então pode atender essa classe!
-                        print("pode atender essa classe ", classe )
+                    # CALCULAR TOTAL DE ATENDIDOS
+                    print("demanda dessa area classe: ", demanda[ar.nome][classe.nome])
+                            # VER SE ACESSA A DEMANDA ASSIM
+                    if demanda[ar.nome][classe.nome] < capacidade_disponivel:
+                        capacidade_disponivel -= demanda[ar.nome][classe.nome]
+                    elif capacidade_disponivel > 0:
+                        capacidade_disponivel = 0
+                        break
+            print("capacidade disponivel", capacidade_disponivel)
 
-                        # CALCULAR TOTAL DE ATENDIDOS
-                        print("demanda dessa area classe: ", demanda[ar.nome][classe.nome])
-                                # VER SE ACESSA A DEMANDA ASSIM
-                        if demanda[ar.nome][classe.nome] < capacidade_disponivel:
-                            capacidade_disponivel -= demanda[ar.nome][classe.nome]
-                        elif capacidade_disponivel > 0:
-                            capacidade_disponivel = 0
-                            break
-                print("capacidade disponivel", capacidade_disponivel)
-                # CALCULAR DEPOIS O DINHEIRO GANHO COM ISSO
-                # IRA UTILIZAR ALGO COMO
-                capacidade_ocupada[ar.nome] = atr_mod['capacidade'] - capacidade_disponivel
+            # CALCULAR DEPOIS O DINHEIRO GANHO COM ISSO
+            # IRA UTILIZAR ALGO COMO
+            capacidade_ocupada[ar.nome] = atr_mod['capacidade'] - capacidade_disponivel
+            entrada= entrada + capacidade_ocupada[ar.nome] * atr_mod['preco_do_tratamento']
+            saida = saida + atr_mod['total_custo_mensal']
 
-            return capacidade_ocupada
+        saida = saida + atr_med['total_salarios']
+
+        return capacidade_ocupada,entrada,saida
 
     def nova_rodada(self):
         # TODO: tratar sincronização das threads
