@@ -12,8 +12,8 @@ class Estatistica:
         self.entrada.append(0)
         self.saida.append(0)
         self.caixa.append(caixa_inicial)
-        self.demanda.append(none)
-        self.total_atendidos.append(none)
+        self.demanda.append(None)
+        self.total_atendidos.append(None)
 
 
     def nova_rodada(self, entrada, saida, demanda, total_atendidos):
