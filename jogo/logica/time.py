@@ -7,15 +7,21 @@ class Estatistica:
         self.entrada = []
         self.saida = []
         self.caixa = []
+        self.demanda = [] # lista de dicionarios
+        self.total_atendidos = [] # lista de dicionarios
         self.entrada.append(0)
         self.saida.append(0)
         self.caixa.append(caixa_inicial)
+        self.demanda.append(none)
+        self.total_atendidos.append(none)
 
 
-    def nova_rodada(self, entrada, saida):
+    def nova_rodada(self, entrada, saida, demanda, total_atendidos):
         self.entrada.append(entrada)
         self.saida.append(saida)
         self.caixa.append(self.caixa[-1] + entrada - saida)
+        self.demanda.append(demanda)
+        self.total_atendidos.append(total_atendidos)
 
 
     def get_ultimo_caixa(self):
