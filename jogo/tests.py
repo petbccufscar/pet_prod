@@ -4,12 +4,13 @@ from jogo.models import Rodada, Modulo, Area
 from jogo.logica.time import Time
 
 class TesteLogica(TestCase):
+    fixtures = ['jogo/initial_data.json']
     def setUp(self):
-        Rodada.objects.create(numeroRodada=1,duracao=1)
-        Rodada.objects.create(numeroRodada=1,duracao=1)
+        pass
 
     def test_inicializacao(self):
         rodadas = Rodada.objects.all()
+        print(len(rodadas))
         times = []
         lj.inicializa_jogo(rodadas, times)
 
@@ -27,8 +28,8 @@ class TesteLogica(TestCase):
     def test_atributos_modulos(self):
         Area.objects.create(nome="1")
         ar = Area.objects.get(nome="1")
-        Modulo.objects.create(codigo=1,area=ar,custo_de_aquisicao=100,custo_mensal=100,tecnologia=1,conforto=1,capacidade=10,preco_do_tratamento=100)
-        Modulo.objects.create(codigo=2, area=ar, custo_de_aquisicao=200, custo_mensal=200, tecnologia=3, conforto=3, capacidade=20, preco_do_tratamento=200)
+        #Modulo.objects.create(codigo=1,area=ar,custo_de_aquisicao=100,custo_mensal=100,tecnologia=1,conforto=1,capacidade=10,preco_do_tratamento=100)
+        #Modulo.objects.create(codigo=2, area=ar, custo_de_aquisicao=200, custo_mensal=200, tecnologia=3, conforto=3, capacidade=20, preco_do_tratamento=200)
 
         import jogo.logica.time as time
         obj = time.Time()

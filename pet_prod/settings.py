@@ -70,6 +70,10 @@ TEMPLATES = [
     },
 ]
 
+FIXTURE_DIRS = (
+	'/jogo/fixtures/jogo',
+)
+
 WSGI_APPLICATION = 'pet_prod.wsgi.application'
 
 CHANNEL_LAYERS = {
