@@ -2,37 +2,48 @@ from django.test import TestCase
 from jogo.logica import logica_de_jogo as lj
 from jogo.models import Rodada, Modulo, Area
 from jogo.logica.time import Time
+from jogo.logica.logica_de_jogo import Logica
+import jogo.logica.time as time
 
 class TesteLogica(TestCase):
+    fixtures = ['jogo/initial_data.json']
+    JogoAtual = None
     def setUp(self):
-        Rodada.objects.create(numeroRodada=1,duracao=1)
-        Rodada.objects.create(numeroRodada=1,duracao=1)
-
-    def test_inicializacao(self):
-        rodadas = Rodada.objects.all()
-        times = []
-        lj.inicializa_jogo(rodadas, times)
-
-    def test_comprar_modulo(self):
-        rodadas = Rodada.objects.all()
         times = []
         time1 = Time("time1")
         times.append(time1)
-        lj.inicializa_jogo(rodadas, times)
-        lj.JogoAtual.modulos.append(0)
-        lj.JogoAtual.comprar_modulo("time1",0)
-        assert(len(time1.modulos) == 1)
-        lj.JogoAtual.comprar_modulo("time1",0)
+        rodadas = Rodada.objects.all()
+        TesteLogica.JogoAtual = Logica(len(rodadas), len(times), rodadas)
+        for time in times:
+            TesteLogica.JogoAtual.add_time(time)
+
+    def test_comprar_modulo(self):
+        timeT = Time("timeT")
+        TesteLogica.JogoAtual.modulos.append(0)
+        TesteLogica.JogoAtual.add_time(timeT)
+        TesteLogica.JogoAtual.comprar_modulo("timeT",0)
+        assert(len(timeT.modulos) == 1)
+        TesteLogica.JogoAtual.comprar_modulo("timeT",0)
 
     def test_atributos_modulos(self):
-        Area.objects.create(nome="1")
-        ar = Area.objects.get(nome="1")
-        Modulo.objects.create(codigo=1,area=ar,custo_de_aquisicao=100,custo_mensal=100,tecnologia=1,conforto=1,capacidade=10,preco_do_tratamento=100)
-        Modulo.objects.create(codigo=2, area=ar, custo_de_aquisicao=200, custo_mensal=200, tecnologia=3, conforto=3, capacidade=20, preco_do_tratamento=200)
+        resultado_esperado = {
+            'tecnologia': 0,
+            'conforto': 0,
+            'preco_do_tratamento': 0,
+            'capacidade': 0
+        }
 
-        import jogo.logica.time as time
         obj = time.Time()
+        """Quando o time não tem modulos"""
+        assert(resultado_esperado == obj.atributos_modulos("Psicologia"))
+
         obj.adicionar_modulo(1)
         obj.adicionar_modulo(2)
-        obj.modulos
-        obj.atributos_modulos("1")
+        resultado_esperado = {
+            'tecnologia': 1.5,
+            'conforto': 2.5,
+            'preco_do_tratamento': 25.0,
+            'capacidade': 255
+        }
+        """Quando o time tem modulos"""
+        assert(resultado_esperado == obj.atributos_modulos("Psicologia"))
