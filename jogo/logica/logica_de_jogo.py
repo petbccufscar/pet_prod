@@ -142,15 +142,15 @@ class Logica(object):
         #  CALCULAR TOTAL ATENDIDOS
 
         for time in self.times:
-            self.calcular_total_atendidos(time,demanda)
-
+            capacidade_ocupada = self.calcular_total_atendidos(time,demanda)
+            # salvar em estatisticas
+            time.estatisticas.nova_rodada(0,0,demanda, capacidade_ocupada) #substituir os 0,0 por entrada e saida
 
 
     def calcular_total_atendidos(self, time, demanda):
         print("CALCULANDO ")
         areas = Area.objects.all()
         classes = Classe_Social.objects.all()
-
 
             #  VERIFICAR SE AS CLASSES SAO DE ACORDO
 
@@ -182,6 +182,8 @@ class Logica(object):
                 # CALCULAR DEPOIS O DINHEIRO GANHO COM ISSO
                 # IRA UTILIZAR ALGO COMO
                 capacidade_ocupada[ar.nome] = atr_mod['capacidade'] - capacidade_disponivel
+
+            return capacidade_ocupada
 
     def nova_rodada(self):
         # TODO: tratar sincronização das threads
