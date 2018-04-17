@@ -8,6 +8,9 @@ def ws_add_on_rodada(message):
     message.reply_channel.send({"accept": True})
     Group("rodada").add(message.reply_channel)
 
+def ws_add_on_timer(message):
+    message.reply_channel.send({"accept": True})
+    Group("timer").add(message.reply_channel)
 # Connected to websocket.receive
 def ws_message(message):
     pass

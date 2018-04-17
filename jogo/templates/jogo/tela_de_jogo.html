@@ -1,8 +1,28 @@
-{% extends 'base.html' %}
-{% block tela_de_jogo %}class="active"{% endblock %}
-{% block tela_de_jogo_span %}<span class="sr-only">(current)</span>{% endblock %}
-{% block body %}
 {% load staticfiles%}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse" style="text-align:center">
+  <div class="container-fluid">
+    <div class="navbar-header" style="display:none">
+      <a class="navbar-brand" href="#">Joginho</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a id="t_rodada" href="#">Rodada: 1</a></li>
+    </ul>
+    <ul align="center"style="display:inline-block;float:none" class="nav navbar-nav">
+      <li class="active"><a id="t_timer" href="#">00:00</a></li>
+    </ul>
+  </div>
+</nav>
+
   <div class="container">
     <p><br>Time: {{nome_time}}</p>
     <p id ="r_contador">1</p>
@@ -40,4 +60,4 @@
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/tela_de_jogo.js' %}"></script>
   </div>
-{% endblock body %}
+</body>

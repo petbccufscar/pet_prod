@@ -145,7 +145,8 @@ class Logica(object):
             capacidade_ocupada,entrada,saida = self.calcular_total_atendidos(time,demanda)
             # salvar em estatisticas
             print(capacidade_ocupada,entrada,saida)
-            time.estatisticas.nova_rodada(entrada,saida,demanda, capacidade_ocupada) #substituir os 0,0 por entrada e saida
+            # TODO: ta dando erro nessa chamada de função
+            #time.estatisticas.nova_rodada(entrada,saida,demanda, capacidade_ocupada) #substituir os 0,0 por entrada e saida
 
 
     def calcular_total_atendidos(self, time, demanda):
@@ -202,9 +203,9 @@ class Logica(object):
 
         # setup da nova rodada
         self.rodada_atual = self.rodada_atual + 1
-        print(self.rodada_atual)
+        #print(self.rodada_atual)
         Group("rodada").send({
-        "text": "Rodada Atual: %s" % str(self.rodada_atual),
+        "text": "Rodada: %s" % str(self.rodada_atual + 1),
         })
 
         if(self.rodada_atual == len(self.rodadas)):
@@ -224,6 +225,12 @@ class Logica(object):
             anterior = datetime.datetime.utcnow()
             timer = timer - delta_time.microseconds - delta_time.seconds*1000000
             #print(timer)
-            sleep(0.1)
+            segundos = (round(timer/1e6)) % 60
+            minutos = (round(timer)/1e6)/60
+            Group("timer").send({
+            "text" : "%02d:%02d" % (minutos, segundos),
+            })
+            #print("timer: %0d" % (timer /1e6))
+            sleep(0.5)
             if(timer < 0):
                 timer = self.nova_rodada()

@@ -81,8 +81,14 @@ function despedir_medico() {
 document.getElementById("r_contador").innerHTML = "Rodada Atual: 1";
 socket_rodada = new WebSocket("ws://" + window.location.host + "/rodada/");
 socket_rodada.onmessage = function(e) {
-    document.getElementById("r_contador").innerHTML = e.data;
+    document.getElementById("t_rodada").innerHTML = e.data;
 }
+
+socket_rodada = new WebSocket("ws://" + window.location.host + "/timer/");
+socket_rodada.onmessage = function(e) {
+    document.getElementById("t_timer").innerHTML = e.data;
+}
+
 
 socket_rodada.onopen = function() {
     socket_rodada.send("hello world");
