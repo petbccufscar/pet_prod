@@ -530,3 +530,6 @@ def pre_jogo_3(request):
 
 def pre_jogo_5(request):
     return render(request, 'pre_jogo/tela_pre_jogo_5.html',{})
+
+def pre_jogo(request):
+    return render(request, 'pre_jogo/tela_pre_jogo.html',{})

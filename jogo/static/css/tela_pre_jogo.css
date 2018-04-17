@@ -1,0 +1,35 @@
+
+
+.btn.btn-default.inline {
+    width:25px;
+    height:25px;
+    text-align: center;
+    padding: 0px 0px 0px 0px;
+    align-self: rigth;
+}
+
+tbody td, thead th {
+    width: 200px;
+}
+
+tbody{
+  display: block;
+  height: 290px;
+  overflow-y: auto;
+  overflow-x: hidden
+}
+
+.table.borded{
+  width: 300px;
+  height: 300px;
+  border-collapse:separate;
+  border:solid #ddd 1px;
+  border-radius:6px;
+  -moz-border-radius:6px;
+}
+.passo{
+  display: none;
+}
+.cabecalho{
+    text-align: center;
+}
