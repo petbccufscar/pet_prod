@@ -1,12 +1,31 @@
-var passoAtual = 1;
+var passoAtual = 0;
 mostraPasso(passoAtual)
 var emprestimos = [];
 
 function mostraPasso(n) {
   var x = document.getElementsByClassName("passo");
-  x[passoAtual].style.display = "none";
   x[n].style.display = "block";
-  passoAtual = n;
+  if (n == 0) {
+    document.getElementById("voltBtn").style.display = "none";
+  } else {
+    document.getElementById("voltBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("proxBtn").innerHTML = "Finalizar";
+  } else {
+    document.getElementById("proxBtn").innerHTML = "Avançar";
+  }
+}
+
+function avancarPasso(n){
+
+  var x = document.getElementsByClassName("passo");
+  x[passoAtual].style.display = "none";
+  if(passoAtual + n >= x.length){
+      return;
+  }
+  passoAtual = passoAtual + n;
+  mostraPasso(passoAtual);
 }
 
 
