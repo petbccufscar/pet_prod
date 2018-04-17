@@ -8,14 +8,14 @@
 
 <br><br><br>
 <div class="passo">
-  <table class="table borded" id="my_table" align="center">
+  <table class="table borded" id="t_times" align="center">
      <thead style="display: block;">
       <tr>
           <th class = "cabecalho" colspan=2>Times</th>
       </tr>
        <tr>
          <th>
-           <input style="width:200px" input type="text" id="my_input" class="form-control" placeholder="Digite o nome do time" align="center" value="" required>
+           <input style="width:200px" input type="text" id="in_times" class="form-control" placeholder="Digite o nome do time" align="center" value="" required>
          </th>
          <th>
            <button type="submit" onclick="adiciona_time()" class="btn btn-primary">Adicionar time</button>
@@ -26,13 +26,77 @@
    </table>
 </div>
 
+<!--Passo 4-->
+<style>
+
+.table.borded{
+  width: 460px;
+}
+
+.linha_normal{
+  vertical-align:middle;
+}
+
+</style>
+
+<div class="passo">
+<table class="table borded" id="my_table" align="center">
+   <thead style="display: block;">
+    <tr>
+        <th class = "cabecalho" colspan=3>Módulos</th>
+    </tr>
+     <tr>
+       <th class = "linha_normal">
+         <div style="height:50px;text-align:center;line-height:50px":>Valores padrão</div>
+       </th>
+       <th>
+         <div align = "center">
+           <font size = "1"><center> Quantidade </center></font>
+         </div>
+         <div align = "center">
+           <input style="width:100px; height:22px; font-size:10px " type="number" id="my_input" class="form-control" placeholder="" value="1" required>
+         </div>
+       </th>
+       <th style="width:250px">
+         <div>
+           <font size = "1"><center> Selecionar todos </center></font>
+         </div>
+         <div align = "center">
+           <input type="checkbox" align="center">
+         </div>
+
+       </th>
+     </tr>
+   </thead>
+   <tbody>
+   {% for modulo in modulos %}
+    <tr>
+      <td>
+        <div style = "width: 175px" align = "center">{{modulo.id}}</div>
+      </td>
+      <td>
+        <div style = "width: 140px" align = "center">
+          <input style="width:100px; height:22px; font-size:10px " type="number" id="my_input" class="form-control" placeholder="" value="1" required>
+        </div>
+      </td>
+      <td>
+        <div style = "margin-left: 25px" align = "left">
+          <input type="checkbox" align="center">
+        </div>
+      <td>
+    </tr>
+    {% endfor %}
+   </tbody>
+ </table>
+</div>
+
+<!--Passo 5-->
 <style>
  .table.borded{
    width: 200px;
  }
  </style>
 
- <!--Passo 5-->
 
 <div class="passo">
  <table class="table borded" id="t_emprestimo" align="center">
@@ -57,7 +121,6 @@
     <button type="submit" id="proxBtn" onclick="avancarPasso(1)"class="btn btn-primary">Avançar</button>
   </div>
 </div>
-<script src="{% static 'js/tela_pre_jogo_1.js' %}"></script>
 <script src="{% static 'js/tela_pre_jogo.js' %}"></script>
 
 {% endblock body %}
