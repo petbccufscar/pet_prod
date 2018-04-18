@@ -14,6 +14,9 @@ class Estatistica:
         self.caixa.append(caixa_inicial)
         self.demanda.append(None)
         self.total_atendidos.append(None)
+        self.comprasModulo = []
+        self.comprasModulo.append(0)
+        self.comprasModulo.append(0)
 
 
     def nova_rodada(self, entrada, saida, demanda, total_atendidos):
@@ -22,6 +25,7 @@ class Estatistica:
         self.caixa.append(self.caixa[-1] + entrada - saida)
         self.demanda.append(demanda)
         self.total_atendidos.append(total_atendidos)
+        self.comprasModulo.append(0)
 
 
     def get_ultimo_caixa(self):
@@ -136,3 +140,47 @@ class Time:
     def gerar_link(self):
         pass
         # TODO: gerar link (logica do jogo)
+
+
+    def calcular_total_atendidos(self, demanda, areas, classes):
+        print("CALCULANDO ")
+
+
+        #  VERIFICAR SE AS CLASSES SAO DE ACORDO
+
+        capacidade_ocupada = {}
+        entrada = 0
+        saida = 0
+        atr_med = self.atributos_medicos()
+        for ar in areas:
+
+            atr_mod = self.atributos_modulos(ar)
+
+            capacidade_disponivel = atr_mod['capacidade']
+
+            for classe in classes:
+                if classe.media_conforto <= atr_mod['conforto'] and classe.nivel_tecnologia <= atr_mod['tecnologia'] and classe.preco_atendimento <= atr_mod['preco_do_tratamento'] and classe.nivel_especialidade <= atr_med['expertise'] and classe.velocidade_atendimento <= atr_med['atendimento']:
+                     #faltou o pontualidade. E velocidade_atendimento = atendimento?
+
+                     # Se o IF for verdadeiro, então pode atender essa classe!
+                    print("pode atender essa classe ", classe )
+
+                    # CALCULAR TOTAL DE ATENDIDOS
+                    print("demanda dessa area classe: ", demanda[ar.nome][classe.nome])
+                            # VER SE ACESSA A DEMANDA ASSIM
+                    if demanda[ar.nome][classe.nome] < capacidade_disponivel:
+                        capacidade_disponivel -= demanda[ar.nome][classe.nome]
+                    elif capacidade_disponivel > 0:
+                        capacidade_disponivel = 0
+                        break
+            print("capacidade disponivel", capacidade_disponivel)
+
+            # CALCULAR DEPOIS O DINHEIRO GANHO COM ISSO
+
+            capacidade_ocupada[ar.nome] = atr_mod['capacidade'] - capacidade_disponivel
+            entrada= entrada + capacidade_ocupada[ar.nome] * atr_mod['preco_do_tratamento']
+            saida = saida + atr_mod['total_custo_mensal']
+
+        saida = saida + atr_med['total_salarios']
+
+        return capacidade_ocupada, entrada, saida

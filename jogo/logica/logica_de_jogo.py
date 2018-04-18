@@ -79,6 +79,8 @@ class Logica(object):
     def comprar_modulo(self, id_time, id_modulo):
         if id_modulo in self.modulos:           # fazer verificação se existe esse módulo
             self.times[id_time].modulos.append(id_modulo)
+            self.times[id_time].comprasModulo[self.times[id_time].comprasModulo.size() - 1] += Modulo.objects.get(codigo=id_modulo).custo_de_aquisicao
+            self.times[id_time].caixa[self.times[id_time].caixa.size() - 1] -= self.times[id_time].comprasModulo[self.times[id_time].comprasModulo.size() - 1]
             return True
         else:
             return False
@@ -141,57 +143,16 @@ class Logica(object):
 
         #  CALCULAR TOTAL ATENDIDOS
 
+        areas = Area.objects.all()
+        classes = Classe_Social.objects.all()
         for time in self.times:
-            capacidade_ocupada,entrada,saida = self.calcular_total_atendidos(time,demanda)
+            capacidade_ocupada, entrada, saida = self.times[time].calcular_total_atendidos(demanda, areas, classes)
             # salvar em estatisticas
             print(capacidade_ocupada,entrada,saida)
             # TODO: ta dando erro nessa chamada de função
-            #time.estatisticas.nova_rodada(entrada,saida,demanda, capacidade_ocupada) #substituir os 0,0 por entrada e saida
+            #time.estatisticas.nova_rodada(entrada,saida,demanda, capacidade_ocupada)
 
 
-    def calcular_total_atendidos(self, time, demanda):
-        print("CALCULANDO ")
-        areas = Area.objects.all()
-        classes = Classe_Social.objects.all()
-
-        #  VERIFICAR SE AS CLASSES SAO DE ACORDO
-
-        capacidade_ocupada = {}
-        entrada = 0
-        saida = 0
-        atr_med = self.times[time].atributos_medicos()
-        for ar in areas:
-
-            atr_mod = self.times[time].atributos_modulos(ar)
-
-            capacidade_disponivel = atr_mod['capacidade']
-
-            for classe in classes:
-                if classe.media_conforto <= atr_mod['conforto'] and classe.nivel_tecnologia <= atr_mod['tecnologia'] and classe.preco_atendimento <= atr_mod['preco_do_tratamento'] and classe.nivel_especialidade <= atr_med['expertise'] and classe.velocidade_atendimento <= atr_med['atendimento']:
-                     #faltou o pontualidade. E velocidade_atendimento = atendimento?
-
-                     # Se o IF for verdadeiro, então pode atender essa classe!
-                    print("pode atender essa classe ", classe )
-
-                    # CALCULAR TOTAL DE ATENDIDOS
-                    print("demanda dessa area classe: ", demanda[ar.nome][classe.nome])
-                            # VER SE ACESSA A DEMANDA ASSIM
-                    if demanda[ar.nome][classe.nome] < capacidade_disponivel:
-                        capacidade_disponivel -= demanda[ar.nome][classe.nome]
-                    elif capacidade_disponivel > 0:
-                        capacidade_disponivel = 0
-                        break
-            print("capacidade disponivel", capacidade_disponivel)
-
-            # CALCULAR DEPOIS O DINHEIRO GANHO COM ISSO
-            # IRA UTILIZAR ALGO COMO
-            capacidade_ocupada[ar.nome] = atr_mod['capacidade'] - capacidade_disponivel
-            entrada= entrada + capacidade_ocupada[ar.nome] * atr_mod['preco_do_tratamento']
-            saida = saida + atr_mod['total_custo_mensal']
-
-        saida = saida + atr_med['total_salarios']
-
-        return capacidade_ocupada,entrada,saida
 
     def nova_rodada(self):
         # TODO: tratar sincronização das threads
