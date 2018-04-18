@@ -531,8 +531,14 @@ def tela_de_jogo(request, nome_time):
 def pre_jogo_1(request):
     return render(request, 'pre_jogo/tela_pre_jogo_1.html',{})
 
+def pre_jogo_2(request):
+    return render(request, 'pre_jogo/tela_pre_jogo_2.html',{})
+
 def pre_jogo_3(request):
     return render(request, 'pre_jogo/tela_pre_jogo_3.html',{})
+
+def pre_jogo_4(request):
+    return render(request, 'pre_jogo/tela_pre_jogo_4.html',{})
 
 def pre_jogo_5(request):
     return render(request, 'pre_jogo/tela_pre_jogo_5.html',{})

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block tela_pre_jogo_1 %}class="active"{% endblock %}
+{% block tela_pre_jogo_1_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% block body %}
+{% load staticfiles%}
+
+<style>
+.btn.btn-default.inline {
+    width:25px;
+    height:25px;
+    text-align: center;
+    padding: 0px 0px 0px 0px;
+    align-self: rigth;
+}
+tbody td, thead th {
+    width: 200px;
+}
+.table.borded{
+  width: 300px;
+  height: 300px;
+  border-collapse:separate;
+  border:solid #ddd 1px;
+  border-radius:6px;
+  -moz-border-radius:6px;
+}
+tbody{
+  display: block;
+  height: 290px;
+  overflow-y: auto;
+  overflow-x: hidden
+}
+
+.cabecalho{
+    text-align: center;
+}
+</style>
+
+<br><br><br>
+
+ <div class="row top-buffer">
+     <div class="col-xs-2 col-xs-offset-5 text-center">
+         <a href="{%url 'jogo:pre_jogo_3'%}"><button type="submit" class="btn btn-primary">Voltar</button></a>
+         <a href="{%url 'jogo:pre_jogo_5'%}"><button type="submit" class="btn btn-primary">Avançar</button></a>
+     </div>
+ </div>
+
+ <script src="{% static 'js/tela_pre_jogo_1.js' %}"></script>
+
+{% endblock body %}
