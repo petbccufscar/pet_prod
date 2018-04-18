@@ -5,10 +5,13 @@ from time import sleep
 from channels import Group
 from time import sleep
 from django.http import HttpResponse
+from django.core import serializers
 import datetime
 from random import randint
 import _thread
 import random
+import simplejson
+import datetime
 
 #para teste
 JogoAtual = None
@@ -50,6 +53,13 @@ def despedir_medico(request, nome_time):
     print(request.POST["medico_id"], nome_time)
     print("despedido")
     return HttpResponse("despedido")
+
+def busca_modulo(request, nome_time):
+    print(request.POST["modulo_id"], nome_time)
+    print("buscou id")
+    data = serializers.serialize("json", [Modulo.objects.get(codigo = request.POST["modulo_id"]),])
+    print(data)
+    return HttpResponse(data)
 
 
 class Logica(object):
