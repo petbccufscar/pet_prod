@@ -3,6 +3,7 @@
 {% block tela_pre_jogo_1_span %}<span class="sr-only">(current)</span>{% endblock %}
 {% block body %}
 {% load staticfiles%}
+{% csrf_token %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/tela_pre_jogo.css' %}">
 <!--Passo 1-->
 
@@ -106,7 +107,7 @@
           <input style="width:120px" type="number" id="in_emprestimo" class="form-control" placeholder="" value="" required>
         </th>
         <th>
-          <button type="submit" onclick="adiciona_emprestimo()" class="btn btn-primary">Vender Modulo</button>
+          <button type="submit" onclick="adiciona_emprestimo()" class="btn btn-primary">Adicionar Emprestimo</button>
         </th>
       </tr>
     </thead>

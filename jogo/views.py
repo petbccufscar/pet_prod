@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+import json
 from django.http import HttpResponse #utilizado apenas para teste
 # NAO ESQUEÇAM DE ATUALIZAR OS IMPORTS
 from .models import Medico, Modulo
@@ -506,6 +507,10 @@ def modulo_delete(request, id):
     return HttpResponseRedirect('/modulo')
 
 def iniciar_jogo(request):
+    params = json.loads(request.POST["js"])
+    print(params)
+
+    """
     #TODO: codigo de inicialização de jogo
     rodadas = Rodada.objects.all()
     times = [] #TODO: inicializar times
@@ -514,7 +519,8 @@ def iniciar_jogo(request):
     times.append(LTime("time2"))
     times.append(LTime("time3"))
     logica_jogo.inicializa_jogo(rodadas, times)
-    return HttpResponse("Iniciou")
+    """
+    return render(request, 'jogo/base_aplicar_dinamica.html', {"times":params["times"]})
 
 def tela_de_jogo(request, nome_time):
     if logica_jogo.JogoAtual is None:
@@ -532,4 +538,5 @@ def pre_jogo_5(request):
     return render(request, 'pre_jogo/tela_pre_jogo_5.html',{})
 
 def pre_jogo(request):
-    return render(request, 'pre_jogo/tela_pre_jogo.html',{})
+    modulos = Modulo.objects.all()
+    return render(request, 'pre_jogo/tela_pre_jogo.html',{"modulos": modulos})
