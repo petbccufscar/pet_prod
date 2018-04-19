@@ -39,13 +39,16 @@ def vender_modulo(request, nome_time):
 
 
 def comprar_modulo(request, nome_time):
+    print("COMPREI UM MODULO")
     print(request.POST["modulo_id"], nome_time)
+    JogoAtual.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
     JogoAtual.encerrar_rodada()
     return HttpResponse("comprado")
 
 def contratar_medico(request, nome_time):
     print(request.POST["medico_id"], nome_time)
     print("contratado")
+    JogoAtual.comprar_medico(nome_time,int(request.POST["medico_id"]))
     return HttpResponse("contratado")
 
 
@@ -78,8 +81,8 @@ class Logica(object):
         mod = Modulo.objects.all()
         #TODO: isso deve ser pego da interface
         for medico in med:
-            # inicia todos os perfis existentes no bd com 0 médicos
-            self.medicos[medico.perfil] = 0
+            # inicia todos os perfis existentes no bd com 3 médicos
+            self.medicos[medico.perfil] = 3
         for modulo in mod:
             self.modulos.append(modulo.codigo)
 
@@ -89,8 +92,8 @@ class Logica(object):
     def comprar_modulo(self, id_time, id_modulo):
         if id_modulo in self.modulos:           # fazer verificação se existe esse módulo
             self.times[id_time].modulos.append(id_modulo)
-            self.times[id_time].comprasModulo[self.times[id_time].comprasModulo.size() - 1] += Modulo.objects.get(codigo=id_modulo).custo_de_aquisicao
-            self.times[id_time].caixa[self.times[id_time].caixa.size() - 1] -= self.times[id_time].comprasModulo[self.times[id_time].comprasModulo.size() - 1]
+            self.times[id_time].estatisticas.comprasModulo[len(self.times[id_time].estatisticas.comprasModulo) - 1] += Modulo.objects.get(codigo=id_modulo).custo_de_aquisicao
+            self.times[id_time].estatisticas.caixa[len(self.times[id_time].estatisticas.caixa) - 1] -= self.times[id_time].estatisticas.comprasModulo[len(self.times[id_time].estatisticas.comprasModulo) - 1]
             return True
         else:
             return False
@@ -152,15 +155,14 @@ class Logica(object):
             demanda[i.area.nome] = classeSocialDict
 
         #  CALCULAR TOTAL ATENDIDOS
-
         areas = Area.objects.all()
         classes = Classe_Social.objects.all()
-        for time in self.times:
-            capacidade_ocupada, entrada, saida = self.times[time].calcular_total_atendidos(demanda, areas, classes)
+        for time in self.times.values():
+            capacidade_ocupada, entrada, saida = time.calcular_total_atendidos(demanda, areas, classes)
             # salvar em estatisticas
-            print(capacidade_ocupada,entrada,saida)
+            #print("Entao, pra cada time: ", capacidade_ocupada,entrada,saida)
             # TODO: ta dando erro nessa chamada de função
-            #time.estatisticas.nova_rodada(entrada,saida,demanda, capacidade_ocupada)
+            time.estatisticas.nova_rodada(entrada,saida,demanda, capacidade_ocupada)
 
 
 

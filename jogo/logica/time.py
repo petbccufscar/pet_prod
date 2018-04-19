@@ -9,15 +9,11 @@ class Estatistica:
         self.caixa = []
         self.demanda = [] # lista de dicionarios
         self.total_atendidos = [] # lista de dicionarios
-        self.entrada.append(0)
-        self.saida.append(0)
         self.caixa.append(caixa_inicial)
         self.demanda.append(None)
         self.total_atendidos.append(None)
         self.comprasModulo = []
         self.comprasModulo.append(0)
-        self.comprasModulo.append(0)
-
 
     def nova_rodada(self, entrada, saida, demanda, total_atendidos):
         self.entrada.append(entrada)
@@ -26,6 +22,7 @@ class Estatistica:
         self.demanda.append(demanda)
         self.total_atendidos.append(total_atendidos)
         self.comprasModulo.append(0)
+        #print("TEM CAIXA: ", self.caixa)
 
 
     def get_ultimo_caixa(self):
@@ -123,7 +120,7 @@ class Time:
         }
         for modulo_id in self.modulos:
             mod = Modulo.objects.get(codigo=modulo_id)
-            if mod.area.nome == area: # transformar para id
+            if mod.area.nome == area.nome: # transformar para id
                 tecnologia += mod.tecnologia
                 conforto += mod.conforto
                 preco_do_tratamento += mod.preco_do_tratamento
@@ -143,8 +140,7 @@ class Time:
 
 
     def calcular_total_atendidos(self, demanda, areas, classes):
-        print("CALCULANDO ")
-
+        #print("CALCULANDO ")
 
         #  VERIFICAR SE AS CLASSES SAO DE ACORDO
 
@@ -153,27 +149,27 @@ class Time:
         saida = 0
         atr_med = self.atributos_medicos()
         for ar in areas:
-
             atr_mod = self.atributos_modulos(ar)
-
             capacidade_disponivel = atr_mod['capacidade']
 
             for classe in classes:
-                if classe.media_conforto <= atr_mod['conforto'] and classe.nivel_tecnologia <= atr_mod['tecnologia'] and classe.preco_atendimento <= atr_mod['preco_do_tratamento'] and classe.nivel_especialidade <= atr_med['expertise'] and classe.velocidade_atendimento <= atr_med['atendimento']:
+
+
+                if classe.media_conforto <= atr_mod['conforto'] and classe.nivel_tecnologia <= atr_mod['tecnologia'] and classe.preco_atendimento >= atr_mod['preco_do_tratamento'] and classe.nivel_especialidade <= atr_med['expertise'] and classe.velocidade_atendimento <= atr_med['atendimento']:
                      #faltou o pontualidade. E velocidade_atendimento = atendimento?
 
                      # Se o IF for verdadeiro, então pode atender essa classe!
-                    print("pode atender essa classe ", classe )
+                    #print("pode atender essa classe ", classe )
 
                     # CALCULAR TOTAL DE ATENDIDOS
-                    print("demanda dessa area classe: ", demanda[ar.nome][classe.nome])
+                    #print("demanda dessa area classe: ", demanda[ar.nome][classe.nome])
                             # VER SE ACESSA A DEMANDA ASSIM
                     if demanda[ar.nome][classe.nome] < capacidade_disponivel:
                         capacidade_disponivel -= demanda[ar.nome][classe.nome]
                     elif capacidade_disponivel > 0:
                         capacidade_disponivel = 0
                         break
-            print("capacidade disponivel", capacidade_disponivel)
+            #print("capacidade disponivel", capacidade_disponivel)
 
             # CALCULAR DEPOIS O DINHEIRO GANHO COM ISSO
 
