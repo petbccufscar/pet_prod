@@ -10,7 +10,6 @@ import datetime
 from random import randint
 import _thread
 import random
-import simplejson
 import datetime
 
 #para teste
