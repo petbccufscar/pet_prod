@@ -26,7 +26,97 @@
      <tbody></tbody>
    </table>
 </div>
+<!--Passo 2-->
+<style>
+tbody td, thead th {
+    width: 200px;
+}
+.table.borded{
+  width: 300px;
+  height: 300px;
+  border-collapse:separate;
+  border:solid #ddd 1px;
+  border-radius:6px;
+  -moz-border-radius:6px;
+}
+tbody{
+  display: block;
+  height: 290px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 
+.cabecalho{
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+.container-da-tabela {
+    display: inline-block;
+    position: relative;
+}
+
+#popup-eventos {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 100px;
+    right: -220px;
+    display: none;
+}
+
+#popup-eventos li {
+    background-color: #f8f8f8;
+    border: #e7e7e7 1px solid;
+    list-style-type: none;
+    padding: 10px;
+    width: 200px;
+}
+
+</style>
+
+<br><br><br>
+
+
+    <div class="center">
+        <div class="container-da-tabela">
+            <table class="table borded" id="my_table" align="center">
+
+                <thead style="display: block;">
+                <tr>
+                    <th class = "cabecalho" colspan=2>Rodadas</th>
+                </tr>
+                 <tr>
+                   <th>
+                     <input style="width:200px" input type="text" id="my_input" class="form-control" placeholder="Duração da rodada (min)" align="center" value="" required>
+                   </th>
+                   <th>
+                     <button type="submit" onclick="adiciona_rodada()" class="btn btn-primary">Adicionar Rodada</button>
+                   </th>
+                 </tr>
+                </thead>
+
+                <tbody></tbody>
+            </table>
+            <ul id="popup-eventos">
+                <a href="#" onclick="atualiza_evento__rodada(this)"><li>Default</li></a>
+                <a href="#" onclick="atualiza_evento__rodada(this)"><li>Evento1</li></a>
+                <a href="#" onclick="atualiza_evento__rodada(this)"><li>Evento2</li></a>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row top-buffer">
+        <div class="col-xs-2 col-xs-offset-5 text-center">
+            <a href="{%url 'jogo:pre_jogo_1'%}"><button type="submit" class="btn btn-primary">Voltar</button></a>
+            <a href="{%url 'jogo:pre_jogo_3'%}"><button type="submit" class="btn btn-primary">Avançar</button></a>
+        </div>
+    </div>
+
+ <script src="{% static 'js/tela_pre_jogo_2.js' %}"></script>
 <!--Passo 4-->
 <style>
 
