@@ -40,10 +40,25 @@
     cursor: pointer;
 }
 
-
-.navbar{
-}
-ul{
+.nav{
+  height: 45px;
+  align-items: center;
+  display: flex;
+  background: #222;
+  flex: auto;
   padding: 0;
-   list-style-type: none;
+  list-style-type: none;
+}
+.nav-item{
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 100%;
+  align-content: center;
+  background: #080808;
+  line-height: 45px;
+  color: #fff;
+}
+.timer{
+  margin-left: auto;
+  margin-right: auto
 }

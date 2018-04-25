@@ -8,22 +8,15 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <title>{% block title %}{% endblock %}</title>
 </head>
-<body>
+<body style="display:flex;flex-direction:column">
 
-
-<nav class="navbar navbar-inverse" style="text-align:center">
-  <div class="container-fluid">
-    <div class="navbar-header" style="display:none">
-      <a class="navbar-brand" href="#">Joginho</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a id="t_rodada" href="#">Rodada: 1</a></li>
+<nav >
+    <ul class="nav">
+      <li class="nav-item" id="t_rodada">Rodada: 1</li>
+      <li class="nav-item timer" id="t_timer">00:00</li>
     </ul>
-    <ul align="center"style="display:inline-block;float:none" class="nav navbar-nav">
-      <li class="active"><a id="t_timer" href="#">00:00</a></li>
-    </ul>
-  </div>
 </nav>
+
 
   <div class="container">
     <p><br>Time: {{nome_time}}</p>
