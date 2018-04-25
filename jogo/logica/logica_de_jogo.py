@@ -90,6 +90,11 @@ class Logica(object):
 
     def comprar_modulo(self, id_time, id_modulo):
         if id_modulo in self.modulos:           # fazer verificação se existe esse módulo
+            # REVIEW: Muitos acessos a self.time[id_time]
+            # pode criar uma variavel 'time = self.times[id_time]'
+            # e substituir os self.times[id_times] por 'time', aumenta eficiencia e legibilidade
+            # REVIEW: Em python vc pode acessar a ultima posicao de uma lista com indice -1
+            # ex. lista[-1] = blah ultima pos de lista recebe blah
             self.times[id_time].modulos.append(id_modulo)
             self.times[id_time].estatisticas.comprasModulo[len(self.times[id_time].estatisticas.comprasModulo) - 1] += Modulo.objects.get(codigo=id_modulo).custo_de_aquisicao
             self.times[id_time].estatisticas.caixa[len(self.times[id_time].estatisticas.caixa) - 1] -= self.times[id_time].estatisticas.comprasModulo[len(self.times[id_time].estatisticas.comprasModulo) - 1]
@@ -160,7 +165,7 @@ class Logica(object):
             capacidade_ocupada, entrada, saida = time.calcular_total_atendidos(demanda, areas, classes)
             # salvar em estatisticas
             #print("Entao, pra cada time: ", capacidade_ocupada,entrada,saida)
-            # TODO: ta dando erro nessa chamada de função
+            # REVIEW: talvez salvar_estatisticas seja um nome melhor para a função (Verificar)
             time.estatisticas.nova_rodada(entrada,saida,demanda, capacidade_ocupada)
 
 

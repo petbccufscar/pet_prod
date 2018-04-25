@@ -2,16 +2,31 @@ from django.http import JsonResponse
 from jogo.models import Medico, Modulo
 
 class Estatistica:
-
+    """
+        comentarios sobre a classe e explicação das variaveis devem vir aqui
+        porque ai pode acessar a documentacao com "Estatistica.__doc__"
+        
+    """
     def __init__(self, caixa_inicial = 20000):
+        #TODO: Explicação do que são essas variaveis todas
         self.entrada = []
         self.saida = []
         self.caixa = []
+        # REVIEW: no metodo Logica.nova_rodada() demanda é um dicionario de dicionarios..
+        # porque aqui é diferente?
+        # escrever comentarios com explicação
+
         self.demanda = [] # lista de dicionarios
         self.total_atendidos = [] # lista de dicionarios
         self.caixa.append(caixa_inicial)
         self.demanda.append(None)
+
+        # REVIEW: o que tem dentro de total_atendidos? dicionarios?
+        # precisa de explicar nos comentarios tbm
         self.total_atendidos.append(None)
+
+        # REVIEW: essa variavel precisa de uma explicação. Escrever comentario
+        # com explicação
         self.comprasModulo = []
         self.comprasModulo.append(0)
 
@@ -48,7 +63,9 @@ class Time:
         self.nome = nome
         self.medicos = []
         self.modulos = []
+
         self.estatisticas = Estatistica()
+
         self.atributos = {}
         self.nome = nome
 
@@ -140,6 +157,7 @@ class Time:
 
 
     def calcular_total_atendidos(self, demanda, areas, classes):
+        # REVIEW: muitos comentarios defasados, tem que dar uma limpa aqui
         #print("CALCULANDO ")
 
         #  VERIFICAR SE AS CLASSES SAO DE ACORDO
@@ -148,13 +166,14 @@ class Time:
         entrada = 0
         saida = 0
         atr_med = self.atributos_medicos()
+        # REVIEW: ar? pq não 'area' pense em quem vai ler o seu código
         for ar in areas:
             atr_mod = self.atributos_modulos(ar)
             capacidade_disponivel = atr_mod['capacidade']
 
             for classe in classes:
 
-
+                #REVIEW: Linha muuito grande. divir if em multiplas linhas.
                 if classe.media_conforto <= atr_mod['conforto'] and classe.nivel_tecnologia <= atr_mod['tecnologia'] and classe.preco_atendimento >= atr_mod['preco_do_tratamento'] and classe.nivel_especialidade <= atr_med['expertise'] and classe.velocidade_atendimento <= atr_med['atendimento']:
                      #faltou o pontualidade. E velocidade_atendimento = atendimento?
 
