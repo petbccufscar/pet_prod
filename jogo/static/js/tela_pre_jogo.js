@@ -2,6 +2,7 @@ var passoAtual = 0;
 mostraPasso(passoAtual)
 var emprestimos = [];
 var times = [];
+var modulos = {};
 
 function mostraPasso(n) {
   var x = document.getElementsByClassName("passo");
@@ -16,6 +17,23 @@ function mostraPasso(n) {
   } else {
     document.getElementById("proxBtn").innerHTML = "Avançar";
   }
+}
+var rows
+function lerTabelaModulos(){
+  var table = document.getElementById("t_modulos");
+  rows = table.tBodies[0].rows;
+  for(var i = 0; i < rows.length; i++){
+    /* recupera os valores do html */
+    var codigo = rows[i].children[0].children[0].innerHTML;
+    var valor = rows[i].children[1].children[0].children[0].value;
+    var esta_ativado = rows[i].children[2].children[0].children[0].checked;
+    if(esta_ativado){
+      /* adicionar ao dicionario */
+      /* TODO: verificar no servidor se os valores estão ok */
+    }
+    console.log(codigo, valor, esta_ativado);
+  }
+
 }
 
 function avancarPasso(n){
