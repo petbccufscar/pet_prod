@@ -100,13 +100,14 @@ ul{
 
 }
 .modulo.head{
-  padding-left: 10px;
   text-align: left;
   color: #838383;
   font-family: sans-serif;
 }
 .modulo.row{
   border-bottom: 1px solid #ccc;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 .modulo.row:hover{
   background: #eee;
