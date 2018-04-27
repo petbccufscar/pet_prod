@@ -1,3 +1,17 @@
+
+var aba_atual = 0;
+ document.getElementsByClassName("aba")[0].style.display = "initial";
+
+function mudar_aba(aba){
+  var index = Array.prototype.indexOf.call(aba.parentElement.children, aba);
+  var abas = document.getElementsByClassName("aba");
+  if(abas.length <= index)
+    return;
+  abas[aba_atual].style.display = "none";
+  aba_atual = index;
+  abas[aba_atual].style.display = "initial";
+}
+
 function comprar_modulo() {
     console.log("create post is working!") // sanity check
     $.ajax({
@@ -136,7 +150,6 @@ function abrir_informacoes(id){
   //ENDS HERE
 }
 
-document.getElementById("r_contador").innerHTML = "Rodada Atual: 1";
 socket_rodada = new WebSocket("ws://" + window.location.host + "/rodada/");
 socket_rodada.onmessage = function(e) {
     document.getElementById("t_rodada").innerHTML = e.data;
@@ -153,6 +166,10 @@ socket_rodada.onopen = function() {
 }
 // Call onopen directly if socket is already open
 if (socket_rodada.readyState == WebSocket.OPEN) socket_rodada.onopen();
+
+/**
+ * setup para protecao com token csrftoken
+ **/
 
 $(function() {
 

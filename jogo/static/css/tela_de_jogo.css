@@ -1,3 +1,12 @@
+body{
+  padding: 0px;
+  margin: 0px;
+}
+
+ul{
+  padding: 0;
+  margin: 0;
+}
 .rcorners {
     border-radius: 5px;
     border:1px solid black;
@@ -41,7 +50,7 @@
 }
 
 .nav{
-  height: 45px;
+  height: 38px;
   align-items: center;
   display: flex;
   background: #222;
@@ -54,11 +63,62 @@
   padding-right: 10px;
   height: 100%;
   align-content: center;
-  background: #080808;
-  line-height: 45px;
+  background: #080000;
+  line-height: 38px;
   color: #fff;
+  cursor: pointer;
 }
+.nav-item:hover{
+    background: #080808;
+}
+
 .timer{
   margin-left: auto;
   margin-right: auto
+}
+
+.aba{
+  display: none;
+}
+.table{
+  min-width: 300px;
+  display: table;
+}
+.row{
+  display: table-row;
+}
+.cell{
+  display: table-cell;
+  padding: 2px;
+}
+.thead{
+  border-bottom: 2px solid #ccc;
+}
+.cell.modulo{
+  border-bottom: 2px solid #ccc;
+
+
+}
+.modulo.head{
+  padding-left: 10px;
+  text-align: left;
+  color: #838383;
+  font-family: sans-serif;
+}
+.modulo.row{
+  border-bottom: 1px solid #ccc;
+}
+.modulo.row:hover{
+  background: #eee;
+}
+div{
+  color: #838383;
+  font-family: sans-serif;
+}
+
+.card{
+    display: flex;
+    margin: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
 }

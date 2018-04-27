@@ -2,78 +2,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="{% static 'css/tela_de_jogo.css' %}">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body style="display:flex;flex-direction:column">
 
-<nav >
+<nav>
     <ul class="nav">
       <li class="nav-item" id="t_rodada">Rodada: 1</li>
       <li class="nav-item timer" id="t_timer">00:00</li>
+      <li class="nav-item" id="t_caixa">$ 00,00</li>
     </ul>
 </nav>
 
+<nav>
+    <ul class="nav">
+      <li class="nav-item" onclick="mudar_aba(this)">Comprar</li>
+      <li class="nav-item" onclick="mudar_aba(this)">Vender</li>
+      <li class="nav-item" onclick="mudar_aba(this)">Estatisticas</li>
+    </ul>
+</nav>
 
-  <div class="container">
-    <p><br>Time: {{nome_time}}</p>
-    <p id ="r_contador">1</p>
+<div class="aba">
+  <br><br>
+    <div class="container">
 
-    <div style="display: inline-block">
-      <button style="float:left" id="comp_modulo" onclick="comprar_modulo()" type="submit" class="btn btn-primary">Comprar Modulo</button>
+      <div style="display: inline-block">
+        <button style="float:left" id="comp_modulo" onclick="comprar_modulo()" type="submit" class="btn btn-primary">Comprar Modulo</button>
+      </div>
+      <div style="display: inline-block">
+        <input style="float:left" type="text" class="form-control" id="modulo_id" placeholder="" value="" required>
+      </div>
+
+      <div style="display:">
+        <button style="float:left" id="vend_modulo" onclick="vender_modulo()" type="submit" class="btn btn-primary">Vender Modulo</button>
+      </div>
+
+      <div style="display: inline-block">
+        <input style="float:left" type="text" class="form-control" id="vend_modulo_id" placeholder="" value="" required>
+      </div>
+
+      <div>
+        <button style="float:left" id="contratar_medico" onclick="contratar_medico()" type="submit" class="btn btn-primary">Contratar Médico</button>
+      </div>
+      <div style="display: inline-block">
+        <input style="float:left" type="text" class="form-control" id="medico_id" placeholder="" value="" required>
+      </div>
+
+      <div style="display:">
+        <button style="float:left" id="despedir_medico" onclick="despedir_medico()" type="submit" class="btn btn-primary">Despedir Médico</button>
+      </div>
+
+      <div style="display: inline-block">
+        <input style="float:left" type="text" class="form-control" id="despedir_medico_id" placeholder="" value="" required>
+      </div>
+
+      <h2>Modal Example</h2>
+
+      <!-- Trigger/Open The Modal -->
+      <button id="myBtn" onclick="abrir_informacoes(1)">Open Modal</button>
+
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <ul>
+          <li>
+            <h1 style="display: inline">Nome</h1>
+            <p style="display: inline">Some text in the Modal..</p>
+          </li>
+        </ul>
+      </div>
+
+      </div>
+</div>
+
+  </div>
+
+<div class="aba">
+  <br>
+  <div style="display: flex;justify-content:center; ">
+    <div class="card">
+        <div class="table">
+            <div class="row ">
+              <div class="cell thead" style="text-align:center">Modulos
+                <div>
+                  <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i>
+                  Conforto
+                  <i class="fa fa-medkit" style="font-size:20px;color:blue"></i>
+                  Tecnologia
+                </div>
+              </div>
+            </div>
+          <div style="display:flex;flex-direction:column;overflow-y: scroll;max-height:300px;">
+{% for i in "xxxxxx" %}
+          <div class="modulo row" >
+              <div class="modulo head" > 1,200.00 <i class="fa fa-usd"></i>
+                <span style="float:right">400 und.</span>
+              </div>
+              <div style="display:flex">
+                <div style="padding-left:10px">
+                  <div>
+                    <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i>
+                    <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i>
+                    <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i>
+                  </div>
+                  <div>
+                    <i class="fa fa-medkit" style="font-size:20px;color:blue"></i>
+                    <i class="fa fa-medkit" style="font-size:20px;color:blue"></i>
+                  </div>
+                </div>
+                <div style="margin-left: auto;flex-direction:column;font-size:13">
+                  Custo/Mês: 100 $<br>
+
+                  Tratamento: 78 $<br>
+                </div>
+
+              </div>
+          </div>
+{% endfor %}
+        </div>
+        </div>
     </div>
-    <div style="display: inline-block">
-      <input style="float:left" type="text" class="form-control" id="modulo_id" placeholder="" value="" required>
-    </div>
 
-    <div style="display:">
-      <button style="float:left" id="vend_modulo" onclick="vender_modulo()" type="submit" class="btn btn-primary">Vender Modulo</button>
-    </div>
+  </div>
 
-    <div style="display: inline-block">
-      <input style="float:left" type="text" class="form-control" id="vend_modulo_id" placeholder="" value="" required>
-    </div>
+</div>
 
-    <div>
-      <button style="float:left" id="contratar_medico" onclick="contratar_medico()" type="submit" class="btn btn-primary">Contratar Médico</button>
-    </div>
-    <div style="display: inline-block">
-      <input style="float:left" type="text" class="form-control" id="medico_id" placeholder="" value="" required>
-    </div>
 
-    <div style="display:">
-      <button style="float:left" id="despedir_medico" onclick="despedir_medico()" type="submit" class="btn btn-primary">Despedir Médico</button>
-    </div>
-
-    <div style="display: inline-block">
-      <input style="float:left" type="text" class="form-control" id="despedir_medico_id" placeholder="" value="" required>
-    </div>
-
-    <h2>Modal Example</h2>
-
-    <!-- Trigger/Open The Modal -->
-    <button id="myBtn" onclick="abrir_informacoes(1)">Open Modal</button>
-
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-
-      <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <ul>
-        <li>
-          <h1 style="display: inline">Nome</h1>
-          <p style="display: inline">Some text in the Modal..</p>
-        </li>
-      </ul>
-    </div>
-
-    </div>
-
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/tela_de_jogo.js' %}"></script>
+  <div class="aba">
+  Aba 3
   </div>
 </body>
+
+
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/tela_de_jogo.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
