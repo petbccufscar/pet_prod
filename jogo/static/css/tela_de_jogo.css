@@ -7,6 +7,11 @@ ul{
   padding: 0;
   margin: 0;
 }
+div{
+  color: #838383;
+  font-family: sans-serif;
+}
+
 .rcorners {
     border-radius: 5px;
     border:1px solid black;
@@ -48,7 +53,7 @@ ul{
     text-decoration: none;
     cursor: pointer;
 }
-
+/* barra de navegação */
 .nav{
   height: 38px;
   align-items: center;
@@ -58,7 +63,7 @@ ul{
   padding: 0;
   list-style-type: none;
 }
-.nav-item{
+.nav li{
   padding-left: 10px;
   padding-right: 10px;
   height: 100%;
@@ -68,7 +73,7 @@ ul{
   color: #fff;
   cursor: pointer;
 }
-.nav-item:hover{
+.nav li:hover{
     background: #080808;
 }
 
@@ -80,43 +85,52 @@ ul{
 .aba{
   display: none;
 }
+/* Valores default de Tabelas */
 .table{
   min-width: 300px;
-  display: table;
+  display: flex;
+  flex-direction:column;
 }
-.row{
-  display: table-row;
+.table > div{
+  display: flex;
+  flex-direction:column;
 }
-.cell{
-  display: table-cell;
-  padding: 2px;
-}
-.thead{
+.table .thead{
+  text-align:center;
   border-bottom: 2px solid #ccc;
 }
-.cell.modulo{
-  border-bottom: 2px solid #ccc;
-
-
+.table .tbody{
+  overflow-y: scroll;
+  max-height:300px;
 }
-.modulo.head{
-  text-align: left;
-  color: #838383;
-  font-family: sans-serif;
+
+/* Linhas das tabelas de Modulos */
+
+.tbody .bloco-area{
+  display:flex;
 }
-.modulo.row{
+
+.bloco-area .area-label {
+  display:flex;
+  border: 1px solid #ccc;
+  border-top: 0px;
+}
+.bloco-area .conteudo-bloco{
+  display:flex;
+  flex-direction:column;
+  flex-grow: 1;
+}
+
+.conteudo-bloco .linha{
   border-bottom: 1px solid #ccc;
   padding-right: 10px;
   padding-left: 10px;
 }
-.modulo.row:hover{
+.conteudo-bloco .linha:hover{
   background: #eee;
 }
-div{
-  color: #838383;
-  font-family: sans-serif;
-}
 
+/* Cards */
 .card{
     display: flex;
     margin: 10px;

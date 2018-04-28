@@ -1,4 +1,6 @@
-
+function ha(el){
+  console.log(el);
+}
 var aba_atual = 0;
  document.getElementsByClassName("aba")[0].style.display = "initial";
 

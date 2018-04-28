@@ -1,4 +1,5 @@
-{% load staticfiles%}
+{% load staticfiles %}
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,67 +8,36 @@
 
   <title>{% block title %}{% endblock %}</title>
 </head>
+
 <body style="display:flex;flex-direction:column">
 
-<nav>
+  <nav>
     <ul class="nav">
-      <li class="nav-item" id="t_rodada">Rodada: 1</li>
-      <li class="nav-item timer" id="t_timer">00:00</li>
-      <li class="nav-item" id="t_caixa">$ 00,00</li>
+      <li id="t_rodada">Rodada: 1</li>
+      <li class="timer" id="t_timer">00:00</li>
+      <li id="t_caixa">$ 00,00</li>
     </ul>
-</nav>
+  </nav>
 
-<nav>
+  <nav>
     <ul class="nav">
-      <li class="nav-item" onclick="mudar_aba(this)">Comprar</li>
-      <li class="nav-item" onclick="mudar_aba(this)">Vender</li>
-      <li class="nav-item" onclick="mudar_aba(this)">Estatisticas</li>
+      <li onclick="mudar_aba(this)">Comprar</li>
+      <li onclick="mudar_aba(this)">Vender</li>
+      <li onclick="mudar_aba(this)">Estatisticas</li>
     </ul>
-</nav>
+  </nav>
 
-<div class="aba">
-  <br><br>
-    <div class="container">
+  <div class="aba">
 
-      <div style="display: inline-block">
-        <button style="float:left" id="comp_modulo" onclick="comprar_modulo()" type="submit" class="btn btn-primary">Comprar Modulo</button>
-      </div>
-      <div style="display: inline-block">
-        <input style="float:left" type="text" class="form-control" id="modulo_id" placeholder="" value="" required>
-      </div>
+    <h2>Modal Example</h2>
 
-      <div style="display:">
-        <button style="float:left" id="vend_modulo" onclick="vender_modulo()" type="submit" class="btn btn-primary">Vender Modulo</button>
-      </div>
+    <!-- Trigger/Open The Modal -->
+    <button id="myBtn" onclick="abrir_informacoes(1)">Open Modal</button>
 
-      <div style="display: inline-block">
-        <input style="float:left" type="text" class="form-control" id="vend_modulo_id" placeholder="" value="" required>
-      </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
 
-      <div>
-        <button style="float:left" id="contratar_medico" onclick="contratar_medico()" type="submit" class="btn btn-primary">Contratar Médico</button>
-      </div>
-      <div style="display: inline-block">
-        <input style="float:left" type="text" class="form-control" id="medico_id" placeholder="" value="" required>
-      </div>
-
-      <div style="display:">
-        <button style="float:left" id="despedir_medico" onclick="despedir_medico()" type="submit" class="btn btn-primary">Despedir Médico</button>
-      </div>
-
-      <div style="display: inline-block">
-        <input style="float:left" type="text" class="form-control" id="despedir_medico_id" placeholder="" value="" required>
-      </div>
-
-      <h2>Modal Example</h2>
-
-      <!-- Trigger/Open The Modal -->
-      <button id="myBtn" onclick="abrir_informacoes(1)">Open Modal</button>
-
-      <!-- The Modal -->
-      <div id="myModal" class="modal">
-
-        <!-- Modal content -->
+      <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <ul>
@@ -78,66 +48,66 @@
         </ul>
       </div>
 
-      </div>
-</div>
-
-  </div>
-
-<div class="aba">
-  <br>
-  <div style="display: flex;justify-content:center; ">
-    <div class="card">
-        <div class="table">
-            <div class="row ">
-              <div class="cell thead" style="text-align:center">Modulos
-                <div>
-                  <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i>
-                  Conforto
-                  <i class="fa fa-medkit" style="font-size:20px;color:blue"></i>
-                  Tecnologia
-                </div>
-              </div>
-            </div>
-          <div style="display:flex;flex-direction:column;overflow-y: scroll;max-height:300px;">
-{% for i in "xxxxxx" %}
-          <div class="modulo row" >
-              <div class="modulo head" >Cod: 12
-                <span style="float:right">400 und.</span>
-                <span style="float:right;padding-right:10px"> 1,200.00 <i class="fa fa-usd"></i></span>
-              </div>
-              <div style="display:flex">
-
-                <div>
-                  <div>
-                    <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i>
-                    <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i>
-                    <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i>
-                  </div>
-                  <div>
-                    <i class="fa fa-medkit" style="font-size:20px;color:blue"></i>
-                    <i class="fa fa-medkit" style="font-size:20px;color:blue"></i>
-                  </div>
-                </div>
-                <div style="margin-left: auto;flex-direction:column;font-size:13">
-                  Custo/Mês: 100 $<br>
-
-                  Tratamento: 78 $<br>
-                </div>
-
-              </div>
-          </div>
-{% endfor %}
-        </div>
-        </div>
     </div>
-
   </div>
 
-</div>
-
+  </div>
 
   <div class="aba">
-  Aba 3
+    <br>
+    <div style="display: flex;justify-content:center; ">
+      <div class="card">
+        <div class="table">
+          <div class="thead">
+            Modulos
+            <div>
+              <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i> Conforto
+              <i class="fa fa-medkit" style="font-size:20px;color:blue"></i> Tecnologia
+            </div>
+          </div>
+          <div class="tbody">
+            {% for area, modulos in mod_p_area.items %}
+            <div class="bloco-area">
+              <div class="area-label">
+                <div style="writing-mode: tb-rl;margin:auto;width:15px;text-align:center">
+                  {{area}}
+                </div>
+              </div>
+              <div class="conteudo-bloco">
+                {% for modulo in modulos %}
+                <div class="linha" onclick="">
+                  <div>Cod: <span>{{ modulo.id}}</span>
+                    <span style="float:right">{{modulo.capacidade}} und.</span>
+                    <span style="float:right;padding-right:10px"> {{modulo.custo_de_aquisicao}} <i class="fa fa-usd"></i></span>
+                  </div>
+                  <div style="display:flex">
+                    <div>
+                      <div>
+                        {% for i in modulo.conforto %}
+                        <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i> {% endfor %}
+                      </div>
+                      <div>
+                        {% for i in modulo.tecnologia %}
+                        <i class="fa fa-medkit" style="font-size:20px;color:blue"></i> {% endfor %}
+                      </div>
+                    </div>
+                    <div style="margin-left: auto;flex-direction:column;font-size:13">
+                      Custo/Mês: {{modulo.custo_mensal}} $<br> Tratamento: {{modulo.preco_do_tratamento}} $<br>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="aba">
+    Aba 3
   </div>
 </body>
 

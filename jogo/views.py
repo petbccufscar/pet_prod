@@ -520,7 +520,22 @@ def tela_de_jogo(request, nome_time):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
     time = logica_jogo.JogoAtual.times[nome_time]
-    return render(request, 'jogo/tela_de_jogo.html', {"nome_time": time.nome})
+    modulos = Modulo.objects.all()
+    # Separando modulos por area
+    modulos_p_areas = {}
+    for modulo in modulos:
+        if modulo.area.nome in modulos_p_areas:
+            modulos_p_areas[modulo.area.nome].append(modulo)
+        else:
+            modulos_p_areas[modulo.area.nome] = [modulo]
+
+        modulo.custo_de_aquisicao = "{:,.2f}".format(modulo.custo_de_aquisicao)
+        modulo.custo_mensal = "{:,.0f}".format(modulo.custo_mensal)
+        modulo.preco_do_tratamento = "{:,.0f}".format(modulo.preco_do_tratamento)
+        modulo.tecnologia = range(0, modulo.tecnologia)
+        modulo.conforto = range(0, modulo.conforto)
+
+    return render(request, 'jogo/tela_de_jogo.html', {"nome_time": time.nome, "mod_p_area": modulos_p_areas})
 
 def pre_jogo_1(request):
     return render(request, 'pre_jogo/tela_pre_jogo_1.html',{})
