@@ -523,6 +523,7 @@ def tela_de_jogo(request, nome_time):
     modulos = Modulo.objects.all()
     # Separando modulos por area
     modulos_p_areas = {}
+
     for modulo in modulos:
         if modulo.area.nome in modulos_p_areas:
             modulos_p_areas[modulo.area.nome].append(modulo)
@@ -535,7 +536,39 @@ def tela_de_jogo(request, nome_time):
         modulo.tecnologia = range(0, modulo.tecnologia)
         modulo.conforto = range(0, modulo.conforto)
 
-    return render(request, 'jogo/tela_de_jogo.html', {"nome_time": time.nome, "mod_p_area": modulos_p_areas})
+    contexto = {
+        "nome_time": time.nome,
+        "mod_p_area": modulos_p_areas,
+        }
+    return render(request, 'jogo/tela_de_jogo.html', contexto)
+
+def tela_de_jogo_hospital(request, nome_time):
+    if logica_jogo.JogoAtual is None:
+        return HttpResponse("Jogo Não Iniciado")
+    time = logica_jogo.JogoAtual.times[nome_time]
+    # Separando modulos por area
+    time_modulos_p_areas = {}
+
+    time = logica_jogo.JogoAtual.times[nome_time];
+
+    for id_mod in time.modulos:
+        modulo = Modulo.objects.get(id = id_mod)
+        if modulo.area.nome in time_modulos_p_areas:
+            time_modulos_p_areas[modulo.area.nome].append(modulo)
+        else:
+            time_modulos_p_areas[modulo.area.nome] = [modulo]
+
+        modulo.custo_de_aquisicao = "{:,.2f}".format(modulo.custo_de_aquisicao)
+        modulo.custo_mensal = "{:,.0f}".format(modulo.custo_mensal)
+        modulo.preco_do_tratamento = "{:,.0f}".format(modulo.preco_do_tratamento)
+        modulo.tecnologia = range(0, modulo.tecnologia)
+        modulo.conforto = range(0, modulo.conforto)
+    contexto = {
+        "t_mod_p_area": time_modulos_p_areas
+
+        }
+    return render(request, 'jogo/meu_hospital.html', contexto)
+
 
 def pre_jogo_1(request):
     return render(request, 'pre_jogo/tela_pre_jogo_1.html',{})

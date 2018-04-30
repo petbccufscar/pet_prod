@@ -5,7 +5,7 @@ class Estatistica:
     """
         comentarios sobre a classe e explicação das variaveis devem vir aqui
         porque ai pode acessar a documentacao com "Estatistica.__doc__"
-        
+
     """
     def __init__(self, caixa_inicial = 20000):
         #TODO: Explicação do que são essas variaveis todas
@@ -136,7 +136,7 @@ class Time:
 
         }
         for modulo_id in self.modulos:
-            mod = Modulo.objects.get(codigo=modulo_id)
+            mod = Modulo.objects.get(id=modulo_id)
             if mod.area.nome == area.nome: # transformar para id
                 tecnologia += mod.tecnologia
                 conforto += mod.conforto

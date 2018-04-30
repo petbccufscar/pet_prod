@@ -1,0 +1,47 @@
+<div class="card">
+  <div class="table">
+    <div class="thead">
+      Modulos
+      <div>
+        <i class="fa fa-heart" style="font-size:25px;color:#ef4646"></i> Conforto
+        <i class="fa fa-medkit" style="font-size:25px;color:blue"></i> Tecnologia
+      </div>
+    </div>
+    <div class="tbody">
+      {% for area, modulos in t_mod_p_area.items %}
+      <div class="bloco-area">
+        <div class="area-label">
+          <div style="writing-mode: tb-rl;margin:auto;width:15px;text-align:center">
+            {{area}}
+          </div>
+        </div>
+        <div class="conteudo-bloco">
+          {% for modulo in modulos %}
+          <div class="linha" onclick="busca_modulo(this.children[0].children[0].innerHTML)">
+            <div>Cod: <span>{{ modulo.id}}</span>
+              <span style="float:right">{{modulo.capacidade}} und.</span>
+              <span style="float:right;padding-right:10px"> {{modulo.custo_de_aquisicao}} <i class="fa fa-usd"></i></span>
+            </div>
+            <div style="display:flex">
+              <div>
+                <div>
+                  {% for i in modulo.conforto %}
+                  <i class="fa fa-heart" style="font-size:25px;color:#ef4646"></i> {% endfor %}
+                </div>
+                <div>
+                  {% for i in modulo.tecnologia %}
+                  <i class="fa fa-medkit" style="font-size:25px;color:blue"></i> {% endfor %}
+                </div>
+              </div>
+              <div style="margin-left: auto;flex-direction:column;font-size:16">
+                Custo/Mês: {{modulo.custo_mensal}} $<br> Tratamento: {{modulo.preco_do_tratamento}} $<br>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

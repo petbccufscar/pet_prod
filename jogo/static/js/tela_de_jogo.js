@@ -4,6 +4,23 @@ var aba_atual = 0;
 function mudar_aba(aba){
   var index = Array.prototype.indexOf.call(aba.parentElement.children, aba);
   var abas = document.getElementsByClassName("aba");
+  console.log(abas[index].children[1])
+  if(abas[index].children[1].id == "hospit"){
+    $.ajax({
+        url : "hospital/", // the endpoint
+        type : "GET", // http method
+
+        // handle a successful response
+        success : function(data) {
+          abas[index].children[1].innerHTML = data;
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            console.log("erro"); // provide a bit more info about the error to the console
+        }
+    });
+  }
   if(abas.length <= index)
     return;
   abas[aba_atual].style.display = "none";

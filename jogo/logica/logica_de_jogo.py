@@ -83,7 +83,7 @@ class Logica(object):
             # inicia todos os perfis existentes no bd com 3 médicos
             self.medicos[medico.perfil] = 3
         for modulo in mod:
-            self.modulos.append(modulo.codigo)
+            self.modulos.append(modulo.id)
 
     def add_time(self, time):
         self.times[time.nome] = time
@@ -96,7 +96,7 @@ class Logica(object):
             # REVIEW: Em python vc pode acessar a ultima posicao de uma lista com indice -1
             # ex. lista[-1] = blah ultima pos de lista recebe blah
             self.times[id_time].modulos.append(id_modulo)
-            self.times[id_time].estatisticas.comprasModulo[len(self.times[id_time].estatisticas.comprasModulo) - 1] += Modulo.objects.get(codigo=id_modulo).custo_de_aquisicao
+            self.times[id_time].estatisticas.comprasModulo[len(self.times[id_time].estatisticas.comprasModulo) - 1] += Modulo.objects.get(id=id_modulo).custo_de_aquisicao
             self.times[id_time].estatisticas.caixa[len(self.times[id_time].estatisticas.caixa) - 1] -= self.times[id_time].estatisticas.comprasModulo[len(self.times[id_time].estatisticas.comprasModulo) - 1]
             return True
         else:
