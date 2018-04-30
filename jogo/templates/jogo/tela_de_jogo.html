@@ -127,7 +127,12 @@
     </div>
   </div>
   <div class="aba">
-    Aba 3
+
+    <!-- itera pela lista colunas criada la na view -->
+    {% for coluna in colunas %}
+      <!-- e gera o codigo que tiver aqui dentro -->
+      <p> Olha isso: {{coluna}} </p>
+    {% endfor %}
   </div>
 
 </body>

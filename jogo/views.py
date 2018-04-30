@@ -536,9 +536,11 @@ def tela_de_jogo(request, nome_time):
         modulo.tecnologia = range(0, modulo.tecnologia)
         modulo.conforto = range(0, modulo.conforto)
 
+    colunas = ["col1", "col2", "col1"] # exemplo
     contexto = {
         "nome_time": time.nome,
         "mod_p_area": modulos_p_areas,
+        "colunas" : colunas, # adiciona aqui pra ser acessivel no template
         }
     return render(request, 'jogo/tela_de_jogo.html', contexto)
 
@@ -564,9 +566,8 @@ def tela_de_jogo_hospital(request, nome_time):
         modulo.tecnologia = range(0, modulo.tecnologia)
         modulo.conforto = range(0, modulo.conforto)
     contexto = {
-        "t_mod_p_area": time_modulos_p_areas
-
-        }
+        "t_mod_p_area": time_modulos_p_areas,
+    }
     return render(request, 'jogo/meu_hospital.html', contexto)
 
 

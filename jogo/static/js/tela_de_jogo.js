@@ -26,7 +26,7 @@ function mudar_aba(aba){
   var abas = document.getElementsByClassName("aba");
   console.log(abas[index].children[1])
   /* se mudar para aba do hospital .. atualiza */
-  if(abas[index].children[1].id == "hospit"){
+  if(abas[index] == document.getElementById("hospit").parentElement){
     atualizar_hospital();
   }
   if(abas.length <= index)
