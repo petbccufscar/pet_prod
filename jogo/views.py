@@ -521,6 +521,12 @@ def tela_de_jogo(request, nome_time):
         return HttpResponse("Jogo Não Iniciado")
     time = logica_jogo.JogoAtual.times[nome_time]
     modulos = Modulo.objects.all()
+    lista_medicos = Medico.objects.all()
+    for medico in lista_medicos:
+        medico.salario =  "{:,.2f}".format(medico.salario)
+        medico.expertise = range(0, medico.expertise)
+        medico.atendimento = range(0, medico.atendimento)
+        medico.pontualidade = range(0, medico.pontualidade)
     # Separando modulos por area
     modulos_p_areas = {}
 
@@ -540,6 +546,7 @@ def tela_de_jogo(request, nome_time):
     contexto = {
         "nome_time": time.nome,
         "mod_p_area": modulos_p_areas,
+        "medicos": lista_medicos,
         "colunas" : colunas, # adiciona aqui pra ser acessivel no template
         }
     return render(request, 'jogo/tela_de_jogo.html', contexto)

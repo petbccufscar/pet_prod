@@ -19,7 +19,7 @@ if (socket_rodada.readyState == WebSocket.OPEN) socket_rodada.onopen();
 
 /* Funções e variaveis para mudança de abas */
 var aba_atual = 0;
-document.getElementsByClassName("aba")[0].style.display = "initial";
+document.getElementsByClassName("aba")[0].style.display = "flex";
 
 function mudar_aba(aba){
   var index = Array.prototype.indexOf.call(aba.parentElement.children, aba);
@@ -33,7 +33,7 @@ function mudar_aba(aba){
     return;
   abas[aba_atual].style.display = "none";
   aba_atual = index;
-  abas[aba_atual].style.display = "initial";
+  abas[aba_atual].style.display = "flex";
 }
 
 function comprar_modulo(id) {
