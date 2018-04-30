@@ -1,6 +1,3 @@
-function ha(el){
-  console.log(el);
-}
 var aba_atual = 0;
  document.getElementsByClassName("aba")[0].style.display = "initial";
 
@@ -14,23 +11,26 @@ function mudar_aba(aba){
   abas[aba_atual].style.display = "initial";
 }
 
-function comprar_modulo() {
+function comprar_modulo(id) {
     console.log("create post is working!") // sanity check
     $.ajax({
         url : "comprar_modulo/", // the endpoint
         type : "POST", // http method
-        data : { modulo_id : document.getElementById("modulo_id").value}, // data sent with the post request
+        data : { modulo_id : id}, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
           //  $('#post-text').val(''); // remove the value from the input
             console.log(json); // log the returned json to the console
             console.log("success"); // another sanity check
+            alert("Modulo comprado!");
+
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
             console.log("erro"); // provide a bit more info about the error to the console
+            alert("Algo de errado não está certo!");
         }
     });
 };
@@ -102,9 +102,9 @@ function busca_modulo(id_modulo_buscar){
 
       // handle a successful response
       success : function(json) {
-          console.log(json);
           console.log("success");
-          modulo = JSON.parse(json);
+          var modulo = JSON.parse(json)[0];
+          abrir_informacoes(modulo);
       },
 
       // handle a non-successful response
@@ -114,30 +114,28 @@ function busca_modulo(id_modulo_buscar){
   });
 }
 
-function abrir_informacoes(id){
-  var modulo;
+function abrir_informacoes(modulo){
   //var texto = document.getElementById("texto_modal");
   //texto.innerHTML = "teste";
-
-  busca_modulo(id, modulo);
-
-  console.log(modulo);
 
   // START HERE
   // Get the modal
   var modal = document.getElementById('myModal');
 
   // Get the button that opens the modal
-  var btn = document.getElementById("myBtn");
+  var b_cmpr = document.getElementById("b_comprar");
 
   // Get the <span> element that closes the modal
   var span = document.getElementsByClassName("close")[0];
 
   // When the user clicks the button, open the modal
-  btn.onclick = function() {
-      modal.style.display = "block";
-  }
 
+  modal.style.display = "block";
+  b_cmpr.onclick = function() {
+    console.log("kay");
+    comprar_modulo(modulo.pk);
+    modal.style.display = "none"
+  }
   // When the user clicks on <span> (x), close the modal
   span.onclick = function() {
       modal.style.display = "none";

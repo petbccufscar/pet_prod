@@ -59,7 +59,7 @@ def despedir_medico(request, nome_time):
 def busca_modulo(request, nome_time):
     print(request.POST["modulo_id"], nome_time)
     print("buscou id")
-    data = serializers.serialize("json", [Modulo.objects.get(codigo = request.POST["modulo_id"]),])
+    data = serializers.serialize("json", [Modulo.objects.get(id = request.POST["modulo_id"]),])
     print(data)
     return HttpResponse(data)
 

@@ -27,30 +27,44 @@
     </ul>
   </nav>
 
-  <div class="aba">
 
-    <h2>Modal Example</h2>
+  <div id="myModal" class="modal">
 
-    <!-- Trigger/Open The Modal -->
-    <button id="myBtn" onclick="abrir_informacoes(1)">Open Modal</button>
-
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <ul>
+    <!-- Modal content -->
+    <div class="modal-content">
+      <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Flowers in Chania">
+      <div style="padding:15px">
+        <ul style="list-style-type: none;" id="card-content">
           <li>
-            <h1 style="display: inline">Nome</h1>
-            <p style="display: inline">Some text in the Modal..</p>
+            <span style="display: inline">Cod.:</span> <span>12</span>
+          </li>
+          <li>
+            <span style="display: inline">Preço:</span> <span>1,200.00</span>
+          </li>
+          <li>
+            <span style="display: inline">Custo/mês:</span> <span>78 $</span>
+          </li>
+          <li>
+            <span style="display: inline">Tratamento:</span> <span>50 $</span>
+          </li>
+          <li>
+            <span style="display: inline">Capacidade:</span> <span>50 $</span>
+          </li>
+          <li>
+            <span style="display: inline">Conforto:</span> <span>50 $</span>
+          </li>
+          <li>
+            <span style="display: inline">tecnologia:</span> <span>50 $</span>
           </li>
         </ul>
+        <div style="display:flex;margin-top:auto;justify-content: space-around">
+          <button id="b_comprar">Contratar</button>
+          <button class="close">Cancelar</button>
+        </div>
       </div>
-
     </div>
-  </div>
 
+  </div>
   </div>
 
   <div class="aba">
@@ -61,8 +75,8 @@
           <div class="thead">
             Modulos
             <div>
-              <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i> Conforto
-              <i class="fa fa-medkit" style="font-size:20px;color:blue"></i> Tecnologia
+              <i class="fa fa-heart" style="font-size:25px;color:#ef4646"></i> Conforto
+              <i class="fa fa-medkit" style="font-size:25px;color:blue"></i> Tecnologia
             </div>
           </div>
           <div class="tbody">
@@ -75,7 +89,7 @@
               </div>
               <div class="conteudo-bloco">
                 {% for modulo in modulos %}
-                <div class="linha" onclick="">
+                <div class="linha" onclick="busca_modulo(this.children[0].children[0].innerHTML)">
                   <div>Cod: <span>{{ modulo.id}}</span>
                     <span style="float:right">{{modulo.capacidade}} und.</span>
                     <span style="float:right;padding-right:10px"> {{modulo.custo_de_aquisicao}} <i class="fa fa-usd"></i></span>
@@ -84,14 +98,14 @@
                     <div>
                       <div>
                         {% for i in modulo.conforto %}
-                        <i class="fa fa-heart" style="font-size:20px;color:#ef4646"></i> {% endfor %}
+                        <i class="fa fa-heart" style="font-size:25px;color:#ef4646"></i> {% endfor %}
                       </div>
                       <div>
                         {% for i in modulo.tecnologia %}
-                        <i class="fa fa-medkit" style="font-size:20px;color:blue"></i> {% endfor %}
+                        <i class="fa fa-medkit" style="font-size:25px;color:blue"></i> {% endfor %}
                       </div>
                     </div>
-                    <div style="margin-left: auto;flex-direction:column;font-size:13">
+                    <div style="margin-left: auto;flex-direction:column;font-size:16">
                       Custo/Mês: {{modulo.custo_mensal}} $<br> Tratamento: {{modulo.preco_do_tratamento}} $<br>
                     </div>
                   </div>
@@ -109,8 +123,11 @@
   <div class="aba">
     Aba 3
   </div>
-</body>
+  <div class="aba">
 
+  </div>
+
+</body>
 
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'js/tela_de_jogo.js' %}"></script>
