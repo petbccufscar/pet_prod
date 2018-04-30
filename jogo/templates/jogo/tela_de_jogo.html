@@ -89,7 +89,7 @@
               </div>
               <div class="conteudo-bloco">
                 {% for modulo in modulos %}
-                <div class="linha" onclick="busca_modulo(this.children[0].children[0].innerHTML)">
+                <div class="linha" onclick="busca_modulo(this.children[0].children[0].innerHTML,'comprar_modulo')">
                   <div>Cod: <span>{{ modulo.id}}</span>
                     <span style="float:right">{{modulo.capacidade}} und.</span>
                     <span style="float:right;padding-right:10px"> {{modulo.custo_de_aquisicao}} <i class="fa fa-usd"></i></span>

@@ -33,6 +33,7 @@ def encerrar_jogo():
 
 def vender_modulo(request, nome_time):
     print(request.POST["modulo_id"], nome_time)
+    JogoAtual.vender_modulo(nome_time, int(request.POST["modulo_id"]));
     print("vendido")
     return HttpResponse("vendido")
 
@@ -103,8 +104,14 @@ class Logica(object):
             return False
 
     def vender_modulo(self, id_time, id_modulo):
+        print("porra")
+        print(id_modulo in self.times[id_time].modulos)
+        print (self.times[id_time].modulos)
         if id_modulo in self.times[id_time].modulos:        # fazer verificação se existe o time tem esse módulo
             i = self.times[id_time].modulos.index(id_modulo)
+            print (i)
+            print (self.times[id_time].modulos)
+            print(self.times[id_time].modulos[i])
             #TODO: tratar questão de preço do modulo
             del self.times[id_time].modulos[i]
             return True

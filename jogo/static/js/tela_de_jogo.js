@@ -1,25 +1,33 @@
+/* Atualizações em tempo real (Timer e Rodada) */
+socket_rodada = new WebSocket("ws://" + window.location.host + "/rodada/");
+socket_rodada.onmessage = function(e) {
+    document.getElementById("t_rodada").innerHTML = e.data;
+}
+
+socket_rodada = new WebSocket("ws://" + window.location.host + "/timer/");
+socket_rodada.onmessage = function(e) {
+    document.getElementById("t_timer").innerHTML = e.data;
+}
+
+
+socket_rodada.onopen = function() {
+    socket_rodada.send("hello world");
+}
+// Call onopen directly if socket is already open
+if (socket_rodada.readyState == WebSocket.OPEN) socket_rodada.onopen();
+
+
+/* Funções e variaveis para mudança de abas */
 var aba_atual = 0;
- document.getElementsByClassName("aba")[0].style.display = "initial";
+document.getElementsByClassName("aba")[0].style.display = "initial";
 
 function mudar_aba(aba){
   var index = Array.prototype.indexOf.call(aba.parentElement.children, aba);
   var abas = document.getElementsByClassName("aba");
   console.log(abas[index].children[1])
+  /* se mudar para aba do hospital .. atualiza */
   if(abas[index].children[1].id == "hospit"){
-    $.ajax({
-        url : "hospital/", // the endpoint
-        type : "GET", // http method
-
-        // handle a successful response
-        success : function(data) {
-          abas[index].children[1].innerHTML = data;
-        },
-
-        // handle a non-successful response
-        error : function(xhr,errmsg,err) {
-            console.log("erro"); // provide a bit more info about the error to the console
-        }
-    });
+    atualizar_hospital();
   }
   if(abas.length <= index)
     return;
@@ -52,16 +60,17 @@ function comprar_modulo(id) {
     });
 };
 
-function vender_modulo() {
+function vender_modulo(id) {
     $.ajax({
         url : "vender_modulo/",
         type : "POST",
-        data : { modulo_id : document.getElementById("vend_modulo_id").value}, // data sent with the post request
+        data : { modulo_id : id}, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
             console.log(json);
             console.log("success");
+            atualizar_hospital();
         },
 
         // handle a non-successful response
@@ -111,7 +120,7 @@ function despedir_medico() {
     });
 };
 
-function busca_modulo(id_modulo_buscar){
+function busca_modulo(id_modulo_buscar, acao){
   $.ajax({
       url : "busca_modulo/",
       type : "POST",
@@ -121,7 +130,7 @@ function busca_modulo(id_modulo_buscar){
       success : function(json) {
           console.log("success");
           var modulo = JSON.parse(json)[0];
-          abrir_informacoes(modulo);
+          abrir_informacoes(modulo, acao);
       },
 
       // handle a non-successful response
@@ -131,58 +140,58 @@ function busca_modulo(id_modulo_buscar){
   });
 }
 
-function abrir_informacoes(modulo){
-  //var texto = document.getElementById("texto_modal");
-  //texto.innerHTML = "teste";
+function abrir_informacoes(modulo, acao){
 
-  // START HERE
-  // Get the modal
   var modal = document.getElementById('myModal');
 
-  // Get the button that opens the modal
   var b_cmpr = document.getElementById("b_comprar");
 
-  // Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close")[0];
-
-  // When the user clicks the button, open the modal
+  var close = document.getElementsByClassName("close")[0];
 
   modal.style.display = "block";
-  b_cmpr.onclick = function() {
-    console.log("kay");
-    comprar_modulo(modulo.pk);
-    modal.style.display = "none"
-  }
-  // When the user clicks on <span> (x), close the modal
-  span.onclick = function() {
+  close.onclick = function() {
       modal.style.display = "none";
   }
-
-  // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
       if (event.target == modal) {
           modal.style.display = "none";
       }
   }
-  //ENDS HERE
+
+  switch(acao) {
+    case "comprar_modulo":
+        b_cmpr.onclick = function() {
+          console.log("kay");
+          comprar_modulo(modulo.pk);
+          modal.style.display = "none"
+        }
+        break;
+    case "vender_modulo":
+        b_cmpr.innerHTML= "Vender"
+        b_cmpr.onclick = function() {
+          console.log("kay");
+          vender_modulo(modulo.pk);
+          modal.style.display = "none"
+        }
+        break;
+    default:
+        ;
+  }
 }
 
-socket_rodada = new WebSocket("ws://" + window.location.host + "/rodada/");
-socket_rodada.onmessage = function(e) {
-    document.getElementById("t_rodada").innerHTML = e.data;
+function atualizar_hospital(){
+  $.ajax({
+      url : "hospital/",
+      type : "GET",
+      success : function(data) {
+        document.getElementById("hospit").innerHTML = data;
+      },
+      error : function(xhr,errmsg,err) {
+          console.log("erro");
+      }
+  });
 }
 
-socket_rodada = new WebSocket("ws://" + window.location.host + "/timer/");
-socket_rodada.onmessage = function(e) {
-    document.getElementById("t_timer").innerHTML = e.data;
-}
-
-
-socket_rodada.onopen = function() {
-    socket_rodada.send("hello world");
-}
-// Call onopen directly if socket is already open
-if (socket_rodada.readyState == WebSocket.OPEN) socket_rodada.onopen();
 
 /**
  * setup para protecao com token csrftoken
