@@ -111,6 +111,8 @@ function despedir_medico(id) {
         success : function(json) {
             console.log(json);
             console.log("success");
+            atualizar_hospital()
+            
         },
 
         // handle a non-successful response

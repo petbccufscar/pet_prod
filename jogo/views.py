@@ -548,6 +548,7 @@ def tela_de_jogo(request, nome_time):
         "mod_p_area": modulos_p_areas,
         "medicos": lista_medicos,
         "colunas" : colunas, # adiciona aqui pra ser acessivel no template
+        "caixa": time.estatisticas.get_ultimo_caixa(),
         }
     return render(request, 'jogo/tela_de_jogo.html', contexto)
 

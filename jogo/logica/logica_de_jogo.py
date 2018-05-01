@@ -52,22 +52,16 @@ def contratar_medico(request, nome_time):
 
 def despedir_medico(request, nome_time):
     print(request.POST["medico_id"], nome_time)
-    JogoAtual.vender_medico(nome_time, request.POST["medico_id"])
+    JogoAtual.vender_medico(nome_time, int(request.POST["medico_id"]))
     print("despedido")
     return HttpResponse("despedido")
 
 def busca_modulo(request, nome_time):
-    print(request.POST["modulo_id"], nome_time)
-    print("buscou id")
     data = serializers.serialize("json", [Modulo.objects.get(id = request.POST["modulo_id"]),])
-    print(data)
     return HttpResponse(data)
 
 def busca_medico(request, nome_time):
-    print(request.POST["medico_id"], nome_time)
-    print("buscou id")
     data = serializers.serialize("json", [Medico.objects.get(id = request.POST["medico_id"]),])
-    print(data)
     return HttpResponse(data)
 
 class Logica(object):
