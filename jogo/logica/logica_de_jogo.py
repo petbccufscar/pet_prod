@@ -32,9 +32,8 @@ def encerrar_jogo():
     pass
 
 def vender_modulo(request, nome_time):
-    print(request.POST["modulo_id"], nome_time)
-    JogoAtual.vender_modulo(nome_time, int(request.POST["modulo_id"]));
-    print("vendido")
+    print("VENTI UM MODULO")
+    JogoAtual.vender_modulo(nome_time, int(request.POST["modulo_id"]))
     return HttpResponse("vendido")
 
 
@@ -96,49 +95,47 @@ class Logica(object):
         self.times[time.nome] = time
 
     def comprar_modulo(self, id_time, id_modulo):
-        if id_modulo in self.modulos:           # fazer verificação se existe esse módulo
-            # REVIEW: Muitos acessos a self.time[id_time]
-            # pode criar uma variavel 'time = self.times[id_time]'
-            # e substituir os self.times[id_times] por 'time', aumenta eficiencia e legibilidade
-            # REVIEW: Em python vc pode acessar a ultima posicao de uma lista com indice -1
-            # ex. lista[-1] = blah ultima pos de lista recebe blah
-            self.times[id_time].modulos.append(id_modulo)
-            self.times[id_time].estatisticas.comprasModulo[len(self.times[id_time].estatisticas.comprasModulo) - 1] += Modulo.objects.get(id=id_modulo).custo_de_aquisicao
-            self.times[id_time].estatisticas.caixa[len(self.times[id_time].estatisticas.caixa) - 1] -= self.times[id_time].estatisticas.comprasModulo[len(self.times[id_time].estatisticas.comprasModulo) - 1]
-            return True
-        else:
-            return False
+        if id_modulo in self.modulos:           # verificação se existe esse módulo
+            time = self.times[id_time]
+            custo_modulo = Modulo.objects.get(id=id_modulo).custo_de_aquisicao
+            if time.estatisticas.get_ultimo_caixa() >= custo_modulo:
+                time.adicionar_modulo(id_modulo)
+                time.estatisticas.comprasModulo[-1] += custo_modulo # [-1] acessa a última posição do vetor
+                time.estatisticas.caixa[-1] -= custo_modulo # ja deve ser feito essa conta na hora pois não pode ficar endividado por compra, apenas por má administração
+                return True
+            else:
+                return False
 
     def vender_modulo(self, id_time, id_modulo):
-        print("porra")
-        print(id_modulo in self.times[id_time].modulos)
-        print (self.times[id_time].modulos)
-        if id_modulo in self.times[id_time].modulos:        # fazer verificação se existe o time tem esse módulo
-            i = self.times[id_time].modulos.index(id_modulo)
-            print (i)
-            print (self.times[id_time].modulos)
-            print(self.times[id_time].modulos[i])
-            #TODO: tratar questão de preço do modulo
-            del self.times[id_time].modulos[i]
-            return True
+        if self.rodada_atual < len(self.rodadas) - 1:         # Só pode vender módulos até antes do último mês
+            time = self.times[id_time]
+            if id_modulo in time.modulos:        # verificação se o time tem esse módulo
+                time.remover_modulo(id_modulo)
+                custo_modulo = Modulo.objects.get(id=id_modulo).custo_de_aquisicao * 0.4 # o módulo é vendido por 40% do preco de aquisição
+                time.estatisticas.vendasModulo[-1] += custo_modulo  # [-1] acessa a última posição do vetor
+                time.estatisticas.caixa[-1] += custo_modulo  # para ser igual a compra, a venda já é calculada agora
+                return True
+            else:
+                return False
         else:
             return False
 
 
-    def comprar_medico(self, time_id, perfil_medico):
+    def comprar_medico(self, id_time, perfil_medico):
         if (self.medicos[perfil_medico] > 0):
-            self.times[time_id].adicionar_medico(perfil_medico)
+            time = self.times[id_time]
+            time.adicionar_medico(perfil_medico)
             self.medicos[perfil_medico] -= 1
             return True
+        else:
+            return False
 
-        return False
-
-
-
-    def vender_medico(self, time_id, perfil_medico):
+    def vender_medico(self, id_time, perfil_medico):
+        #TODO: fazer verificação se pode vender o médico .. 3 meses depois de contratado?
         # retorna true caso tenha tido sucesso, e false caso contrario
         # lembrar disso quando criar a view para renderizar a resposta correta
-        if (self.times[time_id].remover_medico(perfil_medico)):
+        time = self.times[id_time]
+        if (time.remover_medico(perfil_medico)):
             self.medicos[perfil_medico] += 1
             return True
 
@@ -177,7 +174,6 @@ class Logica(object):
         for time in self.times.values():
             capacidade_ocupada, entrada, saida = time.calcular_total_atendidos(demanda, areas, classes)
             # salvar em estatisticas
-            #print("Entao, pra cada time: ", capacidade_ocupada,entrada,saida)
             # REVIEW: talvez salvar_estatisticas seja um nome melhor para a função (Verificar)
             time.estatisticas.nova_rodada(entrada,saida,demanda, capacidade_ocupada)
 
@@ -193,7 +189,6 @@ class Logica(object):
 
         # setup da nova rodada
         self.rodada_atual = self.rodada_atual + 1
-        #print(self.rodada_atual)
         Group("rodada").send({
         "text": "Rodada: %s" % str(self.rodada_atual + 1),
         })

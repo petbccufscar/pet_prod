@@ -7,37 +7,57 @@ class Estatistica:
         porque ai pode acessar a documentacao com "Estatistica.__doc__"
 
     """
-    def __init__(self, caixa_inicial = 20000):
+    def __init__(self, caixa_inicial = 200000000):
         #TODO: Explicação do que são essas variaveis todas
         self.entrada = []
         self.saida = []
         self.caixa = []
-        # REVIEW: no metodo Logica.nova_rodada() demanda é um dicionario de dicionarios..
-        # porque aqui é diferente?
-        # escrever comentarios com explicação
 
-        self.demanda = [] # lista de dicionarios
-        self.total_atendidos = [] # lista de dicionarios
-        self.caixa.append(caixa_inicial)
-        self.demanda.append(None)
+        self.lista_demandas = [] # lista de dicionarios
 
-        # REVIEW: o que tem dentro de total_atendidos? dicionarios?
-        # precisa de explicar nos comentarios tbm
-        self.total_atendidos.append(None)
+        self.total_atendidos = [] # lista de dicionarios com o total de pessoas atendidas separadas por area (cada indice é uma rodada)
 
-        # REVIEW: essa variavel precisa de uma explicação. Escrever comentario
-        # com explicação
+
+        # Todas as contas do caixa são realizadas no final, porem o jogador não pode ficar endividado por compra sem dinheiro,
+        # apenas por má administração. Então as compras de módulos já são descontadas do caixa na hora. Porém é necessário armazenar
+        # isso para aparecer no relatório depois, somado à saída, obtendo o valor total de gastos da rodada
         self.comprasModulo = []
+
+
+        # O mesmo descrito acima serve para a venda de módulos
+        self.vendasModulo = []
+
+
+        # Iniciando a primeira posição de cada vetor para ser usada na primeira rodada
+        self.entrada.append(0)
+        self.saida.append(0)
+        self.caixa.append(caixa_inicial)
+        self.lista_demandas.append({})
+        self.total_atendidos.append({})
         self.comprasModulo.append(0)
+        self.vendasModulo.append(0)
+
 
     def nova_rodada(self, entrada, saida, demanda, total_atendidos):
-        self.entrada.append(entrada)
-        self.saida.append(saida)
-        self.caixa.append(self.caixa[-1] + entrada - saida)
-        self.demanda.append(demanda)
-        self.total_atendidos.append(total_atendidos)
+        # Atualizando ultima posição de cada vetor
+        self.entrada[-1] = entrada
+        self.saida[-1] = saida
+
+        self.caixa[-1] = self.caixa[-1] + entrada - saida
+
+        self.lista_demandas[-1] = demanda
+        self.total_atendidos[-1] = total_atendidos
+
+        # Preparando os vetores para a próxima rodada
+        self.entrada.append(0)
+        self.saida.append(0)
+        self.caixa.append(self.caixa[-1])
+        self.lista_demandas.append({})
+        self.total_atendidos.append({})
         self.comprasModulo.append(0)
-        #print("TEM CAIXA: ", self.caixa)
+        self.vendasModulo.append(0)
+
+        print("TEM CAIXA: ", self.caixa)
 
 
     def get_ultimo_caixa(self):
@@ -157,8 +177,6 @@ class Time:
 
 
     def calcular_total_atendidos(self, demanda, areas, classes):
-        # REVIEW: muitos comentarios defasados, tem que dar uma limpa aqui
-        #print("CALCULANDO ")
 
         #  VERIFICAR SE AS CLASSES SAO DE ACORDO
 
@@ -166,34 +184,32 @@ class Time:
         entrada = 0
         saida = 0
         atr_med = self.atributos_medicos()
-        # REVIEW: ar? pq não 'area' pense em quem vai ler o seu código
-        for ar in areas:
-            atr_mod = self.atributos_modulos(ar)
+        for area in areas:
+            atr_mod = self.atributos_modulos(area)
             capacidade_disponivel = atr_mod['capacidade']
 
             for classe in classes:
 
-                #REVIEW: Linha muuito grande. divir if em multiplas linhas.
-                if classe.media_conforto <= atr_mod['conforto'] and classe.nivel_tecnologia <= atr_mod['tecnologia'] and classe.preco_atendimento >= atr_mod['preco_do_tratamento'] and classe.nivel_especialidade <= atr_med['expertise'] and classe.velocidade_atendimento <= atr_med['atendimento']:
-                     #faltou o pontualidade. E velocidade_atendimento = atendimento?
+                if (classe.media_conforto <= atr_mod['conforto'] and
+                        classe.nivel_tecnologia <= atr_mod['tecnologia'] and
+                        classe.preco_atendimento >= atr_mod['preco_do_tratamento'] and
+                        classe.nivel_especialidade <= atr_med['expertise'] and
+                        classe.velocidade_atendimento <= atr_med['atendimento']):
 
-                     # Se o IF for verdadeiro, então pode atender essa classe!
-                    #print("pode atender essa classe ", classe )
+                     #TODO: faltou o pontualidade. E velocidade_atendimento = atendimento?
 
                     # CALCULAR TOTAL DE ATENDIDOS
-                    #print("demanda dessa area classe: ", demanda[ar.nome][classe.nome])
-                            # VER SE ACESSA A DEMANDA ASSIM
-                    if demanda[ar.nome][classe.nome] < capacidade_disponivel:
-                        capacidade_disponivel -= demanda[ar.nome][classe.nome]
+
+                    if demanda[area.nome][classe.nome] < capacidade_disponivel:
+                        capacidade_disponivel -= demanda[area.nome][classe.nome]
                     elif capacidade_disponivel > 0:
                         capacidade_disponivel = 0
                         break
-            #print("capacidade disponivel", capacidade_disponivel)
 
             # CALCULAR DEPOIS O DINHEIRO GANHO COM ISSO
 
-            capacidade_ocupada[ar.nome] = atr_mod['capacidade'] - capacidade_disponivel
-            entrada= entrada + capacidade_ocupada[ar.nome] * atr_mod['preco_do_tratamento']
+            capacidade_ocupada[area.nome] = atr_mod['capacidade'] - capacidade_disponivel
+            entrada= entrada + capacidade_ocupada[area.nome] * atr_mod['preco_do_tratamento']
             saida = saida + atr_mod['total_custo_mensal']
 
         saida = saida + atr_med['total_salarios']
