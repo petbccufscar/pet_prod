@@ -28,10 +28,10 @@
   </nav>
 
 
-  <div id="myModal" class="modal">
+  <div id="modalModulo" class="modal">
 
-    <!-- Modal content -->
-    <div class="modal-content">
+    <!-- Modal do módulo -->
+    <div class="modal-content-modulo">
       <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Flowers in Chania">
       <div style="padding:15px">
         <ul style="list-style-type: none;" id="card-content">
@@ -54,17 +54,56 @@
             <span style="display: inline">Conforto:</span> <span>50 $</span>
           </li>
           <li>
-            <span style="display: inline">tecnologia:</span> <span>50 $</span>
+            <span style="display: inline">Tecnologia:</span> <span>50 $</span>
           </li>
         </ul>
-        <div style="display:flex;margin-top:auto;justify-content: space-around">
+        <div style="display:flex;margin-top:auto;justify-content: space-around; padding:5px">
           <button id="b_comprar">Contratar</button>
           <button class="close">Cancelar</button>
         </div>
       </div>
     </div>
-
   </div>
+
+
+  <div id="modalMedico" class="modal">
+
+      <!-- Modal do médico -->
+      <div class="modal-content-medico">
+        <div style="padding:10px; display: flex">
+          <img class="medico-imagem" src="{% static 'imagens/medico.png' %}" alt="Medico">
+
+          <ul style="list-style-type: none; margin: auto;" id="card-content">
+            <li style="padding:10px; margin: auto">
+              <span style="display: inline">Perfil</span> <span>12</span>
+            </li>
+            <li>
+              <span style="display: inline">Salário</span> <span>1,200.00</span>
+            </li>
+            <li>
+              <span style="display: inline">Pontualidade:</span> <span>
+                <i class="far fa-clock" style="font-size:25px;color:blue"></i>  </span>
+            </li>
+            <li>
+              <span style="display: inline">Expertise:</span> <span>
+              <i class="fas fa-graduation-cap" style="font-size:25px"></i>
+            <i class="fas fa-graduation-cap" style="font-size:25px"></i>
+          <i class="fas fa-graduation-cap" style="font-size:25px"></i></span>
+            </li>
+            <li>
+              <span style="display: inline">Atendimento:</span> <span>
+              <i class="fas fa-user-md" style="font-size:25px;color:green"></i> </span>
+            </li>
+          </ul>
+        </div>
+          <div style="display:flex;margin-top:auto;justify-content: space-around; padding:10px">
+            <button id="b_comprar">Contratar</button>
+            <button class="close">Cancelar</button>
+          </div>
+
+      </div>
+    </div>
+
   </div>
   <!-- Loja -->
   <div class="aba">
@@ -73,7 +112,7 @@
       <div class="card">
         <div class="table">
           <div class="thead">
-            Modulos
+            Módulos
             <div>
               <i class="fa fa-heart" style="font-size:25px;color:#ef4646"></i> Conforto
               <i class="fa fa-medkit" style="font-size:25px;color:blue"></i> Tecnologia
@@ -120,7 +159,7 @@
       <div class="card">
         <div class="table">
           <div class="thead">
-            Medicos
+            Médicos
             <div>
               <i class="far fa-clock" style="font-size:25px;color:blue"></i> Pontualidade
               <i class="fas fa-graduation-cap" style="font-size:25px"></i>Expertise
@@ -130,7 +169,7 @@
           <div class="tbody">
             <div class="conteudo-bloco">
               {% for medico in medicos %}
-              <div class="linha" onclick="busca_modulo(this.children[0].children[0].innerHTML,'comprar_medico')">
+              <div class="linha" onclick="busca_medico(this.children[0].children[0].innerHTML,'comprar_medico')">
                 <div>Cod: <span>{{ medico.id}}</span>
                   <span style="float:right;padding-right:10px"> {{medico.salario}}<i class="fas fa-dollar-sign"></i></i></span>
                 </div>

@@ -57,6 +57,7 @@ urlpatterns = [
     url(r'^jogo/(?P<nome_time>\w+)/contratar_medico', logica_de_jogo.contratar_medico, name='contratar_medico'),
     url(r'^jogo/(?P<nome_time>\w+)/despedir_medico', logica_de_jogo.despedir_medico, name='despedir_medico'),
     url(r'^jogo/(?P<nome_time>\w+)/busca_modulo', logica_de_jogo.busca_modulo, name='busca_modulo'),
+    url(r'^jogo/(?P<nome_time>\w+)/busca_medico', logica_de_jogo.busca_medico, name='busca_medico'),
     url(r'^jogo/(?P<nome_time>\w+)/hospital', views.tela_de_jogo_hospital, name='tela_de_jogo_hospital'),
 
     url(r'^jogo/(?P<nome_time>\w+)/', views.tela_de_jogo, name='tela_de_jogo'),
