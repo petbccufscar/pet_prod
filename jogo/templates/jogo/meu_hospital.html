@@ -45,3 +45,42 @@
     </div>
   </div>
 </div>
+<div class="card">
+  <div class="table">
+    <div class="thead">
+      Médicos
+      <div>
+        <i class="far fa-clock" style="font-size:25px;color:blue"></i> Pontualidade
+        <i class="fas fa-graduation-cap" style="font-size:25px"></i>Expertise
+        <i class="fas fa-user-md" style="font-size:25px;color:green"></i>Atendimento
+      </div>
+    </div>
+    <div class="tbody">
+      <div class="conteudo-bloco">
+        {% for medico in medicos %}
+        <div class="linha" onclick="busca_medico(this.children[0].children[0].innerHTML,'despedir_medico')">
+          <div>Cod: <span>{{ medico.id}}</span>
+            <span style="float:right;padding-right:10px"> {{medico.salario}}<i class="fas fa-dollar-sign"></i></i></span>
+          </div>
+          <div style="display:flex">
+            <div>
+              <div>
+                {% for i in medico.expertise %}
+                <i class="fas fa-graduation-cap" style="font-size:25px"></i>{% endfor %}
+              </div>
+              <div>
+                {% for i in medico.pontualidade %}
+                <i class="far fa-clock" style="font-size:25px;color:blue"></i> {% endfor %}
+              </div>
+            </div>
+            <div style="margin-left: auto;flex-direction:column;font-size:16">
+              {% for i in medico.atendimento%}
+              <i class="fas fa-user-md" style="font-size:25px;color:green"></i> {% endfor%}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

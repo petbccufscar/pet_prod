@@ -42,7 +42,6 @@ def comprar_modulo(request, nome_time):
     print("COMPREI UM MODULO")
     print(request.POST["modulo_id"], nome_time)
     JogoAtual.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
-    JogoAtual.encerrar_rodada()
     return HttpResponse("comprado")
 
 def contratar_medico(request, nome_time):
@@ -54,6 +53,7 @@ def contratar_medico(request, nome_time):
 
 def despedir_medico(request, nome_time):
     print(request.POST["medico_id"], nome_time)
+    JogoAtual.vender_medico(nome_time, request.POST["medico_id"])
     print("despedido")
     return HttpResponse("despedido")
 
@@ -88,7 +88,7 @@ class Logica(object):
         #TODO: isso deve ser pego da interface
         for medico in med:
             # inicia todos os perfis existentes no bd com 3 médicos
-            self.medicos[medico.perfil] = 3
+            self.medicos[medico.id] = 3
         for modulo in mod:
             self.modulos.append(modulo.id)
 

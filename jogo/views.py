@@ -557,8 +557,15 @@ def tela_de_jogo_hospital(request, nome_time):
     time = logica_jogo.JogoAtual.times[nome_time]
     # Separando modulos por area
     time_modulos_p_areas = {}
-
+    medicos = []
     time = logica_jogo.JogoAtual.times[nome_time];
+    for id_med in time.medicos:
+        medico = Medico.objects.get(id = id_med)
+        medicos.append(medico)
+        medico.salario =  "{:,.2f}".format(medico.salario)
+        medico.expertise = range(0, medico.expertise)
+        medico.atendimento = range(0, medico.atendimento)
+        medico.pontualidade = range(0, medico.pontualidade)
 
     for id_mod in time.modulos:
         modulo = Modulo.objects.get(id = id_mod)
@@ -574,6 +581,7 @@ def tela_de_jogo_hospital(request, nome_time):
         modulo.conforto = range(0, modulo.conforto)
     contexto = {
         "t_mod_p_area": time_modulos_p_areas,
+        "medicos": medicos,
     }
     return render(request, 'jogo/meu_hospital.html', contexto)
 

@@ -80,12 +80,12 @@ function vender_modulo(id) {
     });
 };
 
-function contratar_medico() {
+function contratar_medico(id) {
     console.log("create post is working!") // sanity check
     $.ajax({
         url : "contratar_medico/", // the endpoint
         type : "POST", // http method
-        data : { medico_id : document.getElementById("medico_id").value}, // data sent with the post request
+        data : { medico_id : id}, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
@@ -101,11 +101,11 @@ function contratar_medico() {
     });
 };
 
-function despedir_medico() {
+function despedir_medico(id) {
     $.ajax({
         url : "despedir_medico/",
         type : "POST",
-        data : { medico_id : document.getElementById("despedir_medico_id").value}, // data sent with the post request
+        data : { medico_id :id}, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
@@ -167,8 +167,8 @@ function abrir_informacoes_modulo(modulo, acao){
         }
         break;
     case "vender_modulo":
-        b_cmpr.innerHTML= "Vender"
-        b_cmpr.onclick = function() {
+          b_cmpr.innerHTML= "Vender";
+          b_cmpr.onclick = function() {
           console.log("kay");
           vender_modulo(modulo.pk);
           modal.style.display = "none"
@@ -203,9 +203,9 @@ function abrir_informacoes_medico(medico, acao){
 
   var modal = document.getElementById('modalMedico');
 
-  var b_cmpr = document.getElementById("b_comprar");
+  var b_cmpr = document.getElementById("b_comprar_med");
 
-  var close = document.getElementsByClassName("close")[0];
+  var close = document.getElementById("b_cancelar_med");
 
   modal.style.display = "block";
   close.onclick = function() {
@@ -220,16 +220,14 @@ function abrir_informacoes_medico(medico, acao){
   switch(acao) {
     case "contratar_medico":
         b_cmpr.onclick = function() {
-          console.log("kay");
           contratar_medico(medico.pk);
           modal.style.display = "none"
         }
         break;
     case "despedir_medico":
-        b_cmpr.innerHTML= "Despedir"
-        b_cmpr.onclick = function() {
-          console.log("kay");
-          vender_modulo(medico.pk);
+          b_cmpr.innerHTML= "Despedir";
+          b_cmpr.onclick = function() {
+          despedir_medico(medico.pk);
           modal.style.display = "none"
         }
         break;

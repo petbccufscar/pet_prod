@@ -97,8 +97,8 @@
           </ul>
         </div>
           <div style="display:flex;margin-top:auto;justify-content: space-around; padding:10px">
-            <button id="b_comprar">Contratar</button>
-            <button class="close">Cancelar</button>
+            <button id="b_comprar_med">Contratar</button>
+            <button id="b_cancelar_med" class="close">Cancelar</button>
           </div>
 
       </div>
@@ -169,7 +169,7 @@
           <div class="tbody">
             <div class="conteudo-bloco">
               {% for medico in medicos %}
-              <div class="linha" onclick="busca_medico(this.children[0].children[0].innerHTML,'comprar_medico')">
+              <div class="linha" onclick="busca_medico(this.children[0].children[0].innerHTML,'contratar_medico')">
                 <div>Cod: <span>{{ medico.id}}</span>
                   <span style="float:right;padding-right:10px"> {{medico.salario}}<i class="fas fa-dollar-sign"></i></i></span>
                 </div>

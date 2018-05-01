@@ -107,7 +107,7 @@ class Time:
                 'total_salarios': 0
             }
         for medico in self.medicos:
-            med = Medico.objects.get(perfil=medico)
+            med = Medico.objects.get(id=medico)
             expertise += med.expertise
             atendimento += med.atendimento
             pontualidade += med.pontualidade
