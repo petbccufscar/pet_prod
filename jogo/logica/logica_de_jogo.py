@@ -64,6 +64,12 @@ def busca_modulo(request, nome_time):
     print(data)
     return HttpResponse(data)
 
+def busca_medico(request, nome_time):
+    print(request.POST["medico_id"], nome_time)
+    print("buscou id")
+    data = serializers.serialize("json", [Medico.objects.get(id = request.POST["medico_id"]),])
+    print(data)
+    return HttpResponse(data)
 
 class Logica(object):
     def __init__(self, qtd_rodadas, nrotimes, rodadas):

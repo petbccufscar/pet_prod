@@ -130,7 +130,7 @@ function busca_modulo(id_modulo_buscar, acao){
       success : function(json) {
           console.log("success");
           var modulo = JSON.parse(json)[0];
-          abrir_informacoes(modulo, acao);
+          abrir_informacoes_modulo(modulo, acao);
       },
 
       // handle a non-successful response
@@ -140,9 +140,9 @@ function busca_modulo(id_modulo_buscar, acao){
   });
 }
 
-function abrir_informacoes(modulo, acao){
+function abrir_informacoes_modulo(modulo, acao){
 
-  var modal = document.getElementById('myModal');
+  var modal = document.getElementById('modalModulo');
 
   var b_cmpr = document.getElementById("b_comprar");
 
@@ -178,6 +178,66 @@ function abrir_informacoes(modulo, acao){
         ;
   }
 }
+
+function busca_medico(id_medico_buscar, acao){
+  $.ajax({
+      url : "busca_medico/",
+      type : "POST",
+      data : {medico_id: id_medico_buscar}, // data sent with the post request
+
+      // handle a successful response
+      success : function(json) {
+          console.log("success");
+          var medico = JSON.parse(json)[0];
+          abrir_informacoes_medico(medico, acao);
+      },
+
+      // handle a non-successful response
+      error : function(xhr,errmsg,err) {
+          console.log("erro");
+      }
+  });
+}
+
+function abrir_informacoes_medico(medico, acao){
+
+  var modal = document.getElementById('modalMedico');
+
+  var b_cmpr = document.getElementById("b_comprar");
+
+  var close = document.getElementsByClassName("close")[0];
+
+  modal.style.display = "block";
+  close.onclick = function() {
+      modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+
+  switch(acao) {
+    case "contratar_medico":
+        b_cmpr.onclick = function() {
+          console.log("kay");
+          contratar_medico(medico.pk);
+          modal.style.display = "none"
+        }
+        break;
+    case "despedir_medico":
+        b_cmpr.innerHTML= "Despedir"
+        b_cmpr.onclick = function() {
+          console.log("kay");
+          vender_modulo(medico.pk);
+          modal.style.display = "none"
+        }
+        break;
+    default:
+        ;
+  }
+}
+
 
 function atualizar_hospital(){
   $.ajax({
