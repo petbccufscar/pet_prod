@@ -48,8 +48,11 @@ function comprar_modulo(id) {
           //  $('#post-text').val(''); // remove the value from the input
             console.log(json); // log the returned json to the console
             console.log("success"); // another sanity check
+            caixa = document.getElementById("t_caixa");
+            console.log(parseFloat(json));
+            console.log("coisos"+ caixa.innerHTML + json);
+            animar_incremento(600,parseFloat(caixa.innerHTML),parseFloat(json), caixa);
             alert("Modulo comprado!");
-
         },
 
         // handle a non-successful response
@@ -69,6 +72,8 @@ function vender_modulo(id) {
         // handle a successful response
         success : function(json) {
             console.log(json);
+            caixa = document.getElementById("t_caixa");
+            animar_incremento(800,parseFloat(caixa.innerHTML), parseFloat(json), caixa);
             console.log("success");
             atualizar_hospital();
         },
@@ -112,7 +117,7 @@ function despedir_medico(id) {
             console.log(json);
             console.log("success");
             atualizar_hospital()
-            
+
         },
 
         // handle a non-successful response

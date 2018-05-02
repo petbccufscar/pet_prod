@@ -15,11 +15,11 @@ function AnimadorIncremento(duracao, v_ini, v_fim, elem){
   this.v_atual = v_ini;
   this.fim = v_fim;
   this.range = v_fim - v_ini;
+  console.log(this.range);
 
   this.animacao = function f(timestamp) {  // Public Method
     if(this.before == null){
       this.before = timestamp;
-      console.log(this.before);
       requestAnimationFrame(f.bind(this));
       return;
     }
@@ -29,11 +29,11 @@ function AnimadorIncremento(duracao, v_ini, v_fim, elem){
     this.duracao += this.delta;
     var x = (this.delta * this.range)/this.max;
     this.v_atual = this.v_atual + x;
-    if(this.max <= this.duracao || Math.abs(this.v_atual) > Math.abs(this.fim)){
-      this.elemento.innerHTML ="$ "+ numeroComVirgulas(this.fim.toFixed(2))
+    if(this.max <= this.duracao ){
+      this.elemento.innerHTML = this.fim.toFixed(2)
       return;
     }else{
-      this.elemento.innerHTML ="$ "+ numeroComVirgulas(this.v_atual.toFixed(2));
+      this.elemento.innerHTML = this.v_atual.toFixed(2);
 
       requestAnimationFrame(f.bind(this));
     }

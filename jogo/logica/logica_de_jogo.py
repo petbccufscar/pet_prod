@@ -34,14 +34,14 @@ def encerrar_jogo():
 def vender_modulo(request, nome_time):
     print("VENTI UM MODULO")
     JogoAtual.vender_modulo(nome_time, int(request.POST["modulo_id"]))
-    return HttpResponse("vendido")
+    return HttpResponse(JogoAtual.times[nome_time].estatisticas.get_ultimo_caixa())
 
 
 def comprar_modulo(request, nome_time):
     print("COMPREI UM MODULO")
     print(request.POST["modulo_id"], nome_time)
     JogoAtual.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
-    return HttpResponse("comprado")
+    return HttpResponse(JogoAtual.times[nome_time].estatisticas.get_ultimo_caixa())
 
 def contratar_medico(request, nome_time):
     print(request.POST["medico_id"], nome_time)

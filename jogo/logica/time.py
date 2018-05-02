@@ -7,7 +7,7 @@ class Estatistica:
         porque ai pode acessar a documentacao com "Estatistica.__doc__"
 
     """
-    def __init__(self, caixa_inicial = 200000000):
+    def __init__(self, caixa_inicial = 2000000):
         #TODO: Explicação do que são essas variaveis todas
         self.entrada = []
         self.saida = []
