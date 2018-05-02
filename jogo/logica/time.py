@@ -15,8 +15,9 @@ class Estatistica:
 
         self.lista_demandas = [] # lista de dicionarios
 
-        self.total_atendidos = [] # lista de dicionarios com o total de pessoas atendidas separadas por area (cada indice é uma rodada)
+        self.lista_total_atendidos = [] # lista de dicionarios com o total de pessoas atendidas separadas por area (cada indice é uma rodada)
 
+        self.lista_entradas_por_area = [] # lista de dicionarios
 
         # Todas as contas do caixa são realizadas no final, porem o jogador não pode ficar endividado por compra sem dinheiro,
         # apenas por má administração. Então as compras de módulos já são descontadas do caixa na hora. Porém é necessário armazenar
@@ -33,12 +34,13 @@ class Estatistica:
         self.saida.append(0)
         self.caixa.append(caixa_inicial)
         self.lista_demandas.append({})
-        self.total_atendidos.append({})
+        self.lista_total_atendidos.append({})
+        self.lista_entradas_por_area.append({})
         self.comprasModulo.append(0)
         self.vendasModulo.append(0)
 
 
-    def nova_rodada(self, entrada, saida, demanda, total_atendidos):
+    def nova_rodada(self, entrada, saida, demanda, total_atendidos, entradas_por_area):
         # Atualizando ultima posição de cada vetor
         self.entrada[-1] = entrada
         self.saida[-1] = saida
@@ -46,18 +48,23 @@ class Estatistica:
         self.caixa[-1] = self.caixa[-1] + entrada - saida
 
         self.lista_demandas[-1] = demanda
-        self.total_atendidos[-1] = total_atendidos
+        self.lista_total_atendidos[-1] = total_atendidos
+        self.lista_entradas_por_area[-1] = entradas_por_area
+
+
+
+        print("TEM CAIXA: ", self.caixa)
 
         # Preparando os vetores para a próxima rodada
         self.entrada.append(0)
         self.saida.append(0)
         self.caixa.append(self.caixa[-1])
         self.lista_demandas.append({})
-        self.total_atendidos.append({})
+        self.lista_total_atendidos.append({})
+        self.lista_entradas_por_area.append({})
         self.comprasModulo.append(0)
         self.vendasModulo.append(0)
 
-        print("TEM CAIXA: ", self.caixa)
 
 
     def get_ultimo_caixa(self):
@@ -145,24 +152,27 @@ class Time:
         capacidade = 0
         preco_do_tratamento = 0
         total_custo_mensal = 0
-        quantidade = len(self.modulos)
-        if quantidade == 0:
-            return {
-            'tecnologia': 0,
-            'conforto': 0,
-            'preco_do_tratamento': 0,
-            'capacidade': 0,
-            'total_custo_mensal': 0
+        quantidade = 0
 
-        }
+
         for modulo_id in self.modulos:
             mod = Modulo.objects.get(id=modulo_id)
             if mod.area.nome == area.nome: # transformar para id
+                quantidade += 1
                 tecnologia += mod.tecnologia
                 conforto += mod.conforto
                 preco_do_tratamento += mod.preco_do_tratamento
                 capacidade += mod.capacidade
                 total_custo_mensal += mod.custo_mensal
+        if quantidade == 0:
+            return {
+                'tecnologia': 0,
+                'conforto': 0,
+                'preco_do_tratamento': 0,
+                'capacidade': 0,
+                'total_custo_mensal': 0
+
+            }
         return {
             'tecnologia': tecnologia / quantidade,
             'conforto': conforto / quantidade,
@@ -180,12 +190,15 @@ class Time:
 
         #  VERIFICAR SE AS CLASSES SAO DE ACORDO
 
-        capacidade_ocupada = {}
+        total_atendidos = {}
+        entradas_por_area = {}
         entrada = 0
         saida = 0
         atr_med = self.atributos_medicos()
+
         for area in areas:
             atr_mod = self.atributos_modulos(area)
+
             capacidade_disponivel = atr_mod['capacidade']
 
             for classe in classes:
@@ -208,10 +221,11 @@ class Time:
 
             # CALCULAR DEPOIS O DINHEIRO GANHO COM ISSO
 
-            capacidade_ocupada[area.nome] = atr_mod['capacidade'] - capacidade_disponivel
-            entrada= entrada + capacidade_ocupada[area.nome] * atr_mod['preco_do_tratamento']
+            total_atendidos[area.nome] = atr_mod['capacidade'] - capacidade_disponivel
+            entradas_por_area[area.nome] = total_atendidos[area.nome] * atr_mod['preco_do_tratamento']
+            entrada = entrada + entradas_por_area[area.nome]
             saida = saida + atr_mod['total_custo_mensal']
 
         saida = saida + atr_med['total_salarios']
 
-        return capacidade_ocupada, entrada, saida
+        return total_atendidos, entrada, saida, entradas_por_area

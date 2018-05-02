@@ -511,8 +511,6 @@ def iniciar_jogo(request):
     times = [] #TODO: inicializar times
     #times hardcoded para fins de teste
     times.append(LTime("time1"))
-    times.append(LTime("time2"))
-    times.append(LTime("time3"))
     logica_jogo.inicializa_jogo(rodadas, times)
     return HttpResponse("Iniciou")
 
