@@ -112,7 +112,7 @@ function despedir_medico(id) {
             console.log(json);
             console.log("success");
             atualizar_hospital()
-            
+
         },
 
         // handle a non-successful response
@@ -150,6 +150,35 @@ function abrir_informacoes_modulo(modulo, acao){
 
   var close = document.getElementsByClassName("close")[0];
 
+  var codigo = document.getElementById("codigo_modal_modulo");
+  codigo.innerHTML = modulo.pk;
+
+  var preco = document.getElementById("preco_modal_modulo");
+  preco.innerHTML = modulo.fields.custo_de_aquisicao;
+
+  var custo = document.getElementById("custo_modal_modulo");
+  custo.innerHTML = modulo.fields.custo_mensal;
+
+  var tratamento = document.getElementById("tratamento_modal_modulo");
+  tratamento.innerHTML = modulo.fields.preco_do_tratamento;
+
+  var capacidade = document.getElementById("capacidade_modal_modulo");
+  capacidade.innerHTML = modulo.fields.capacidade;
+
+  var conforto = document.getElementById("conforto_modal_modulo");
+  conforto.innerHTML = ""
+  for (i = 0; i < modulo.fields.conforto; i++)
+  {
+    conforto.innerHTML = "<i class=\"fa fa-heart\" style=\"font-size:25px;color:#ef4646\"></i>" + conforto.innerHTML;
+  }
+
+  var tecnologia = document.getElementById("tecnologia_modal_modulo");
+  tecnologia.innerHTML = ""
+  for (i = 0; i < modulo.fields.tecnologia; i++)
+  {
+    tecnologia.innerHTML = "<i class=\"fa fa-medkit\" style=\"font-size:25px;color:blue\"></i>" + tecnologia.innerHTML;
+  }
+
   modal.style.display = "block";
   close.onclick = function() {
       modal.style.display = "none";
@@ -162,6 +191,7 @@ function abrir_informacoes_modulo(modulo, acao){
 
   switch(acao) {
     case "comprar_modulo":
+        b_cmpr.innerHTML= "Comprar";
         b_cmpr.onclick = function() {
           console.log("kay");
           comprar_modulo(modulo.pk);
@@ -209,6 +239,33 @@ function abrir_informacoes_medico(medico, acao){
 
   var close = document.getElementById("b_cancelar_med");
 
+  var perfil = document.getElementById("perfil_modal_medico");
+  perfil.innerHTML = medico.pk;
+
+  var salario = document.getElementById("salario_modal_medico");
+  salario.innerHTML = medico.fields.salario;
+
+  var pontualidade = document.getElementById("pontualidade_modal_medico");
+  pontualidade.innerHTML = ""
+  for (i = 0; i < medico.fields.pontualidade; i++)
+  {
+    pontualidade.innerHTML = "<i class=\"far fa-clock\" style=\"font-size:25px;color:blue\"></i>" + pontualidade.innerHTML;
+  }
+
+  var expertise = document.getElementById("expertise_modal_medico");
+  expertise.innerHTML = ""
+  for (i = 0; i < medico.fields.expertise; i++)
+  {
+    expertise.innerHTML = "<i class=\"fas fa-graduation-cap\" style=\"font-size:25px\">" + expertise.innerHTML;
+  }
+
+  var atendimento = document.getElementById("atendimento_modal_medico");
+  atendimento.innerHTML = ""
+  for (i = 0; i < medico.fields.atendimento; i++)
+  {
+    atendimento.innerHTML = "<i class=\"fas fa-user-md\" style=\"font-size:25px;color:green\"></i>" + atendimento.innerHTML;
+  }
+
   modal.style.display = "block";
   close.onclick = function() {
       modal.style.display = "none";
@@ -221,6 +278,7 @@ function abrir_informacoes_medico(medico, acao){
 
   switch(acao) {
     case "contratar_medico":
+        b_cmpr.innerHTML= "Contratar";
         b_cmpr.onclick = function() {
           contratar_medico(medico.pk);
           modal.style.display = "none"
