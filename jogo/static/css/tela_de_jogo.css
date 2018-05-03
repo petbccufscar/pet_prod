@@ -176,3 +176,15 @@ div{
     padding: 15px;
     box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
 }
+
+/* TAMANHO DO GRAFICO*/
+.chart-container-pie{
+    width: 200px;
+    height: 200px;
+}
+
+/* TAMANHO DO GRAFICO*/
+.chart-container-bar{
+    width: 600px;
+    height: 600px;
+}

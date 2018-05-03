@@ -301,7 +301,6 @@ function abrir_informacoes_medico(medico, acao){
   }
 }
 
-
 function atualizar_hospital(){
   $.ajax({
       url : "hospital/",
@@ -315,6 +314,68 @@ function atualizar_hospital(){
   });
 }
 
+/* COISAS PRO GRÁFICO DE PIZZA */
+
+var ctx = document.getElementById("myPieChart");
+console.log(ctx);
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ["Capacidade Ociosa", "Capacidade Utilizada"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19],
+            backgroundColor: [
+                'rgba(240, 128, 128, 1)',
+                'rgba(0, 191, 255, 1)',
+            ],
+            borderColor: [
+                'rgba(240, 128, 128, 1)',
+                'rgba(0, 191, 255, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+  }
+});
+
+/* COISAS PRO GRÁFICO DE COLUNAS */
+
+var ctx = document.getElementById("myBarChart");
+var data = {
+    labels: areas,
+    datasets: [
+        {
+            label: "Pacientes que procuraram o hospital",
+            backgroundColor: "blue",
+            data: procuraram_atendimento
+        },
+        {
+            label: "Pacientes que foram atendidos",
+            backgroundColor: "red",
+            data: total_atendidos
+        },
+
+    ]
+};
+
+var myBarChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: {
+        barValueSpacing: 20,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                }
+            }]
+        }
+    }
+});
 
 /**
  * setup para protecao com token csrftoken

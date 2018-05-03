@@ -528,6 +528,16 @@ def tela_de_jogo(request, nome_time):
     # Separando modulos por area
     modulos_p_areas = {}
 
+    print(time.estatisticas.lista_demandas)
+    print(time.estatisticas.lista_total_atendidos)
+    labels = time.estatisticas.lista_demandas[0].keys()
+    total_atendidos = time.estatisticas.lista_total_atendidos[0].values()
+    procuraram_atendimento = time.estatisticas.lista_demandas[0].values()
+
+    aux = []
+    for i in procuraram_atendimento:
+        aux.append(sum(i.values()))
+
     for modulo in modulos:
         if modulo.area.nome in modulos_p_areas:
             modulos_p_areas[modulo.area.nome].append(modulo)
@@ -547,6 +557,9 @@ def tela_de_jogo(request, nome_time):
         "medicos": lista_medicos,
         "colunas" : colunas, # adiciona aqui pra ser acessivel no template
         "caixa": time.estatisticas.get_ultimo_caixa(),
+        "labels": labels,
+        "total_atendidos": total_atendidos,
+        "procuraram_atendimento": aux,
         }
     return render(request, 'jogo/tela_de_jogo.html', contexto)
 
