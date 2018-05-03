@@ -97,6 +97,7 @@ class Estatistica:
             'lucro': (self.entrada_atendimento + self.vendasModulo) - (self.comprasModulo + self.lista_manutencao_modulos + self.lista_salarios_medicos), #TODO: somar e subtrair o emprestimo aqui
             'caixa': self.caixa
         }
+        #[[y[x] for y in self.lista_entradas_por_area ] for x in self.lista_entradas_por_area[0].keys()]
         return JsonResponse({
             'status': 'ok',
             'data': data
