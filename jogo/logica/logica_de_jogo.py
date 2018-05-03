@@ -167,10 +167,10 @@ class Logica(object):
         areas = Area.objects.all()
         classes = Classe_Social.objects.all()
         for time in self.times.values():
-            total_atendidos, entrada, saida, entradas_por_area = time.calcular_total_atendidos(demanda, areas, classes)
+            total_atendidos, entrada, saida, entradas_por_area, salarios_medicos, manutencao_modulos = time.calcular_total_atendidos(demanda, areas, classes)
             # salvar em estatisticas
             # REVIEW: talvez salvar_estatisticas seja um nome melhor para a função (Verificar)
-            time.estatisticas.nova_rodada(entrada,saida,demanda, total_atendidos, entradas_por_area)
+            time.estatisticas.nova_rodada(entrada, saida, demanda, total_atendidos, entradas_por_area, salarios_medicos, manutencao_modulos)
 
 
 

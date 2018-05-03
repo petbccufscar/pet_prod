@@ -28,6 +28,10 @@ class Estatistica:
         # O mesmo descrito acima serve para a venda de módulos
         self.vendasModulo = []
 
+        # Listas para armazenar os custos de cada rodada sobre salario de medico e manutencao de modulo
+        self.lista_salarios_medicos = []
+        self.lista_manutencao_modulos = []
+
 
         # Iniciando a primeira posição de cada vetor para ser usada na primeira rodada
         self.entrada.append(0)
@@ -38,9 +42,11 @@ class Estatistica:
         self.lista_entradas_por_area.append({})
         self.comprasModulo.append(0)
         self.vendasModulo.append(0)
+        self.lista_salarios_medicos.append(0)
+        self.lista_manutencao_modulos.append(0)
 
 
-    def nova_rodada(self, entrada, saida, demanda, total_atendidos, entradas_por_area):
+    def nova_rodada(self, entrada, saida, demanda, total_atendidos, entradas_por_area, salarios_medicos, manutencao_modulos):
         # Atualizando ultima posição de cada vetor
         self.entrada[-1] = entrada
         self.saida[-1] = saida
@@ -51,9 +57,15 @@ class Estatistica:
         self.lista_total_atendidos[-1] = total_atendidos
         self.lista_entradas_por_area[-1] = entradas_por_area
 
+        self.lista_salarios_medicos[-1] = salarios_medicos
+        self.lista_manutencao_modulos[-1] = manutencao_modulos
+
 
 
         print("TEM CAIXA: ", self.caixa)
+        print("Salarios medicos: ", salarios_medicos)
+        print("Custo manutencao: ", manutencao_modulos)
+        print("Saida: ", saida)
 
         # Preparando os vetores para a próxima rodada
         self.entrada.append(0)
@@ -64,6 +76,8 @@ class Estatistica:
         self.lista_entradas_por_area.append({})
         self.comprasModulo.append(0)
         self.vendasModulo.append(0)
+        self.lista_salarios_medicos.append(0)
+        self.lista_manutencao_modulos.append(0)
 
 
 
@@ -194,6 +208,7 @@ class Time:
         entradas_por_area = {}
         entrada = 0
         saida = 0
+        manutencao_modulos = 0
         atr_med = self.atributos_medicos()
 
         for area in areas:
@@ -225,7 +240,9 @@ class Time:
             entradas_por_area[area.nome] = total_atendidos[area.nome] * atr_mod['preco_do_tratamento']
             entrada = entrada + entradas_por_area[area.nome]
             saida = saida + atr_mod['total_custo_mensal']
+            manutencao_modulos = manutencao_modulos + atr_mod['total_custo_mensal']
 
         saida = saida + atr_med['total_salarios']
+        salarios_medicos = atr_med['total_salarios']
 
-        return total_atendidos, entrada, saida, entradas_por_area
+        return total_atendidos, entrada, saida, entradas_por_area, salarios_medicos, manutencao_modulos
