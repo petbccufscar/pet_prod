@@ -9,8 +9,7 @@ class Estatistica:
     """
     def __init__(self, caixa_inicial = 2000000):
         #TODO: Explicação do que são essas variaveis todas
-        self.entrada = []
-        self.saida = []
+        self.entrada_atendimento = [] # total ganho com a soma do que foi ganho em cada area
         self.caixa = []
 
         self.lista_demandas = [] # lista de dicionarios
@@ -33,9 +32,11 @@ class Estatistica:
         self.lista_manutencao_modulos = []
 
 
+        # Lista de dicionarios que contem dicionarios com os atributos de modulos de cada rodada
+        self.lista_atr_mod = []
+
         # Iniciando a primeira posição de cada vetor para ser usada na primeira rodada
-        self.entrada.append(0)
-        self.saida.append(0)
+        self.entrada_atendimento.append(0)
         self.caixa.append(caixa_inicial)
         self.lista_demandas.append({})
         self.lista_total_atendidos.append({})
@@ -44,14 +45,14 @@ class Estatistica:
         self.vendasModulo.append(0)
         self.lista_salarios_medicos.append(0)
         self.lista_manutencao_modulos.append(0)
+        self.lista_atr_mod.append(0)
 
 
-    def nova_rodada(self, entrada, saida, demanda, total_atendidos, entradas_por_area, salarios_medicos, manutencao_modulos):
+    def nova_rodada(self, entrada_atendimento, demanda, total_atendidos, entradas_por_area, salarios_medicos, manutencao_modulos, atributos_modulos):
         # Atualizando ultima posição de cada vetor
-        self.entrada[-1] = entrada
-        self.saida[-1] = saida
+        self.entrada_atendimento[-1] = entrada_atendimento
 
-        self.caixa[-1] = self.caixa[-1] + entrada - saida
+        self.caixa[-1] = self.caixa[-1] + entrada_atendimento - salarios_medicos - manutencao_modulos
 
         self.lista_demandas[-1] = demanda
         self.lista_total_atendidos[-1] = total_atendidos
@@ -59,17 +60,13 @@ class Estatistica:
 
         self.lista_salarios_medicos[-1] = salarios_medicos
         self.lista_manutencao_modulos[-1] = manutencao_modulos
-
+        self.lista_atr_mod[-1] = atributos_modulos
 
 
         print("TEM CAIXA: ", self.caixa)
-        print("Salarios medicos: ", salarios_medicos)
-        print("Custo manutencao: ", manutencao_modulos)
-        print("Saida: ", saida)
 
         # Preparando os vetores para a próxima rodada
-        self.entrada.append(0)
-        self.saida.append(0)
+        self.entrada_atendimento.append(0)
         self.caixa.append(self.caixa[-1])
         self.lista_demandas.append({})
         self.lista_total_atendidos.append({})
@@ -78,6 +75,7 @@ class Estatistica:
         self.vendasModulo.append(0)
         self.lista_salarios_medicos.append(0)
         self.lista_manutencao_modulos.append(0)
+        self.lista_atr_mod.append(0)
 
 
 
@@ -87,9 +85,17 @@ class Estatistica:
 
     def get_estatisticas(self):
         data = {
-            'caixa' : self.caixa,
-            'entrada': self.entrada,
-            'saida': self.saida
+            #TODO: colocar aqui cada area retornando o seu valor, que está salvo em self.lista_entradas_por_area
+            'vendas_modulos': self.vendasModulo,
+            #TODO: no futuro vai ter entrada de emprestimo aqui
+            'total_entrada': self.entrada_atendimento + self.vendasModulo, # TODO: depois vai ter + entrada de emprestimo
+            'custo_aquisicao': self.comprasModulo,
+            'custos_modulos': self.lista_manutencao_modulos,
+            'salarios_medicos': self.lista_salarios_medicos,
+            #TODO: no futuro vai ter saida de emprestimo aqui
+            'total_saida': self.comprasModulo + self.lista_manutencao_modulos + self.lista_salarios_medicos, #TODO: depois vai ter - saida de emprestimo aqui
+            'lucro': (self.entrada_atendimento + self.vendasModulo) - (self.comprasModulo + self.lista_manutencao_modulos + self.lista_salarios_medicos), #TODO: somar e subtrair o emprestimo aqui
+            'caixa': self.caixa
         }
         return JsonResponse({
             'status': 'ok',
@@ -168,7 +174,6 @@ class Time:
         total_custo_mensal = 0
         quantidade = 0
 
-
         for modulo_id in self.modulos:
             mod = Modulo.objects.get(id=modulo_id)
             if mod.area.nome == area.nome: # transformar para id
@@ -178,6 +183,7 @@ class Time:
                 preco_do_tratamento += mod.preco_do_tratamento
                 capacidade += mod.capacidade
                 total_custo_mensal += mod.custo_mensal
+
         if quantidade == 0:
             return {
                 'tecnologia': 0,
@@ -206,13 +212,15 @@ class Time:
 
         total_atendidos = {}
         entradas_por_area = {}
-        entrada = 0
-        saida = 0
+        entrada_atendimento = 0
         manutencao_modulos = 0
+        atributos_modulos = {}
+
         atr_med = self.atributos_medicos()
 
         for area in areas:
             atr_mod = self.atributos_modulos(area)
+            atributos_modulos[area.nome] = atr_mod
 
             capacidade_disponivel = atr_mod['capacidade']
 
@@ -238,11 +246,9 @@ class Time:
 
             total_atendidos[area.nome] = atr_mod['capacidade'] - capacidade_disponivel
             entradas_por_area[area.nome] = total_atendidos[area.nome] * atr_mod['preco_do_tratamento']
-            entrada = entrada + entradas_por_area[area.nome]
-            saida = saida + atr_mod['total_custo_mensal']
+            entrada_atendimento = entrada_atendimento + entradas_por_area[area.nome]
             manutencao_modulos = manutencao_modulos + atr_mod['total_custo_mensal']
 
-        saida = saida + atr_med['total_salarios']
         salarios_medicos = atr_med['total_salarios']
 
-        return total_atendidos, entrada, saida, entradas_por_area, salarios_medicos, manutencao_modulos
+        return total_atendidos, entrada_atendimento, entradas_por_area, salarios_medicos, manutencao_modulos, atributos_modulos
