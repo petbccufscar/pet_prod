@@ -36,25 +36,25 @@
       <div style="padding:15px">
         <ul style="list-style-type: none;" id="card-content">
           <li>
-            <span style="display: inline">Cod.:</span> <span id = "codigo_modal_modulo">12</span>
+            <span style="display: inline">Cod.:</span> <span id="codigo_modal_modulo">12</span>
           </li>
           <li>
-            <span style="display: inline">Preço:</span> <span id = "preco_modal_modulo">1,200.00</span>
+            <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">1,200.00</span>
           </li>
           <li>
-            <span style="display: inline">Custo/mês:</span> <span id = "custo_modal_modulo">78 $</span>
+            <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">78 $</span>
           </li>
           <li>
-            <span style="display: inline">Tratamento:</span> <span id = "tratamento_modal_modulo">50 $</span>
+            <span style="display: inline">Tratamento:</span> <span id="tratamento_modal_modulo">50 $</span>
           </li>
           <li>
-            <span style="display: inline">Capacidade:</span> <span id = "capacidade_modal_modulo">50 $</span>
+            <span style="display: inline">Capacidade:</span> <span id="capacidade_modal_modulo">50 $</span>
           </li>
           <li>
-            <span style="display: inline">Conforto:</span> <span id = "conforto_modal_modulo">50 $</span>
+            <span style="display: inline">Conforto:</span> <span id="conforto_modal_modulo">50 $</span>
           </li>
           <li>
-            <span style="display: inline">Tecnologia:</span> <span id = "tecnologia_modal_modulo">50 $</span>
+            <span style="display: inline">Tecnologia:</span> <span id="tecnologia_modal_modulo">50 $</span>
           </li>
         </ul>
         <div style="display:flex;margin-top:auto;justify-content: space-around; padding:5px">
@@ -68,36 +68,36 @@
 
   <div id="modalMedico" class="modal">
 
-      <!-- Modal do médico -->
-      <div class="modal-content-medico">
-        <div style="padding:10px; display: flex">
-          <img class="medico-imagem" src="{% static 'imagens/medico.png' %}" alt="Medico">
+    <!-- Modal do médico -->
+    <div class="modal-content-medico">
+      <div style="padding:10px; display: flex">
+        <img class="medico-imagem" src="{% static 'imagens/medico.png' %}" alt="Medico">
 
-          <ul style="list-style-type: none; margin: auto;" id="card-content">
-            <li style="padding:10px; margin: auto">
-              <span style="display: inline">Perfil</span> <span id = "perfil_modal_medico">12</span>
-            </li>
-            <li>
-              <span style="display: inline">Salário</span> <span id = "salario_modal_medico">1,200.00</span>
-            </li>
-            <li>
-              <span style="display: inline">Pontualidade:<span id = "pontualidade_modal_medico"> </span>
-            </li>
-            <li>
-              <span style="display: inline">Expertise:<span id = "expertise_modal_medico"> </span>
-            </li>
-            <li>
-              <span style="display: inline">Atendimento:<span id = "atendimento_modal_medico"> </span>
-            </li>
-          </ul>
-        </div>
-          <div style="display:flex;margin-top:auto;justify-content: space-around; padding:10px">
-            <button id="b_comprar_med">Contratar</button>
-            <button id="b_cancelar_med" class="close">Cancelar</button>
-          </div>
-
+        <ul style="list-style-type: none; margin: auto;" id="card-content">
+          <li style="padding:10px; margin: auto">
+            <span style="display: inline">Perfil</span> <span id="perfil_modal_medico">12</span>
+          </li>
+          <li>
+            <span style="display: inline">Salário</span> <span id="salario_modal_medico">1,200.00</span>
+          </li>
+          <li>
+            <span style="display: inline">Pontualidade:<span id = "pontualidade_modal_medico"> </span>
+          </li>
+          <li>
+            <span style="display: inline">Expertise:<span id = "expertise_modal_medico"> </span>
+          </li>
+          <li>
+            <span style="display: inline">Atendimento:<span id = "atendimento_modal_medico"> </span>
+          </li>
+        </ul>
       </div>
+      <div style="display:flex;margin-top:auto;justify-content: space-around; padding:10px">
+        <button id="b_comprar_med">Contratar</button>
+        <button id="b_cancelar_med" class="close">Cancelar</button>
+      </div>
+
     </div>
+  </div>
 
   </div>
   <!-- Loja -->
@@ -201,39 +201,33 @@
     </div>
   </div>
   <div class="aba">
-  <!--Estatisticas -->
-    <div class="chart-container-pie">
-      <canvas id="myPieChart"></canvas>
-    </div>
-    <div class="chart-container-bar">
-      <canvas id="myBarChart"></canvas>
-    </div>
+    <div id="dashboard" style="display:flex;flex-direction:column">Load</div>
   </div>
-
-<script>
-var areas = [];
-var total_atendidos = [];
-var procuraram_atendimento = [];
-
-{% for label in labels %}
-areas.push("{{label}}");
-{% endfor %}
-
-{% for atendidos in total_atendidos %}
-total_atendidos.push({{atendidos}});
-{% endfor %}
-
-
-{% for pacientes in procuraram_atendimento %}
-procuraram_atendimento.push({{pacientes}});
-console.log({{pacientes}})
-{% endfor %}
-</script>
-
 </body>
 
 <script src="{% static 'js/Chart.bundle.min.js' %}"></script>
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'js/tela_de_jogo.js' %}"></script>
 <script src="{% static 'js/utils.js' %}"></script>
+<script>
+function atualizar_variaveis(){
+  areas = [];
+  total_atendidos = [];
+  procuraram_atendimento = [];
+  aa = {{estatisticas | safe}};
+  {%  for label in labels %}
+    areas.push("{{label}}");
+  {% endfor %}
+
+  {% for atendidos in total_atendidos %}
+  total_atendidos.push({{atendidos}});
+  {% endfor %}
+  console.log(total_atendidos);
+
+  {% for pacientes in procuraram_atendimento %}
+  procuraram_atendimento.push({{pacientes}});
+  console.log({{pacientes}})
+  {% endfor %}
+}
+</script>
 </body>

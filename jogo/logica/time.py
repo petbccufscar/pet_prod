@@ -88,20 +88,20 @@ class Estatistica:
             #TODO: colocar aqui cada area retornando o seu valor, que está salvo em self.lista_entradas_por_area
             'vendas_modulos': self.vendasModulo,
             #TODO: no futuro vai ter entrada de emprestimo aqui
-            'total_entrada': self.entrada_atendimento + self.vendasModulo, # TODO: depois vai ter + entrada de emprestimo
+            'total_entrada': self.entrada_atendimento, # TODO: depois vai ter + entrada de emprestimo
             'custo_aquisicao': self.comprasModulo,
             'custos_modulos': self.lista_manutencao_modulos,
             'salarios_medicos': self.lista_salarios_medicos,
             #TODO: no futuro vai ter saida de emprestimo aqui
-            'total_saida': self.comprasModulo + self.lista_manutencao_modulos + self.lista_salarios_medicos, #TODO: depois vai ter - saida de emprestimo aqui
-            'lucro': (self.entrada_atendimento + self.vendasModulo) - (self.comprasModulo + self.lista_manutencao_modulos + self.lista_salarios_medicos), #TODO: somar e subtrair o emprestimo aqui
+            'total_saida': self.comprasModulo , #TODO: depois vai ter - saida de emprestimo aqui
+            'lucro': self.lista_salarios_medicos, #TODO: somar e subtrair o emprestimo aqui
             'caixa': self.caixa
         }
         # Adicionando lista de entradas por area
         areas = self.lista_entradas_por_area[0].keys()
         for area in areas:
-            entradas_da_area = [entrada[area] for entrada in self.lista_entradas_por_area]
-            data.update(area, entradas_da_area)
+            entradas_da_area = [entrada[area] for entrada in self.lista_entradas_por_area if entrada]
+            data.update({area: entradas_da_area})
         return data
 
 

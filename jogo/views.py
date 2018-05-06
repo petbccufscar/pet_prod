@@ -549,6 +549,7 @@ def tela_de_jogo(request, nome_time):
         modulo.preco_do_tratamento = "{:,.0f}".format(modulo.preco_do_tratamento)
         modulo.tecnologia = range(0, modulo.tecnologia)
         modulo.conforto = range(0, modulo.conforto)
+    labels_tabela = time.estatisticas.get_estatisticas().keys()
 
     colunas = ["col1", "col2", "col1"] # exemplo
     contexto = {
@@ -560,6 +561,9 @@ def tela_de_jogo(request, nome_time):
         "labels": labels,
         "total_atendidos": total_atendidos,
         "procuraram_atendimento": aux,
+        "labels_tabela": labels_tabela,
+        "estatisticas": time.estatisticas.get_estatisticas(),
+        "rodadas": range(1,len(logica_jogo.JogoAtual.rodadas)+2),
         }
     return render(request, 'jogo/tela_de_jogo.html', contexto)
 
@@ -597,6 +601,30 @@ def tela_de_jogo_hospital(request, nome_time):
     }
     return render(request, 'jogo/meu_hospital.html', contexto)
 
+def tela_de_jogo_dashboard(request, nome_time):
+    if logica_jogo.JogoAtual is None:
+        return HttpResponse("Jogo Não Iniciado")
+    time = logica_jogo.JogoAtual.times[nome_time]
+    labels = time.estatisticas.lista_demandas[0].keys()
+    total_atendidos = time.estatisticas.lista_total_atendidos[0].values()
+    procuraram_atendimento = time.estatisticas.lista_demandas[0].values()
+
+    aux = []
+    for i in procuraram_atendimento:
+        aux.append(sum(i.values()))
+
+    labels_tabela = time.estatisticas.get_estatisticas().keys()
+
+    contexto = {
+        "nome_time": time.nome,
+        "labels": labels,
+        "total_atendidos": total_atendidos,
+        "procuraram_atendimento": aux,
+        "labels_tabela": labels_tabela,
+        "estatisticas": time.estatisticas.get_estatisticas(),
+        "rodadas": range(1,len(logica_jogo.JogoAtual.rodadas)+2),
+        }
+    return render(request, 'jogo/dashboard.html', contexto)
 
 def pre_jogo_1(request):
     return render(request, 'pre_jogo/tela_pre_jogo_1.html',{})

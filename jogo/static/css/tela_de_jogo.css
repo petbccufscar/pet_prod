@@ -12,6 +12,12 @@ div{
   font-family: sans-serif;
   font-size: large;
 }
+.debug {}
+.debug div{
+    border:1px solid black;
+    text-align: center;
+    margin: 0px;
+}
 
 .rcorners {
     border-radius: 5px;
@@ -174,7 +180,7 @@ div{
     display: flex;
     margin: 10px;
     padding: 15px;
-    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
+    box-shadow: 2px 3px 3px 3px rgba(0,0,0,0.2);
 }
 
 /* TAMANHO DO GRAFICO*/
@@ -187,4 +193,53 @@ div{
 .chart-container-bar{
     width: 600px;
     height: 600px;
+}
+
+/* Tabela de entradas  e saidas */
+.tabela-financeira{
+  display: flex;
+  flex-direction: column;
+}
+#tf_head{
+  display: flex;
+  overflow-x: hidden;
+}
+#tf_label{
+  display:flex;
+  min-width: 180px;
+  flex-direction: column;
+  overflow-y:hidden;
+}
+.tabela-financeira .conteudo{
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+.conteudo .linha:hover{
+  background-color: #ddd;
+}
+.tabela-financeira .celula{
+  min-width: 100px;
+  min-height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+.celula.label{
+  min-width: 180px;
+  color: #000;
+  border-right: 3px solid #ccc;
+}
+.celula.head{
+  color: #000;
+  border-bottom: 3px solid #ccc;
+  min-height:40px;
+}
+/* Altera o tamanho da tabela aqui */
+#tf_head,.conteudo{
+  width: 821px;
+}
+#tf_label,.conteudo{
+  height: 400px;
 }

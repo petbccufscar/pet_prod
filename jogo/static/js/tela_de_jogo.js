@@ -24,10 +24,13 @@ document.getElementsByClassName("aba")[0].style.display = "flex";
 function mudar_aba(aba){
   var index = Array.prototype.indexOf.call(aba.parentElement.children, aba);
   var abas = document.getElementsByClassName("aba");
-  console.log(abas[index].children[1])
+  //console.log(abas[index].children[1])
   /* se mudar para aba do hospital .. atualiza */
   if(abas[index] == document.getElementById("hospit").parentElement){
     atualizar_hospital();
+  }
+  if(abas[index] == document.getElementById("dashboard").parentElement){
+    atualizar_dashboard();
   }
   if(abas.length <= index)
     return;
@@ -37,7 +40,7 @@ function mudar_aba(aba){
 }
 
 function comprar_modulo(id) {
-    console.log("create post is working!") // sanity check
+    //console.log("create post is working!") // sanity check
     $.ajax({
         url : "comprar_modulo/", // the endpoint
         type : "POST", // http method
@@ -46,18 +49,18 @@ function comprar_modulo(id) {
         // handle a successful response
         success : function(json) {
           //  $('#post-text').val(''); // remove the value from the input
-            console.log(json); // log the returned json to the console
-            console.log("success"); // another sanity check
+            //console.log(json); // log the returned json to the console
+            //console.log("success"); // another sanity check
             caixa = document.getElementById("t_caixa");
-            console.log(parseFloat(json));
-            console.log("coisos"+ caixa.innerHTML + json);
+            //console.log(parseFloat(json));
+            //console.log("coisos"+ caixa.innerHTML + json);
             animar_incremento(600,parseFloat(caixa.innerHTML),parseFloat(json), caixa);
             alert("Modulo comprado!");
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            console.log("erro"); // provide a bit more info about the error to the console
+            //console.log("erro"); // provide a bit more info about the error to the console
             alert("Algo de errado não está certo!");
         }
     });
@@ -71,22 +74,22 @@ function vender_modulo(id) {
 
         // handle a successful response
         success : function(json) {
-            console.log(json);
+            //console.log(json);
             caixa = document.getElementById("t_caixa");
             animar_incremento(800,parseFloat(caixa.innerHTML), parseFloat(json), caixa);
-            console.log("success");
+            //console.log("success");
             atualizar_hospital();
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            console.log("erro");
+            //console.log("erro");
         }
     });
 };
 
 function contratar_medico(id) {
-    console.log("create post is working!") // sanity check
+    //console.log("create post is working!") // sanity check
     $.ajax({
         url : "contratar_medico/", // the endpoint
         type : "POST", // http method
@@ -95,13 +98,13 @@ function contratar_medico(id) {
         // handle a successful response
         success : function(json) {
           //  $('#post-text').val(''); // remove the value from the input
-            console.log(json); // log the returned json to the console
-            console.log("success"); // another sanity check
+            //console.log(json); // log the returned json to the console
+            //console.log("success"); // another sanity check
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            console.log("erro"); // provide a bit more info about the error to the console
+            //console.log("erro"); // provide a bit more info about the error to the console
         }
     });
 };
@@ -114,15 +117,15 @@ function despedir_medico(id) {
 
         // handle a successful response
         success : function(json) {
-            console.log(json);
-            console.log("success");
-            atualizar_hospital()
+            //console.log(json);
+            //console.log("success");
+            atualizar_hospital();
 
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            console.log("erro");
+            //console.log("erro");
         }
     });
 };
@@ -135,14 +138,14 @@ function busca_modulo(id_modulo_buscar, acao){
 
       // handle a successful response
       success : function(json) {
-          console.log("success");
+          //console.log("success");
           var modulo = JSON.parse(json)[0];
           abrir_informacoes_modulo(modulo, acao);
       },
 
       // handle a non-successful response
       error : function(xhr,errmsg,err) {
-          console.log("erro");
+          //console.log("erro");
       }
   });
 }
@@ -198,7 +201,7 @@ function abrir_informacoes_modulo(modulo, acao){
     case "comprar_modulo":
         b_cmpr.innerHTML= "Comprar";
         b_cmpr.onclick = function() {
-          console.log("kay");
+          //console.log("kay");
           comprar_modulo(modulo.pk);
           modal.style.display = "none"
         }
@@ -206,7 +209,7 @@ function abrir_informacoes_modulo(modulo, acao){
     case "vender_modulo":
           b_cmpr.innerHTML= "Vender";
           b_cmpr.onclick = function() {
-          console.log("kay");
+          //console.log("kay");
           vender_modulo(modulo.pk);
           modal.style.display = "none"
         }
@@ -224,14 +227,14 @@ function busca_medico(id_medico_buscar, acao){
 
       // handle a successful response
       success : function(json) {
-          console.log("success");
+          //console.log("success");
           var medico = JSON.parse(json)[0];
           abrir_informacoes_medico(medico, acao);
       },
 
       // handle a non-successful response
       error : function(xhr,errmsg,err) {
-          console.log("erro");
+          //console.log("erro");
       }
   });
 }
@@ -309,15 +312,37 @@ function atualizar_hospital(){
         document.getElementById("hospit").innerHTML = data;
       },
       error : function(xhr,errmsg,err) {
-          console.log("erro");
+          //console.log("erro");
+      }
+  });
+}
+function atualizar_dashboard(){
+  $.ajax({
+      url : "dashboard/",
+      type : "GET",
+      success : function(data) {
+        document.getElementById("dashboard").innerHTML = data;
+        atualizar_graficos(0);
+      },
+      error : function(xhr,errmsg,err) {
+          //console.log("erro");
       }
   });
 }
 
-/* COISAS PRO GRÁFICO DE PIZZA */
+function onScroll(a){
+  var b = document.getElementById("tf_head");
+  var c = document.getElementById("tf_label");
+  console.log(a.scrollLeft/a.scrollWidth)
 
+  b.scrollLeft = a.scrollLeft;
+  c.scrollTop = a.scrollTop;
+}
+
+/* COISAS PRO GRÁFICO DE PIZZA */
+/*
 var ctx = document.getElementById("myPieChart");
-console.log(ctx);
+//console.log(ctx);
 var myPieChart = new Chart(ctx, {
     type: 'pie',
     data: {
@@ -341,42 +366,59 @@ var myPieChart = new Chart(ctx, {
       maintainAspectRatio: false,
   }
 });
+*/
+
 
 /* COISAS PRO GRÁFICO DE COLUNAS */
+function atualizar_graficos(r){
+  $.ajax({
+      url : "dados_graficos/",
+      type : "POST",
+      data : {rodada: r},
+      success : function(data) {
+        console.log(data);
+        grafico_barra(data.labels, data.total_atendidos, data.procuraram_atendimento);
+      },
+      error : function(xhr,errmsg,err) {
+          //console.log("erro");
+      }
+  });
 
-var ctx = document.getElementById("myBarChart");
-var data = {
-    labels: areas,
-    datasets: [
-        {
-            label: "Pacientes que procuraram o hospital",
-            backgroundColor: "blue",
-            data: procuraram_atendimento
-        },
-        {
-            label: "Pacientes que foram atendidos",
-            backgroundColor: "red",
-            data: total_atendidos
-        },
+}
+function grafico_barra(areas, total_atendidos, procuraram_atendimento){
+  var ctx = document.getElementById("myBarChart");
+  var data = {
+      labels: areas,
+      datasets: [
+          {
+              label: "Pacientes que procuraram o hospital",
+              backgroundColor: "blue",
+              data: procuraram_atendimento
+          },
+          {
+              label: "Pacientes que foram atendidos",
+              backgroundColor: "red",
+              data: total_atendidos
+          },
 
-    ]
-};
+      ]
+  };
 
-var myBarChart = new Chart(ctx, {
-    type: 'bar',
-    data: data,
-    options: {
-        barValueSpacing: 20,
-        scales: {
-            yAxes: [{
-                ticks: {
-                    min: 0,
-                }
-            }]
-        }
-    }
-});
-
+  var myBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: {
+          barValueSpacing: 20,
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      min: 0,
+                  }
+              }]
+          }
+      }
+  });
+}
 /**
  * setup para protecao com token csrftoken
  **/

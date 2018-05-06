@@ -2,6 +2,7 @@ from django.conf.urls import url
 from jogo import views
 from jogo.logica import logica_de_jogo
 from django.urls import path
+from jogo import ajax
 app_name = 'jogo'
 urlpatterns = [
     # URLs para home
@@ -59,6 +60,8 @@ urlpatterns = [
     url(r'^jogo/(?P<nome_time>\w+)/busca_modulo', logica_de_jogo.busca_modulo, name='busca_modulo'),
     url(r'^jogo/(?P<nome_time>\w+)/busca_medico', logica_de_jogo.busca_medico, name='busca_medico'),
     url(r'^jogo/(?P<nome_time>\w+)/hospital', views.tela_de_jogo_hospital, name='tela_de_jogo_hospital'),
+    url(r'^jogo/(?P<nome_time>\w+)/dashboard', views.tela_de_jogo_dashboard, name='tela_de_jogo_dashboard'),
+    url(r'^jogo/(?P<nome_time>\w+)/dados_graficos', ajax.tela_de_jogo_graficos, name='tela_de_jogo_graficos'),
 
     url(r'^jogo/(?P<nome_time>\w+)/', views.tela_de_jogo, name='tela_de_jogo'),
 

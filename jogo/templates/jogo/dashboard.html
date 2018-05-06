@@ -1,0 +1,42 @@
+<div class="card" style="height:440x">
+  <div class="tabela-financeira">
+    <div style="display:flex">
+      <div class="celula label head">X</div>
+      <div id="tf_head">
+        {% for rod in rodadas %}
+        <div class="celula head">Rodada: {{rod}}</div>
+        {% endfor %}
+        <div style="min-width:13px;background:#ccc"></div>
+      </div>
+
+    </div>
+    <div style="display:flex">
+      <div id="tf_label">
+        {% for label, l in estatisticas.items %}
+        <div class="celula label">{{label}}</div>
+        {% endfor %}
+        <div style="min-height:15px;background:#ccc"></div>
+      </div>
+      <div class="conteudo" onscroll="onScroll(this)">
+        {% for label, l in estatisticas.items %}
+        <div class="linha" style="display:flex">
+          {% for a in l %}
+          <div class="celula">{{a}}</div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<!--Estatisticas-->
+<div onc class="card">
+  <div class="chart-container-pie">
+    <canvas id="myPieChart"></canvas>
+  </div>
+</div>
+<div class="card">
+  <div class="chart-container-bar">
+    <canvas id="myBarChart"></canvas>
+  </div>
+</div>
