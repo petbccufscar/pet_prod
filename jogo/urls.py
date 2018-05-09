@@ -71,4 +71,7 @@ urlpatterns = [
     url(r'^pre_jogo_3/$', views.pre_jogo_3, name='pre_jogo_3'),
     url(r'^pre_jogo_4/$', views.pre_jogo_4, name='pre_jogo_4'),
     url(r'^pre_jogo_5/$', views.pre_jogo_5, name='pre_jogo_5'),
+
+    #tela login do jogador
+    url(r'^login_jogador/$', views.login_jogador, name='login_jogador'),
 ]

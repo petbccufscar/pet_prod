@@ -640,3 +640,6 @@ def pre_jogo_4(request):
 
 def pre_jogo_5(request):
     return render(request, 'pre_jogo/tela_pre_jogo_5.html',{})
+
+def login_jogador(request):
+    return render(request, 'jogo/login_jogador.html',{})
