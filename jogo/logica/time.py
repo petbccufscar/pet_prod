@@ -108,8 +108,8 @@ class Estatistica:
         # Adicionando lista de entradas por area
         areas = self.lista_entradas_por_area[0].keys()
         for area in areas:
-            entradas_da_area = [entrada[area] for entrada in self.lista_entradas_por_area]
-            data.update(area, entradas_da_area)
+            entradas_da_area = [entrada[area] for entrada in self.lista_entradas_por_area if entrada]
+            data.update({area: entradas_da_area})
         return data
 
 
