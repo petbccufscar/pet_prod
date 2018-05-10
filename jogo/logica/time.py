@@ -84,19 +84,27 @@ class Estatistica:
 
 
     def get_estatisticas(self):
+        total_saida = []
+        total_entrada = []
+        lucro = []
+
+        for i in range(0, len(self.lista_salarios_medicos)):
+            total_saida.append(self.comprasModulo[i] + self.lista_manutencao_modulos[i] + self.lista_salarios_medicos[i]) #TODO: depois vai ter - saida de emprestimo[i] aqui
+            total_entrada.append(self.entrada_atendimento[i] + self.vendasModulo[i]) # TODO: depois vai ter + entrada de emprestimo[i]
+            lucro.append(total_entrada[-1] - total_saida[-1])
+
         data = {
-            #TODO: colocar aqui cada area retornando o seu valor, que está salvo em self.lista_entradas_por_area
+            # TODO: no futuro vai ter entrada e saida de emprestimo aqui
             'vendas_modulos': self.vendasModulo,
-            #TODO: no futuro vai ter entrada de emprestimo aqui
-            # 'total_entrada': self.entrada_atendimento + self.vendasModulo, # TODO: depois vai ter + entrada de emprestimo
+             'total_entrada': total_entrada,
             'custo_aquisicao': self.comprasModulo,
             'custos_modulos': self.lista_manutencao_modulos,
-            'salarios_medicos': self.lista_salarios_medicos
-            #TODO: no futuro vai ter saida de emprestimo aqui
-            # 'total_saida': self.comprasModulo + self.lista_manutencao_modulos + self.lista_salarios_medicos, #TODO: depois vai ter - saida de emprestimo aqui
-            # 'lucro': (self.entrada_atendimento + self.vendasModulo) - (self.comprasModulo + self.lista_manutencao_modulos + self.lista_salarios_medicos), #TODO: somar e subtrair o emprestimo aqui
-            # 'caixa': self.caixa
+            'salarios_medicos': self.lista_salarios_medicos,
+            'total_saida': total_saida,
+            'lucro': lucro,
+            'caixa': self.caixa
         }
+
         # Adicionando lista de entradas por area
         areas = self.lista_entradas_por_area[0].keys()
         for area in areas:
