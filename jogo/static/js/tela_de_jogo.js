@@ -20,9 +20,13 @@ if (socket_rodada.readyState == WebSocket.OPEN) socket_rodada.onopen();
 /* Funções e variaveis para mudança de abas */
 var aba_atual = 0;
 document.getElementsByClassName("aba")[0].style.display = "flex";
-
+var b_aba = document.getElementById("b_lateral").children[1];
+b_aba.style.color = "#cdd4db";
 function mudar_aba(aba){
-  var index = Array.prototype.indexOf.call(aba.parentElement.children, aba);
+  b_aba.style.color = "#4d92cc"
+  aba.style.color="#cdd4db";
+  b_aba = aba;
+  var index = Array.prototype.indexOf.call(aba.parentElement.children, aba) -1;
   var abas = document.getElementsByClassName("aba");
   //console.log(abas[index].children[1])
   /* se mudar para aba do hospital .. atualiza */

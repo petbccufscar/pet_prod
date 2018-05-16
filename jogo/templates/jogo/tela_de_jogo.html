@@ -8,203 +8,199 @@
 
   <title>{% block title %}{% endblock %}</title>
 </head>
+<body style="display:flex">
 
-<body style="display:flex;flex-direction:column">
-
-  <nav>
-    <ul class="nav">
-      <li id="t_rodada">Rodada: 1</li>
-      <li class="timer" id="t_timer">00:00</li>
-      <li id="t_caixa">{{caixa}}</li>
+  <nav style="width:10%;height:100vh">
+    <ul id="b_lateral" class="nav lateral">
+      <li id="h-lateral">Time 1</li>
+      <li onclick="mudar_aba(this)"><i class="fas fa-cart-plus" style="font-size:40"></i></li>
+      <li onclick="mudar_aba(this)"><i class="fas fa-hospital-alt" style="font-size:40"></i></li>
+      <li onclick="mudar_aba(this)"><i class="fas fa-chart-line" style="font-size:40"></i></li>
     </ul>
   </nav>
+  <div style="width:90%;display:flex;flex-direction:column">
 
-  <nav>
-    <ul class="nav">
-      <li onclick="mudar_aba(this)">Comprar</li>
-      <li onclick="mudar_aba(this)">Vender</li>
-      <li onclick="mudar_aba(this)">Estatisticas</li>
-    </ul>
-  </nav>
+    <nav style="height:10%">
+      <ul class="nav">
+        <li id="t_rodada">Rodada: 1</li>
+        <li class="timer" id="t_timer">00:00</li>
+        <li id="t_caixa">{{caixa}}</li>
+      </ul>
+    </nav>
 
-
-  <div id="modalModulo" class="modal">
-
-    <!-- Modal do módulo -->
-    <div class="modal-content-modulo">
-      <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Hospital">
-      <div style="padding:15px">
-        <ul style="list-style-type: none;" id="card-content">
-          <li>
-            <span style="display: inline">Cod.:</span> <span id="codigo_modal_modulo">12</span>
-          </li>
-          <li>
-            <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">1,200.00</span>
-          </li>
-          <li>
-            <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">78 $</span>
-          </li>
-          <li>
-            <span style="display: inline">Tratamento:</span> <span id="tratamento_modal_modulo">50 $</span>
-          </li>
-          <li>
-            <span style="display: inline">Capacidade:</span> <span id="capacidade_modal_modulo">50 $</span>
-          </li>
-          <li>
-            <span style="display: inline">Conforto:</span> <span id="conforto_modal_modulo">50 $</span>
-          </li>
-          <li>
-            <span style="display: inline">Tecnologia:</span> <span id="tecnologia_modal_modulo">50 $</span>
-          </li>
-        </ul>
-        <div style="display:flex;margin-top:auto;justify-content: space-around; padding:5px">
-          <button id="b_comprar">Contratar</button>
-          <button class="close">Cancelar</button>
+    <div id="modalModulo" class="modal">
+      <!-- Modal do módulo -->
+      <div class="modal-content-modulo">
+        <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Hospital">
+        <div style="padding:15px">
+          <ul style="list-style-type: none;" id="card-content">
+            <li>
+              <span style="display: inline">Cod.:</span> <span id="codigo_modal_modulo">12</span>
+            </li>
+            <li>
+              <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">1,200.00</span>
+            </li>
+            <li>
+              <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">78 $</span>
+            </li>
+            <li>
+              <span style="display: inline">Tratamento:</span> <span id="tratamento_modal_modulo">50 $</span>
+            </li>
+            <li>
+              <span style="display: inline">Capacidade:</span> <span id="capacidade_modal_modulo">50 $</span>
+            </li>
+            <li>
+              <span style="display: inline">Conforto:</span> <span id="conforto_modal_modulo">50 $</span>
+            </li>
+            <li>
+              <span style="display: inline">Tecnologia:</span> <span id="tecnologia_modal_modulo">50 $</span>
+            </li>
+          </ul>
+          <div style="display:flex;margin-top:auto;justify-content: space-around; padding:5px">
+            <button id="b_comprar">Contratar</button>
+            <button class="close">Cancelar</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
+    <div id="modalMedico" class="modal">
 
-  <div id="modalMedico" class="modal">
+      <!-- Modal do médico -->
+      <div class="modal-content-medico">
+        <div style="padding:10px; display: flex">
+          <img class="medico-imagem" src="{% static 'imagens/medico.png' %}" alt="Medico">
 
-    <!-- Modal do médico -->
-    <div class="modal-content-medico">
-      <div style="padding:10px; display: flex">
-        <img class="medico-imagem" src="{% static 'imagens/medico.png' %}" alt="Medico">
-
-        <ul style="list-style-type: none; margin: auto;" id="card-content">
-          <li style="padding:10px; margin: auto">
-            <span style="display: inline">Perfil</span> <span id="perfil_modal_medico">12</span>
-          </li>
-          <li>
-            <span style="display: inline">Salário</span> <span id="salario_modal_medico">1,200.00</span>
-          </li>
-          <li>
-            <span style="display: inline">Pontualidade:<span id = "pontualidade_modal_medico"> </span>
-          </li>
-          <li>
-            <span style="display: inline">Expertise:<span id = "expertise_modal_medico"> </span>
-          </li>
-          <li>
-            <span style="display: inline">Atendimento:<span id = "atendimento_modal_medico"> </span>
-          </li>
-        </ul>
-      </div>
-      <div style="display:flex;margin-top:auto;justify-content: space-around; padding:10px">
-        <button id="b_comprar_med">Contratar</button>
-        <button id="b_cancelar_med" class="close">Cancelar</button>
-      </div>
-
-    </div>
-  </div>
-
-  </div>
-  <!-- Loja -->
-  <div class="aba">
-    <br>
-    <div style="display: flex;justify-content:center; ">
-      <div class="card">
-        <div class="table">
-          <div class="thead">
-            Módulos
-            <div>
-              <i class="fa fa-heart" style="font-size:25px;color:#ef4646"></i> Conforto
-              <i class="fa fa-medkit" style="font-size:25px;color:blue"></i> Tecnologia
-            </div>
-          </div>
-          <div class="tbody">
-            {% for area, modulos in mod_p_area.items %}
-            <div class="bloco-area">
-              <div class="area-label">
-                <div style="writing-mode: tb-rl;margin:auto;width:15px;text-align:center">
-                  {{area}}
-                </div>
-              </div>
-              <div class="conteudo-bloco">
-                {% for modulo in modulos %}
-                <div class="linha" onclick="busca_modulo(this.children[0].children[0].innerHTML,'comprar_modulo')">
-                  <div>Cod: <span>{{ modulo.id}}</span>
-                    <span style="float:right">{{modulo.capacidade}} und.</span>
-                    <span style="float:right;padding-right:10px"> {{modulo.custo_de_aquisicao}} <i class="fas fa-dollar-sign"></i></span>
-                  </div>
-                  <div style="display:flex">
-                    <div>
-                      <div>
-                        {% for i in modulo.conforto %}
-                        <i class="fa fa-heart" style="font-size:25px;color:#ef4646"></i> {% endfor %}
-                      </div>
-                      <div>
-                        {% for i in modulo.tecnologia %}
-                        <i class="fa fa-medkit" style="font-size:25px;color:blue"></i> {% endfor %}
-                      </div>
-                    </div>
-                    <div style="margin-left: auto;flex-direction:column;font-size:16">
-                      Custo/Mês: {{modulo.custo_mensal}} $<br> Tratamento: {{modulo.preco_do_tratamento}} $<br>
-                    </div>
-                  </div>
-                </div>
-                {% endfor %}
-              </div>
-            </div>
-            {% endfor %}
-          </div>
+          <ul style="list-style-type: none; margin: auto;" id="card-content">
+            <li style="padding:10px; margin: auto">
+              <span style="display: inline">Perfil</span> <span id="perfil_modal_medico">12</span>
+            </li>
+            <li>
+              <span style="display: inline">Salário</span> <span id="salario_modal_medico">1,200.00</span>
+            </li>
+            <li>
+              <span style="display: inline">Pontualidade:<span id = "pontualidade_modal_medico"> </span>
+            </li>
+            <li>
+              <span style="display: inline">Expertise:<span id = "expertise_modal_medico"> </span>
+            </li>
+            <li>
+              <span style="display: inline">Atendimento:<span id = "atendimento_modal_medico"> </span>
+            </li>
+          </ul>
+        </div>
+        <div style="display:flex;margin-top:auto;justify-content: space-around; padding:10px">
+          <button id="b_comprar_med">Contratar</button>
+          <button id="b_cancelar_med" class="close">Cancelar</button>
         </div>
       </div>
-      <div class="card">
-        <div class="table">
-          <div class="thead">
-            Médicos
-            <div>
-              <i class="far fa-clock" style="font-size:25px;color:blue"></i> Pontualidade
-              <i class="fas fa-graduation-cap" style="font-size:25px"></i>Expertise
-              <i class="fas fa-user-md" style="font-size:25px;color:green"></i>Atendimento
+    </div>
+    <!-- Loja -->
+    <div class="aba">
+      <br>
+      <div style="display: flex;justify-content:center; ">
+        <div class="card">
+          <div class="table">
+            <div class="thead">
+              Módulos
+              <div>
+                <i class="fa fa-heart" style="font-size:25px;color:#ef4646"></i> Conforto
+                <i class="fa fa-medkit" style="font-size:25px;color:blue"></i> Tecnologia
+              </div>
             </div>
-          </div>
-          <div class="tbody">
-            <div class="conteudo-bloco">
-              {% for medico in medicos %}
-              <div class="linha" onclick="busca_medico(this.children[0].children[0].innerHTML,'contratar_medico')">
-                <div>Cod: <span>{{ medico.id}}</span>
-                  <span style="float:right;padding-right:10px"> {{medico.salario}}<i class="fas fa-dollar-sign"></i></i></span>
+            <div class="tbody">
+              {% for area, modulos in mod_p_area.items %}
+              <div class="bloco-area">
+                <div class="area-label">
+                  <div style="writing-mode: tb-rl;margin:auto;width:15px;text-align:center">
+                    {{area}}
+                  </div>
                 </div>
-                <div style="display:flex">
-                  <div>
-                    <div>
-                      {% for i in medico.expertise %}
-                      <i class="fas fa-graduation-cap" style="font-size:25px"></i>{% endfor %}
+                <div class="conteudo-bloco">
+                  {% for modulo in modulos %}
+                  <div class="linha" onclick="busca_modulo(this.children[0].children[0].innerHTML,'comprar_modulo')">
+                    <div>Cod: <span>{{ modulo.id}}</span>
+                      <span style="float:right">{{modulo.capacidade}} und.</span>
+                      <span style="float:right;padding-right:10px"> {{modulo.custo_de_aquisicao}} <i class="fas fa-dollar-sign"></i></span>
                     </div>
-                    <div>
-                      {% for i in medico.pontualidade %}
-                      <i class="far fa-clock" style="font-size:25px;color:blue"></i> {% endfor %}
+                    <div style="display:flex">
+                      <div>
+                        <div>
+                          {% for i in modulo.conforto %}
+                          <i class="fa fa-heart" style="font-size:25px;color:#ef4646"></i> {% endfor %}
+                        </div>
+                        <div>
+                          {% for i in modulo.tecnologia %}
+                          <i class="fa fa-medkit" style="font-size:25px;color:blue"></i> {% endfor %}
+                        </div>
+                      </div>
+                      <div style="margin-left: auto;flex-direction:column;font-size:16">
+                        Custo/Mês: {{modulo.custo_mensal}} $<br> Tratamento: {{modulo.preco_do_tratamento}} $<br>
+                      </div>
                     </div>
                   </div>
-                  <div style="margin-left: auto;flex-direction:column;font-size:16">
-                    {% for i in medico.atendimento%}
-                    <i class="fas fa-user-md" style="font-size:25px;color:green"></i> {% endfor%}
-                  </div>
+                  {% endfor %}
                 </div>
               </div>
               {% endfor %}
             </div>
           </div>
         </div>
+        <div class="card">
+          <div class="table">
+            <div class="thead">
+              Médicos
+              <div>
+                <i class="far fa-clock" style="font-size:25px;color:blue"></i> Pontualidade
+                <i class="fas fa-graduation-cap" style="font-size:25px"></i>Expertise
+                <i class="fas fa-user-md" style="font-size:25px;color:green"></i>Atendimento
+              </div>
+            </div>
+            <div class="tbody">
+              <div class="conteudo-bloco">
+                {% for medico in medicos %}
+                <div class="linha" onclick="busca_medico(this.children[0].children[0].innerHTML,'contratar_medico')">
+                  <div>Cod: <span>{{ medico.id}}</span>
+                    <span style="float:right;padding-right:10px"> {{medico.salario}}<i class="fas fa-dollar-sign"></i></i></span>
+                  </div>
+                  <div style="display:flex">
+                    <div>
+                      <div>
+                        {% for i in medico.expertise %}
+                        <i class="fas fa-graduation-cap" style="font-size:25px"></i>{% endfor %}
+                      </div>
+                      <div>
+                        {% for i in medico.pontualidade %}
+                        <i class="far fa-clock" style="font-size:25px;color:blue"></i> {% endfor %}
+                      </div>
+                    </div>
+                    <div style="margin-left: auto;flex-direction:column;font-size:16">
+                      {% for i in medico.atendimento%}
+                      <i class="fas fa-user-md" style="font-size:25px;color:green"></i> {% endfor%}
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- Hospital -->
+    <div class="aba">
+      <br>
+      <div id="hospit" style="display: flex;justify-content:center; ">
+        Loading
       </div>
     </div>
-
-  </div>
-  <!-- Hospital -->
-  <div class="aba">
-    <br>
-    <div id="hospit" style="display: flex;justify-content:center; ">
-      Loading
+    <!-- Dashborads -->
+    <div class="aba">
+      <div id="dashboard" style="display:flex;flex-direction:column">Load</div>
     </div>
   </div>
-  <div class="aba">
-    <div id="dashboard" style="display:flex;flex-direction:column">Load</div>
-  </div>
 </body>
-
 <script src="{% static 'js/Chart.bundle.min.js' %}"></script>
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'js/tela_de_jogo.js' %}"></script>
