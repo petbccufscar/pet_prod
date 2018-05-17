@@ -121,10 +121,13 @@ div{
 .nav.lateral li{
   display: list-item;
   background: #010812;
-  padding: 1em;
+  padding: 2em;
 }
 .lateral li:last-child{
   margin-bottom: auto;
+}
+li > ul:hover{
+  display:block;
 }
 
 #h-lateral{
