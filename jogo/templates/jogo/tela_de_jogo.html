@@ -119,13 +119,52 @@
         </div>
       </div>
     </div>
+
     <!-- Loja -->
     <div id="loja-medicos" class="aba">
       loja medicos
     </div>
 
     <div id="loja-modulos" class="aba">
-      loja modulos
+      <div class="card" style="display:flex;margin-top:auto;justify-content: space-around; padding:0px; flex-direction:column">
+        <div style="border-bottom:1px solid #888; display:flex; background-color:#ff3f3f; height:1.5em">
+          <div style="border-right:1px solid #888; padding-right:1em; text-align:center; vertical-align: middle;">
+            10
+          </div>
+          <div style="padding-left:2em; text-align:center; vertical-align: middle;">
+            <span style="text-align:center; vertical-align: middle;">Cod.:</span> <span id="codigo_modal_modulo" style="text-align:center; vertical-align: middle;">12</span><br>
+          </div>
+        </div>
+        <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
+          <div>
+            <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Hospital">
+          </div>
+          <div style="margin-left:1em; margin-top:0.5em">
+            <div>
+              <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital">
+              <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital">
+              <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital">
+            </div>
+            <div>
+              <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital">
+              <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital">
+              <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital">
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
+          <div style="margin-right:2em">
+            <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">1,200.00</span><br>
+            <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">78 $</span><br>
+            <span style="display: inline">Tratamento:</span> <span id="tratamento_modal_modulo">50 $</span><br>
+          </div>
+          <div>
+            <span style="display: inline">Capacidade:</span> <span id="capacidade_modal_modulo">50 $</span><br>
+            <span style="display: inline">Conforto:</span> <span id="conforto_modal_modulo">50 $</span><br>
+            <span style="display: inline">Tecnologia:</span> <span id="tecnologia_modal_modulo">50 $</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Hospital -->
