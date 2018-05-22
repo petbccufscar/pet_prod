@@ -18,29 +18,42 @@ if (socket_rodada.readyState == WebSocket.OPEN) socket_rodada.onopen();
 
 
 /* Funções e variaveis para mudança de abas */
-var aba_atual = 0;
-document.getElementsByClassName("aba")[0].style.display = "flex";
-var b_aba = document.getElementById("b_lateral").children[1];
-b_aba.style.color = "#cdd4db";
+var aba_atual = document.getElementById("loja-medicos");
+aba_atual.style.display = "flex";
 function mudar_aba(aba){
-  b_aba.style.color = "#4d92cc"
-  aba.style.color="#cdd4db";
-  b_aba = aba;
-  var index = Array.prototype.indexOf.call(aba.parentElement.children, aba) -1;
-  var abas = document.getElementsByClassName("aba");
-  //console.log(abas[index].children[1])
-  /* se mudar para aba do hospital .. atualiza */
-  if(abas[index] == document.getElementById("hospit").parentElement){
-    atualizar_hospital();
-  }
-  if(abas[index] == document.getElementById("dashboard").parentElement){
-    atualizar_dashboard();
-  }
-  if(abas.length <= index)
-    return;
-  abas[aba_atual].style.display = "none";
-  aba_atual = index;
-  abas[aba_atual].style.display = "flex";
+  aba_atual.style.display = "none";
+  aba_atual = document.getElementById(aba);
+  aba_atual.style.display = "flex";
+}
+
+elements = document.querySelectorAll(('.nav.lateral > li'))
+var l = elements.length;
+for(var x = 0; x < l; x++){
+  elements[x].addEventListener('mouseenter', function(){
+    submenu = document.querySelector('li:hover .submenu');
+    if(submenu != null){
+      submenu.style.display = 'block';
+    }
+  });
+  elements[x].addEventListener('mouseleave', function(){
+    submenu = document.querySelector('li:hover .submenu');
+    if(submenu != null){
+      submenu.style.display = 'none';
+    }
+  });
+  elements[x].onclick = function(){
+    close_this(elements[x]);
+    submenu = document.querySelector('li:hover .submenu');
+    if(submenu != null){
+      submenu.style.display = 'none';
+    }
+  };
+}
+
+
+
+function close_this(el){
+
 }
 
 function comprar_modulo(id) {

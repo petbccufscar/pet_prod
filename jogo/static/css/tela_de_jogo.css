@@ -84,7 +84,9 @@ div{
   height: 180px;
   width: 180px;
 }
-
+.none {
+  display: none;
+}
 /* The Close Button */
 .close {
     color: #aaaaaa;
@@ -111,6 +113,7 @@ div{
   color: #4d92cc;
   cursor: pointer;
 }
+
 .nav.lateral{
   height: 100%;
   display:flex;
@@ -118,24 +121,60 @@ div{
   align-items: center;
   background: #010812;
 }
-.nav.lateral li{
-  display: list-item;
+
+.nav.lateral > li{
   background: #010812;
-  padding: 2em;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  text-align: center;
 }
+
 .lateral li:last-child{
   margin-bottom: auto;
 }
-li > ul:hover{
-  display:block;
+
+.nav.lateral .submenu{
+  position: absolute;
+  z-index: 1;
+  padding: 0;
+  margin: 0;
+  width: 9em;
+  background: #010812;
+  display:none;
+  list-style-type: none;
+}
+
+.nav.lateral .submenu li{
+  border-left: 1px solid #cdd4db;
+  height: 1em;
+
+}
+
+@keyframes example {
+    from {width: 0%;}
+    to {width: 9em;}
+}
+
+.nav.lateral li:hover .submenu{
+  /* display:block;*/
+  animation-name: example;
+  animation-duration: 0.1s;
+}
+.nav.lateral .submenu li:first-child{
+  border-bottom: 1px solid  #cdd4db;
+  height: 0.2em;
+  line-height: 0.2em;
+  background: #010812;
 }
 
 #h-lateral{
     text-align: center;
     margin-top: 2em;
     margin-bottom: 5em;
-    padding: 1em;
+    padding: 0;
 }
+
 .nav li:hover{
     color: #cdd4db;
 }
