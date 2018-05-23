@@ -564,6 +564,8 @@ def tela_de_jogo(request, nome_time):
         "procuraram_atendimento": aux,
         "labels_tabela": labels_tabela,
         "estatisticas": time.estatisticas.get_estatisticas(),
+        "rodada_atual": logica_jogo.JogoAtual.rodada_atual + 1,
+        "rodadas_ate_atual":range(0,logica_jogo.JogoAtual.rodada_atual),
         "rodadas": range(1,len(logica_jogo.JogoAtual.rodadas)+2),
         }
     return render(request, 'jogo/tela_de_jogo.html', contexto)

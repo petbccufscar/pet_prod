@@ -1,7 +1,15 @@
 /* Atualizações em tempo real (Timer e Rodada) */
 socket_rodada = new WebSocket("ws://" + window.location.host + "/rodada/");
+var rodada_atual = 0;
 socket_rodada.onmessage = function(e) {
     document.getElementById("t_rodada").innerHTML = e.data;
+/*    rodada_atual += 1;
+    s = document.getElementById("select");
+    var option = document.createElement("option");
+    option.text = rodada_atual;
+    option.value = rodada_atual;
+    x.add(option);*/
+     location.reload(); 
 }
 
 socket_rodada = new WebSocket("ws://" + window.location.host + "/timer/");

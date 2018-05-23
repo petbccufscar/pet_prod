@@ -36,7 +36,7 @@
           <nav><ul class="submenu">
             <li>Estatisticas</li>
             <li onclick="mudar_aba('estatisticas-tabela');atualizar_dashboard()">Tabela</li>
-            <li onclick="mudar_aba('estatisticas-dashboards')">Dashboard</li>
+            <li onclick="mudar_aba('estatisticas-dashboards');atualizar_graficos(0)">Dashboard</li>
           </ul></nav>
         </div>
       </li>
@@ -48,7 +48,9 @@
       <ul class="nav">
         <li><span style="padding-right:0.5em;border-right: 1px solid #ccc">Seção</span>
           <span style="padding-left:0.5em">aba</span></li>
-        <li style="margin-right:auto;margin-left:auto"><span style="padding-right:0.5em;border-right: 1px solid #ccc;"id="t_rodada">Rodada: 1</span>
+        <li style="margin-right:auto;margin-left:auto">
+          <span style="padding-right:0.5em;border-right: 1px solid #ccc;"id="t_rodada">Rodada: {{rodada_atual}}
+          </span>
         <span style="padding-left:0.5em;" class="timer" id="t_timer">00:00</span></li>
         <li id="t_caixa">{{caixa}}</li>
       </ul>
@@ -202,13 +204,14 @@
     </div>
 
     <div id="estatisticas-dashboards" class="aba">
-      <!--Estatisticas-->
-      <div onc class="card">
-        <div class="chart-container-pie">
-          <canvas id="myPieChart"></canvas>
-        </div>
-      </div>
       <div class="card">
+        <div>
+          <select id="select" onchange="atualizar_graficos(this.value)">
+            {% for rod in rodadas_ate_atual %}
+            <option  value="{{rod}}">{{rod}}</option>
+            {% endfor %}
+          </select>
+        </div>
         <div class="chart-container-bar">
           <canvas id="myBarChart"></canvas>
         </div>
