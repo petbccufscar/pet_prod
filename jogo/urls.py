@@ -74,4 +74,5 @@ urlpatterns = [
 
     #tela login do jogador
     url(r'^login_jogador/$', views.login_jogador, name='login_jogador'),
+    url(r'^logar/$', views.logar, name='logar'),
 ]

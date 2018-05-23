@@ -646,8 +646,13 @@ def pre_jogo_4(request):
 def pre_jogo_5(request):
     return render(request, 'pre_jogo/tela_pre_jogo_5.html',{})
 
-def login_jogador(request):
+def logar(request):
+    print(request.POST["senha"])
     for time in logica_jogo.JogoAtual.times:
         if time.codigo_login == request.POST["senha"]:
             request.session['nome_time'] = time.nome
+    return HttpResponse("sdasdf")
+
+def login_jogador(request):
+
     return render(request, 'jogo/login_jogador.html',{})

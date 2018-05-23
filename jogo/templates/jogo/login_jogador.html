@@ -64,14 +64,17 @@ tbody{
         <th class = "cabecalho">Login do time</th>
     </tr>
  </thead>
+      <form action="{% url 'jogo:logar' %}" method="post" action="." class="form-horizontal">
+        {% csrf_token %}
        <th>
-         <input style="width:500px" input type="text" id="my_input" class="form-control" text-align="center" placeholder="Digite o código do time" value="" required>
+         <input name="senha" style="width:500px" input type="text" id="my_input" class="form-control" text-align="center" placeholder="Digite o código do time" value="" required>
        </th>
        <tr>
          <th>
-         <a><button type="submit" class="inner_button"  align="center" display="block" margin = "auto">Entrar</button></a>
+         <input  type="submit" class="inner_button"  align="center" display="block" margin = "auto">Entrar</input>
        </th>
        </tr>
+      </form>
  </table>
 
  <script src="{% static 'js/tela_pre_jogo_1.js' %}"></script>
