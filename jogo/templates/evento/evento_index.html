@@ -19,24 +19,20 @@
         <thead>
             <tr>
                 <th>Nome</th>
-                <th>Multiplicador Classe A</th>
-                <th>Multiplicador Classe B</th>
-                <th>Multiplicador Classe C</th>
-                <th>Multiplicador Classe D</th>
-                <th>Multiplicador Classe E</th>
+                {% for classe in classes %}
+                   <th>Multiplicador {{ classe.nome }}</th>
+                {% endfor %}
                 <th>Editar</th>
                 <th>Deletar</th>
             </tr>
         </thead>
         <tbody>
-            {% for evento in eventos %}
+            {% for evento, multiplicadores in listaEventos %}
                 <tr>
-                    <td>{{evento.nome}}</td>
-                    <td>{{evento.multiplicador_classeA | floatformat:2}}</td>
-                    <td>{{evento.multiplicador_classeB | floatformat:2}}</td>
-                    <td>{{evento.multiplicador_classeC | floatformat:2}}</td>
-                    <td>{{evento.multiplicador_classeD | floatformat:2}}</td>
-                    <td>{{evento.multiplicador_classeE | floatformat:2}}</td>
+                    <td>{{ evento.nome }}</td>
+                    {% for mult in multiplicadores %}
+                        <td>{{ mult.valor }}</td>
+                    {% endfor %}
                     <td><a href="{% url 'jogo:evento_edit' evento.id %}"><button type="button" class="btn btn-warning">Editar</button></a></td>
                     <td><a href="{% url 'jogo:evento_delete' evento.id %}"><button type="button" class="btn btn-danger">Deletar</button></a></td>
                 </tr>

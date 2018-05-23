@@ -1,6 +1,6 @@
 from django.db import models
+from django.contrib.postgres.forms import SimpleArrayField
 from django.core.validators import MinValueValidator, MaxValueValidator
-
 # Tabela Médico
 class Medico(models.Model):
     classificacao = ((1,'1'),(2,'2'),(3,'3'))
@@ -25,12 +25,14 @@ class Evento(models.Model):
         return self.nome
 
     nome = models.CharField(max_length=50)
-    #TODO: esta hardcode deve ser uma lista de multiplicadores
-    multiplicador_classeA = models.FloatField(validators=[MinValueValidator(0.0)])
-    multiplicador_classeB = models.FloatField(validators=[MinValueValidator(0.0)])
-    multiplicador_classeC = models.FloatField(validators=[MinValueValidator(0.0)])
-    multiplicador_classeD = models.FloatField(validators=[MinValueValidator(0.0)])
-    multiplicador_classeE = models.FloatField(validators=[MinValueValidator(0.0)])
+
+
+class Multiplicador(models.Model):
+
+    eventoNome = models.CharField(max_length=50)
+    classeNome = models.CharField(max_length=50)
+    valor = models.FloatField(default=0, validators=[MinValueValidator(0.0)])
+
 
 
 class Emprestimo(models.Model):
@@ -98,3 +100,5 @@ class Modulo(models.Model):
     conforto = models.IntegerField(default=1, choices=classificacao)
     capacidade = models.IntegerField(validators=[MinValueValidator(1)])
     preco_do_tratamento = models.FloatField(validators=[MinValueValidator(0.0)])
+
+

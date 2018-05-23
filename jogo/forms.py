@@ -1,6 +1,7 @@
 from django import forms
 # Não esqueçam de dar o import do .models da classe a ser implementado o forms
 from .models import Evento
+from .models import Multiplicador
 from .models import Emprestimo
 from .models import Time
 from .models import Area, Area_Classe_Social
@@ -33,37 +34,25 @@ class Medico_Form(forms.ModelForm):
         }
 
 class Evento_Form(forms.ModelForm):
+
     class Meta:
         model = Evento
         fields = '__all__'
+        widgetsAux = {}
+        error_messages = {}
+        error_messages['nome'] = {'required': 'O campo Nome deve ser preenchido'}
         widgets = {
             'nome': forms.TextInput(),
-            'multiplicador_classeA': forms.TextInput(),
-            'multiplicador_classeB': forms.TextInput(),
-            'multiplicador_classeC': forms.TextInput(),
-            'multiplicador_classeD': forms.TextInput(),
-            'multiplicador_classeE': forms.TextInput(),
         }
-        error_messages = {
-            'multiplicador_classeA': {'min_value': 'O campo precisa de um número maior que zero',
-                                      'invalid': 'O campo deve conter um número inteiro ou decimal',
-                                      'required': 'O campo Multiplicador para Classe A deve ser preenchido'},
-            'multiplicador_classeB': {'min_value': 'O campo precisa de um número maior que zero',
-                                      'invalid': 'O campo deve conter um número inteiro ou decimal',
-                                      'required': 'O campo Multiplicador para Classe B deve ser preenchido',},
-            'multiplicador_classeC': {'min_value': 'O campo precisa de um número maior que zero',
-                                      'invalid': 'O campo deve conter um número inteiro ou decimal',
-                                      'required': 'O campo Multiplicador para Classe C deve ser preenchido',},
-            'multiplicador_classeD': {'min_value': 'O campo precisa de um número maior que zero',
-                                      'invalid': 'O campo deve conter um número inteiro ou decimal',
-                                      'required': 'O campo Multiplicador para Classe D deve ser preenchido',},
-            'multiplicador_classeE': {'min_value': 'O campo precisa de um número maior que zero',
-                                      'invalid': 'O campo deve conter um número inteiro ou decimal',
-                                      'required': 'O campo Multiplicador para Classe E deve ser preenchido',},
 
-            'nome': {'required': 'O campo Nome deve ser preenchido',}
-
+class Multiplicador_Form(forms.ModelForm):
+    class Meta:
+        model = Multiplicador
+        fields = '__all__'
+        widgets = {
+            'valor': forms.TextInput(),
         }
+
 
 class Emprestimo_Form(forms.ModelForm):
     class Meta:

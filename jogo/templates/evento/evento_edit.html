@@ -24,36 +24,15 @@
                     <div class="col-xs-6">{{form.nome}}</div>
                 </td>
             </tr>
-            <tr>
-                <td align="right">Multiplicador para Classe A</td>
-                <td align="left">
-                    <div class="col-xs-6">{{form.multiplicador_classeA}}</div>
-                </td>
-            </tr>
-             <tr>
-                <td align="right">Multiplicador para Classe B</td>
-                <td align="left">
-                    <div class="col-xs-6">{{form.multiplicador_classeB}}</div>
-                </td>
-            </tr>
-             <tr>
-                <td align="right">Multiplicador para Classe C</td>
-                <td align="left">
-                    <div class="col-xs-6">{{form.multiplicador_classeC}}</div>
-                </td>
-            </tr>
-             <tr>
-                <td align="right">Multiplicador para Classe D</td>
-                <td align="left">
-                    <div class="col-xs-6">{{form.multiplicador_classeD}}</div>
-                </td>
-            </tr>
-             <tr>
-                <td align="right">Multiplicador para Classe E</td>
-                <td align="left">
-                    <div class="col-xs-6">{{form.multiplicador_classeE}}</div>
-                </td>
-            </tr>
+             {% for classe, multi in multiForm %}
+                <tr>
+                    <td align="right">Multiplicador para {{classe.nome }}</td>
+                    <td align="left">
+                        <div class="col-xs-6">{{multi.valor}}</div>
+                    </td>
+                </tr>
+            {% endfor %}
+
 
             <tr>
                 <td align="right"><a  style="text-decoration:none;" href="{% url 'jogo:evento_index' %}"><button type="button" class="btn btn-warning btn-block" >Voltar</button></a></td>
