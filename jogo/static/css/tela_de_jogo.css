@@ -1,3 +1,8 @@
+@font-face {
+    font-family: WorkSans-Regular;
+    src: "/font/WorkSans-Regular.ttf";
+}
+
 body{
   padding: 0px;
   margin: 0px;
@@ -9,7 +14,7 @@ ul{
 }
 div{
   color: #838383;
-  font-family: sans-serif;
+  font-family: WorkSans-Regular;
   font-size: large;
 }
 .debug {}
@@ -173,8 +178,7 @@ div{
 }
 
 .timer{
-  margin-left: auto;
-  margin-right: auto
+
 }
 
 .aba{
@@ -231,6 +235,7 @@ div{
     display: flex;
     margin: 10px;
     padding: 15px;
+    background: #fff;
     box-shadow: 2px 3px 3px 3px rgba(0,0,0,0.2);
 }
 
@@ -320,4 +325,13 @@ div{
 }
 #tf_label,.conteudo{
   height: 400px;
+}
+.area{
+  display: none
+}
+.ativo{
+  display: block;
+}
+.subaba-ativa{
+  border-bottom: 0.2em solid #ccc;
 }

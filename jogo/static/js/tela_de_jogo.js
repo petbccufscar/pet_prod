@@ -16,7 +16,22 @@ socket_rodada.onopen = function() {
 // Call onopen directly if socket is already open
 if (socket_rodada.readyState == WebSocket.OPEN) socket_rodada.onopen();
 
+/* Areas e modulos */
 
+function mudar_area_modulos(aba,classe){
+   var anterior = document.querySelector(".area.ativo");
+   var seletor_ant = document.querySelector(".subaba-ativa");
+   if(anterior!= null){
+     anterior.classList.remove("ativo");
+   }
+   if(seletor_ant != null){
+     seletor_ant.classList.remove("subaba-ativa");
+   }
+   document.querySelector(classe).classList.add("ativo");
+   if(aba != null){
+     aba.classList.add("subaba-ativa");
+   }
+}
 /* Funções e variaveis para mudança de abas */
 var aba_atual = document.getElementById("loja-medicos");
 aba_atual.style.display = "flex";
@@ -28,6 +43,7 @@ function mudar_aba(aba){
 
 elements = document.querySelectorAll(('.nav.lateral > li'))
 var l = elements.length;
+
 for(var x = 0; x < l; x++){
   elements[x].addEventListener('mouseenter', function(){
     submenu = document.querySelector('li:hover .submenu');
@@ -35,12 +51,14 @@ for(var x = 0; x < l; x++){
       submenu.style.display = 'block';
     }
   });
+
   elements[x].addEventListener('mouseleave', function(){
     submenu = document.querySelector('li:hover .submenu');
     if(submenu != null){
       submenu.style.display = 'none';
     }
   });
+
   elements[x].onclick = function(){
     close_this(elements[x]);
     submenu = document.querySelector('li:hover .submenu');
@@ -49,8 +67,6 @@ for(var x = 0; x < l; x++){
     }
   };
 }
-
-
 
 function close_this(el){
 

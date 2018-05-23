@@ -10,7 +10,7 @@
 </head>
 <body style="display:flex">
 
-  <nav style="width:10%;height:100vh">
+  <nav style="width:8%;height:100vh">
     <ul id="b_lateral" class="nav lateral">
       <li id="h-lateral">Time 1</li>
       <li ><i class="fas fa-cart-plus" style="font-size:40"></i>
@@ -18,7 +18,7 @@
           <nav><ul class="submenu">
             <li>Loja</li>
             <li onclick="mudar_aba('loja-medicos')">Medicos</li>
-            <li onclick="mudar_aba('loja-modulos')">Modulos</li>
+            <li onclick="mudar_aba('loja-modulos');mudar_area_modulos(null,'.area-{{areas.0}}')">Modulos</li>
           </ul></nav>
         </div>
       </li>
@@ -35,7 +35,7 @@
         <div style="float: right">
           <nav><ul class="submenu">
             <li>Estatisticas</li>
-            <li onclick="mudar_aba('estatisticas-tabela')">Tabela</li>
+            <li onclick="mudar_aba('estatisticas-tabela');atualizar_dashboard()">Tabela</li>
             <li onclick="mudar_aba('estatisticas-dashboards')">Dashboard</li>
           </ul></nav>
         </div>
@@ -46,8 +46,10 @@
 
     <nav style="height:10%">
       <ul class="nav">
-        <li id="t_rodada">Rodada: 1</li>
-        <li class="timer" id="t_timer">00:00</li>
+        <li><span style="padding-right:0.5em;border-right: 1px solid #ccc">Seção</span>
+          <span style="padding-left:0.5em">aba</span></li>
+        <li style="margin-right:auto;margin-left:auto"><span style="padding-right:0.5em;border-right: 1px solid #ccc;"id="t_rodada">Rodada: 1</span>
+        <span style="padding-left:0.5em;" class="timer" id="t_timer">00:00</span></li>
         <li id="t_caixa">{{caixa}}</li>
       </ul>
     </nav>
@@ -125,34 +127,47 @@
       loja medicos
     </div>
 
-    <div id="loja-modulos" class="aba">
-      <div class="card" style="display:flex;margin-top:auto;justify-content: space-around; padding:0px; flex-direction:column">
-        <div style="border-bottom:1px solid #888; display:flex; background-color:#ff3f3f; height:1.5em">
-          <div style="border-right:1px solid #888; padding-right:1em; text-align:center; vertical-align: middle;">
-            10
-          </div>
-          <div style="padding-left:2em; text-align:center; vertical-align: middle;">
-            <span style="text-align:center; vertical-align: middle;">Cod.:</span> <span id="codigo_modal_modulo" style="text-align:center; vertical-align: middle;">12</span><br>
-          </div>
-        </div>
-        <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
-          <div>
-            <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Hospital">
-          </div>
-          <div style="margin-left:1em; margin-top:0.5em">
-            <div>
-              <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital">
-              <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital">
-              <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital">
+    <div id="loja-modulos" style="height:100%;flex-direction: column"class="aba">
+      <div style="height:5%">
+      <ul class="nav" style="height:4%;display:flex">
+        {% for area in mod_p_area.keys %}
+        <li onclick="mudar_area_modulos(this,'.area-{{area}}')">
+          {{area}}
+        </li>
+        {% endfor %}
+      </ul>
+      </div>
+      {% for area, modulos in mod_p_area.items %}
+      <div class="area area-{{area}}" style="overflow: auto;background: #e5e5e5;height:95%;padding:1em;">
+        {% for modulo in modulos%}
+        <div style="display:inline-block">
+          <div class="card" style="width:21em;display:flex;margin-top:auto;justify-content: space-around; padding:0px; flex-direction:column">
+            <div style="border-bottom:1px solid #888; display:flex; background-color:#ff3f3f; height:1.5em">
+              <div style="border-right:1px solid #888; padding-right:1em; text-align:center; vertical-align: middle;">
+                10
+              </div>
+              <div style="padding-left:2em; text-align:center; vertical-align: middle;">
+                <span style="text-align:center; vertical-align: middle;">Cod.:</span> <span id="codigo_modal_modulo" style="text-align:center; vertical-align: middle;">12</span><br>
+              </div>
             </div>
-            <div>
-              <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital">
-              <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital">
-              <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital">
-            </div>
+            <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
+              <div>
+                <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Hospital">
+              </div>
+              <div style="margin-left:1em; margin-top:0.5em">
+                <div>
+                  <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital">
+                  <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital">
+                  <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital">
+                </div>
+                <div>
+                  <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital">
+                  <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital">
+                  <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital">
+                </div>
+              </div>
           </div>
-        </div>
-        <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
+          <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
           <div style="margin-right:2em">
             <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">1,200.00</span><br>
             <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">78 $</span><br>
@@ -164,7 +179,12 @@
             <span style="display: inline">Tecnologia:</span> <span id="tecnologia_modal_modulo">50 $</span>
           </div>
         </div>
-      </div>
+        </div>
+        </div>
+        {% endfor %}
+        </div>
+      {% endfor %}
+
     </div>
 
     <!-- Hospital -->
@@ -178,11 +198,21 @@
 
     <!-- Estatisticas -->
     <div id="estatisticas-tabela" class="aba">
-      Estatisticas tabelas
+        <div id="dashboard" style="display:flex;flex-direction:column">Load</div>
     </div>
 
     <div id="estatisticas-dashboards" class="aba">
-      Estatisticas tabelas
+      <!--Estatisticas-->
+      <div onc class="card">
+        <div class="chart-container-pie">
+          <canvas id="myPieChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chart-container-bar">
+          <canvas id="myBarChart"></canvas>
+        </div>
+      </div>
     </div>
 
   </div>

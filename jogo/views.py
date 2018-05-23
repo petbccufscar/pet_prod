@@ -553,6 +553,7 @@ def tela_de_jogo(request, nome_time):
 
     colunas = ["col1", "col2", "col1"] # exemplo
     contexto = {
+        "areas": list(modulos_p_areas.keys()),
         "nome_time": time.nome,
         "mod_p_area": modulos_p_areas,
         "medicos": lista_medicos,
