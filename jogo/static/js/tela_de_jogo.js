@@ -9,7 +9,7 @@ socket_rodada.onmessage = function(e) {
     option.text = rodada_atual;
     option.value = rodada_atual;
     x.add(option);*/
-     location.reload(); 
+     location.reload();
 }
 
 socket_rodada = new WebSocket("ws://" + window.location.host + "/timer/");
@@ -78,6 +78,31 @@ for(var x = 0; x < l; x++){
 
 function close_this(el){
 
+}
+
+function confirmacao(card){
+  if(card.classList.contains("modal-card-modulo")){
+    return;
+  }
+
+  card.classList.add("modal-card-modulo");
+  var modal = document.getElementById("modalB");
+  modal.style.display= "block";
+  var confimar = document.createElement("button");
+  var cancelar = document.createElement("button");
+  confimar.innerHTML = "Confimar";
+  cancelar.innerHTML = "Cancelar";
+  card.appendChild(confimar);
+  card.appendChild(cancelar);
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+          card.classList.remove("modal-card-modulo");
+
+          card.removeChild(card.lastChild);
+          card.removeChild(card.lastChild);
+      }
+  }
 }
 
 function comprar_modulo(id) {
@@ -357,6 +382,7 @@ function atualizar_hospital(){
       }
   });
 }
+
 function atualizar_dashboard(){
   $.ajax({
       url : "dashboard/",
@@ -426,6 +452,7 @@ function atualizar_graficos(r){
   });
 
 }
+
 function grafico_barra(areas, total_atendidos, procuraram_atendimento){
   var ctx = document.getElementById("myBarChart");
   var data = {
@@ -460,6 +487,7 @@ function grafico_barra(areas, total_atendidos, procuraram_atendimento){
       }
   });
 }
+
 /**
  * setup para protecao com token csrftoken
  **/

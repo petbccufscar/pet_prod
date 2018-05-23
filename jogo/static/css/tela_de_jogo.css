@@ -334,3 +334,10 @@ div{
 .subaba-ativa{
   border-bottom: 0.2em solid #ccc;
 }
+
+.modal-card-modulo{
+  position: absolute;
+  left: calc(50% - 11em);
+  top: calc(50% - 11em);
+  z-index: 2;
+}

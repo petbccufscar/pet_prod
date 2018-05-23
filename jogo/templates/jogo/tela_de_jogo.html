@@ -9,6 +9,8 @@
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body style="display:flex">
+  <div id="modalB" class="modal">
+  </div>
 
   <nav style="width:8%;height:100vh">
     <ul id="b_lateral" class="nav lateral">
@@ -91,7 +93,6 @@
         </div>
       </div>
     </div>
-
     <div id="modalMedico" class="modal">
 
       <!-- Modal do médico -->
@@ -142,14 +143,14 @@
       {% for area, modulos in mod_p_area.items %}
       <div class="area area-{{area}}" style="overflow: auto;background: #e5e5e5;height:95%;padding:1em;">
         {% for modulo in modulos%}
-        <div style="display:inline-block">
-          <div class="card" style="width:21em;display:flex;margin-top:auto;justify-content: space-around; padding:0px; flex-direction:column">
+        <div onclick="confirmacao(this.children[0])" style="display:inline-block;width:22em;height:14em;vertical-align: bottom">
+          <div class="card asdf" style="width:22em;display:flex;margin-top:auto;justify-content: space-around; padding:0px; flex-direction:column">
             <div style="border-bottom:1px solid #888; display:flex; background-color:#ff3f3f; height:1.5em">
               <div style="border-right:1px solid #888; padding-right:1em; text-align:center; vertical-align: middle;">
                 10
               </div>
               <div style="padding-left:2em; text-align:center; vertical-align: middle;">
-                <span style="text-align:center; vertical-align: middle;">Cod.:</span> <span id="codigo_modal_modulo" style="text-align:center; vertical-align: middle;">12</span><br>
+                <span style="text-align:center; vertical-align: middle;">Cod.:</span><span id="codigo_modal_modulo" style="text-align:center; vertical-align: middle;">12</span>
               </div>
             </div>
             <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
@@ -168,20 +169,20 @@
                   <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital">
                 </div>
               </div>
+            </div>
+            <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
+              <div style="margin-right:2em">
+                <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">{{modulo.custo_de_aquisicao}}</span><br>
+                <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">78 $</span><br>
+                <span style="display: inline">Tratamento:</span> <span id="tratamento_modal_modulo">50 $</span><br>
+              </div>
+              <div>
+                <span style="display: inline">Capacidade:</span> <span id="capacidade_modal_modulo">50 $</span><br>
+                <span style="display: inline">Conforto:</span> <span id="conforto_modal_modulo">50 $</span><br>
+                <span style="display: inline">Tecnologia:</span> <span id="tecnologia_modal_modulo">50 $</span>
+              </div>
+            </div>
           </div>
-          <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
-          <div style="margin-right:2em">
-            <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">1,200.00</span><br>
-            <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">78 $</span><br>
-            <span style="display: inline">Tratamento:</span> <span id="tratamento_modal_modulo">50 $</span><br>
-          </div>
-          <div>
-            <span style="display: inline">Capacidade:</span> <span id="capacidade_modal_modulo">50 $</span><br>
-            <span style="display: inline">Conforto:</span> <span id="conforto_modal_modulo">50 $</span><br>
-            <span style="display: inline">Tecnologia:</span> <span id="tecnologia_modal_modulo">50 $</span>
-          </div>
-        </div>
-        </div>
         </div>
         {% endfor %}
         </div>
