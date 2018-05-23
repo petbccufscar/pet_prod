@@ -266,6 +266,13 @@ div{
   width: 150px;
 }
 
+.center-p{
+    text-aligin: center;
+    padding: 0px;
+    margin: 0px;
+    color:#fff;
+}
+
 /* TAMANHO DO GRAFICO*/
 .chart-container-pie{
     width: 200px;
