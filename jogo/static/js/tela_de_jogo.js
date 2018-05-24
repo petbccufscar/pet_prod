@@ -56,22 +56,23 @@ for(var x = 0; x < l; x++){
   elements[x].addEventListener('mouseenter', function(){
     submenu = document.querySelector('li:hover .submenu');
     if(submenu != null){
-      submenu.style.display = 'block';
+      submenu.classList.add("submenu-ativo");
     }
   });
 
   elements[x].addEventListener('mouseleave', function(){
-    submenu = document.querySelector('li:hover .submenu');
+    submenu = document.querySelector('.submenu-ativo');
+    console.log(submenu);
     if(submenu != null){
-      submenu.style.display = 'none';
+      submenu.classList.remove("submenu-ativo");
     }
   });
 
   elements[x].onclick = function(){
     close_this(elements[x]);
-    submenu = document.querySelector('li:hover .submenu');
+    submenu = document.querySelector('submenu-ativo');
     if(submenu != null){
-      submenu.style.display = 'none';
+      submenu.classList.remove("submenu-ativo");
     }
   };
 }

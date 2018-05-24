@@ -139,7 +139,7 @@ div{
   margin: 0;
   width: 9em;
   background: #010812;
-  display:none;
+  
   list-style-type: none;
 }
 
@@ -337,6 +337,12 @@ div{
 }
 .ativo{
   display: block;
+}
+.escondido{
+    display: none;
+}
+.submenu-ativo{
+    display: block;
 }
 .subaba-ativa{
   border-bottom: 0.2em solid #ccc;

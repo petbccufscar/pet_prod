@@ -17,7 +17,7 @@
       <li id="h-lateral">Time 1</li>
       <li ><i class="fas fa-cart-plus" style="font-size:40"></i>
         <div style="float: right">
-          <nav><ul class="submenu">
+          <nav><ul class="submenu escondido">
             <li>Loja</li>
             <li onclick="mudar_aba('loja-medicos')">Medicos</li>
             <li onclick="mudar_aba('loja-modulos');mudar_area_modulos(null,'.area-{{areas.0}}')">Modulos</li>
@@ -26,7 +26,7 @@
       </li>
       <li ><i class="fas fa-hospital-alt" style="font-size:40"></i>
         <div style="float: right">
-          <nav><ul class="submenu">
+          <nav><ul class="submenu escondido">
             <li>Hospital</li>
             <li onclick="mudar_aba('hospital-medicos')">Medicos</li>
             <li onclick="mudar_aba('hospital-modulos')">Modulos</li>
@@ -35,7 +35,7 @@
       </li>
       <li ><i class="fas fa-chart-line" style="font-size:40"></i>
         <div style="float: right">
-          <nav><ul class="submenu">
+          <nav><ul class="submenu escondido">
             <li>Estatisticas</li>
             <li onclick="mudar_aba('estatisticas-tabela');atualizar_dashboard()">Tabela</li>
             <li onclick="mudar_aba('estatisticas-dashboards');atualizar_graficos(0)">Dashboard</li>
@@ -184,7 +184,8 @@
                 10
               </div>
               <div style="margin-left:auto; margin-right:auto">
-                <span class="center-p">Cod.:</span><span id="codigo_modal_modulo" class="center-p">{{modulo.codigo}}</span>
+                <span style="margin-left:auto; margin-right:auto"class="center-p">Cod.:<span id="codigo_modal_modulo" class="center-p">{{modulo.codigo}}</span>
+                </span>
               </div>
             </div>
             <div style="display:flex;margin:auto; padding:10px">
