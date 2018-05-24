@@ -178,13 +178,13 @@
       <div class="area area-{{area}}" style="overflow: auto;background: #e5e5e5;height:95%;padding:1em;">
         {% for modulo in modulos%}
         <div onclick="confirmacao(this.children[0])" style="display:inline-block;width:22em;height:14em;vertical-align: bottom">
-          <div class="card asdf" style="width:22em;display:flex;margin-top:auto; padding:0px; flex-direction:column; border-radius: 20px;">
+          <div data-value="{{modulo.id}}" class="card asdf" style="width:22em;display:flex;margin-top:auto; padding:0px; flex-direction:column; border-radius: 20px;">
             <div style="border-bottom:1px solid #888; display:flex; background-color:#ff3f3f; height:1.5em; border-top-left-radius: 20px; border-top-right-radius: 20px">
               <div class="center-p" style="border-right:1px solid #888; padding-right:1em; margin-left:1em">
                 10
               </div>
               <div style="margin-left:auto; margin-right:auto">
-                <span style="margin-left:auto; margin-right:auto"class="center-p">Cod.:<span id="codigo_modal_modulo" class="center-p">{{modulo.codigo}}</span>
+                <span style="margin-left:auto; margin-right:auto"class="center-p">Cod.:<span id="codigo_modal_modulo" class="center-p">{{modulo.id}}</span>
                 </span>
               </div>
             </div>

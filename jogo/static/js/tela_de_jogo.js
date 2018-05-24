@@ -89,17 +89,25 @@ function confirmacao(card){
   card.classList.add("modal-card-modulo");
   var modal = document.getElementById("modalB");
   modal.style.display= "block";
-  var confimar = document.createElement("button");
+  var confirmar = document.createElement("button");
   var cancelar = document.createElement("button");
-  confimar.innerHTML = "Confimar";
+  confirmar.innerHTML = "Confirmar";
+  console.log(card.getAttribute('data-value'));
   cancelar.innerHTML = "Cancelar";
-  card.appendChild(confimar);
+  card.appendChild(confirmar);
   card.appendChild(cancelar);
+
   window.onclick = function(event) {
-      if (event.target == modal) {
+      if (event.target == confirmar){
+        modal.style.display = "none";
+        card.classList.remove("modal-card-modulo");
+        card.removeChild(card.lastChild);
+        card.removeChild(card.lastChild);   
+        comprar_modulo(card.getAttribute('data-value'));       
+        }
+      if (event.target == modal || event.target == cancelar) {
           modal.style.display = "none";
           card.classList.remove("modal-card-modulo");
-
           card.removeChild(card.lastChild);
           card.removeChild(card.lastChild);
       }
