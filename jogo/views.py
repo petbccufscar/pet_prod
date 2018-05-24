@@ -518,12 +518,13 @@ def iniciar_jogo(request):
     logica_jogo.inicializa_jogo(rodadas, times)
     return HttpResponse("Iniciou")
 
-def tela_de_jogo(request, nome_time):
+def tela_de_jogo(request):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
     if 'nome_time' not in request.session:
         return HttpResponse("Usuário Não Logado")
 
+    nome_time = request.session['nome_time']
     time = logica_jogo.JogoAtual.times[nome_time]
     modulos = Modulo.objects.all()
     lista_medicos = Medico.objects.all()
@@ -574,9 +575,14 @@ def tela_de_jogo(request, nome_time):
         }
     return render(request, 'jogo/tela_de_jogo.html', contexto)
 
-def tela_de_jogo_hospital(request, nome_time):
+def tela_de_jogo_hospital(request):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
+    if 'nome_time' not in request.session:
+        return HttpResponse("Usuário Não Logado")
+
+    nome_time = request.session['nome_time']
+
     time = logica_jogo.JogoAtual.times[nome_time]
     # Separando modulos por area
     time_modulos_p_areas = {}
@@ -608,9 +614,13 @@ def tela_de_jogo_hospital(request, nome_time):
     }
     return render(request, 'jogo/meu_hospital.html', contexto)
 
-def tela_de_jogo_dashboard(request, nome_time):
+def tela_de_jogo_dashboard(request):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
+    if 'nome_time' not in request.session:
+        return HttpResponse("Usuário Não Logado")
+
+    nome_time = request.session['nome_time']
     time = logica_jogo.JogoAtual.times[nome_time]
     labels = time.estatisticas.lista_demandas[0].keys()
     total_atendidos = time.estatisticas.lista_total_atendidos[0].values()

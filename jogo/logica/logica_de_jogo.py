@@ -31,7 +31,12 @@ def inicializa_jogo(rodadas, times):
 def encerrar_jogo():
     pass
 
-def vender_modulo(request, nome_time):
+def vender_modulo(request):
+    if 'nome_time' not in request.session:
+        return HttpResponse("Usuário Não Logado")
+
+    nome_time = request.session['nome_time']
+
     print("VENTI UM MODULO")
 
     # JogoAtual.encerrar_rodada()
@@ -39,31 +44,46 @@ def vender_modulo(request, nome_time):
     return HttpResponse(JogoAtual.times[nome_time].estatisticas.get_ultimo_caixa())
 
 
-def comprar_modulo(request, nome_time):
+def comprar_modulo(request):
+    if 'nome_time' not in request.session:
+        return HttpResponse("Usuário Não Logado")
+
+    nome_time = request.session['nome_time']
+
     print("COMPREI UM MODULO")
     print(request.POST["modulo_id"], nome_time)
     JogoAtual.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
     return HttpResponse(JogoAtual.times[nome_time].estatisticas.get_ultimo_caixa())
 
-def contratar_medico(request, nome_time):
+def contratar_medico(request):
+    if 'nome_time' not in request.session:
+        return HttpResponse("Usuário Não Logado")
+
+    nome_time = request.session['nome_time']
+
     print(request.POST["medico_id"], nome_time)
     print("contratado")
     JogoAtual.comprar_medico(nome_time,int(request.POST["medico_id"]))
     return HttpResponse("contratado")
 
 
-def despedir_medico(request, nome_time):
+def despedir_medico(request):
+    if 'nome_time' not in request.session:
+        return HttpResponse("Usuário Não Logado")
+
+    nome_time = request.session['nome_time']
+
     print(request.POST["medico_id"], nome_time)
     JogoAtual.vender_medico(nome_time, int(request.POST["medico_id"]))
     print("despedido")
     return HttpResponse("despedido")
 
-def busca_modulo(request, nome_time):
-    data = serializers.serialize("json", [Modulo.objects.get(id = request.POST["modulo_id"]),])
+def busca_modulo(request):
+    data = serializers.serialize("json", [Modulo.objects.get(id = request.POST["modulo_id"]), ])
     return HttpResponse(data)
 
-def busca_medico(request, nome_time):
-    data = serializers.serialize("json", [Medico.objects.get(id = request.POST["medico_id"]),])
+def busca_medico(request):
+    data = serializers.serialize("json", [Medico.objects.get(id = request.POST["medico_id"]), ])
     return HttpResponse(data)
 
 class Logica(object):

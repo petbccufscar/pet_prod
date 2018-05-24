@@ -53,17 +53,17 @@ urlpatterns = [
 
     #interações do jogador
     url(r'^irrelevante', views.iniciar_jogo, name='iniciar_jogo'),
-    url(r'^jogo/(?P<nome_time>\w+)/comprar_modulo', logica_de_jogo.comprar_modulo, name='comprar_modulo'),
-    url(r'^jogo/(?P<nome_time>\w+)/vender_modulo', logica_de_jogo.vender_modulo, name='vender_modulo'),
-    url(r'^jogo/(?P<nome_time>\w+)/contratar_medico', logica_de_jogo.contratar_medico, name='contratar_medico'),
-    url(r'^jogo/(?P<nome_time>\w+)/despedir_medico', logica_de_jogo.despedir_medico, name='despedir_medico'),
-    url(r'^jogo/(?P<nome_time>\w+)/busca_modulo', logica_de_jogo.busca_modulo, name='busca_modulo'),
-    url(r'^jogo/(?P<nome_time>\w+)/busca_medico', logica_de_jogo.busca_medico, name='busca_medico'),
-    url(r'^jogo/(?P<nome_time>\w+)/hospital', views.tela_de_jogo_hospital, name='tela_de_jogo_hospital'),
-    url(r'^jogo/(?P<nome_time>\w+)/dashboard', views.tela_de_jogo_dashboard, name='tela_de_jogo_dashboard'),
-    url(r'^jogo/(?P<nome_time>\w+)/dados_graficos', ajax.tela_de_jogo_graficos, name='tela_de_jogo_graficos'),
+    url(r'^jogo/comprar_modulo', logica_de_jogo.comprar_modulo, name='comprar_modulo'),
+    url(r'^jogo/vender_modulo', logica_de_jogo.vender_modulo, name='vender_modulo'),
+    url(r'^jogo/contratar_medico', logica_de_jogo.contratar_medico, name='contratar_medico'),
+    url(r'^jogo/despedir_medico', logica_de_jogo.despedir_medico, name='despedir_medico'),
+    url(r'^jogo/busca_modulo', logica_de_jogo.busca_modulo, name='busca_modulo'),
+    url(r'^jogo/busca_medico', logica_de_jogo.busca_medico, name='busca_medico'),
+    url(r'^jogo/hospital', views.tela_de_jogo_hospital, name='tela_de_jogo_hospital'),
+    url(r'^jogo/dashboard', views.tela_de_jogo_dashboard, name='tela_de_jogo_dashboard'),
+    url(r'^jogo/dados_graficos', ajax.tela_de_jogo_graficos, name='tela_de_jogo_graficos'),
 
-    url(r'^jogo/(?P<nome_time>\w+)/', views.tela_de_jogo, name='tela_de_jogo'),
+    url(r'^jogo/', views.tela_de_jogo, name='tela_de_jogo'),
 
     #telas de pre jogo
     url(r'^pre_jogo_1/$', views.pre_jogo_1, name='pre_jogo_1'),
