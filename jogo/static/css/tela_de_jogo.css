@@ -79,8 +79,8 @@ div{
   border-top-left-radius:3px;
   padding:0px;
   margin:0px;
-  height: 180px;
-  width: 180px;
+  height: 100px;
+  width: 100px;
 }
 .none {
   display: none;
@@ -139,7 +139,7 @@ div{
   margin: 0;
   width: 9em;
   background: #010812;
-  
+
   list-style-type: none;
 }
 
@@ -255,6 +255,34 @@ div{
   margin:0px;
   width: 1.5em;
   height: 1.75em;
+}
+
+
+.icone_expertise{
+  border-top-right-radius:3px;
+  border-top-left-radius:3px;
+  padding:5px;
+  margin:0px;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.icone_pontualidade{
+  border-top-right-radius:3px;
+  border-top-left-radius:3px;
+  padding:5px;
+  margin:0px;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.icone_atendimento{
+  border-top-right-radius:3px;
+  border-top-left-radius:3px;
+  padding:5px;
+  margin:0px;
+  width: 1.5em;
+  height: 1.5em;
 }
 
 .modulo-imagem{
