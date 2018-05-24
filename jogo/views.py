@@ -512,14 +512,16 @@ def iniciar_jogo(request):
     times = [] #TODO: inicializar times
     #times hardcoded para fins de teste
     times.append(LTime("time1"))
-    times[-1].codigo_login = utils.gerar_token(1)
+    tokens = utils.gerar_token(1)
+    times[-1].codigo_login = tokens[-1]
+    print("codigo: ", times[-1].codigo_login)
     logica_jogo.inicializa_jogo(rodadas, times)
     return HttpResponse("Iniciou")
 
 def tela_de_jogo(request, nome_time):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
-    if not request.session['nome_time']:
+    if 'nome_time' not in request.session:
         return HttpResponse("Usuário Não Logado")
 
     time = logica_jogo.JogoAtual.times[nome_time]
@@ -648,8 +650,11 @@ def pre_jogo_5(request):
 
 def logar(request):
     print(request.POST["senha"])
-    for time in logica_jogo.JogoAtual.times:
+    for time in logica_jogo.JogoAtual.times.values():
+        print("Tenho codigo login: ", time.codigo_login)
+        print("Tenho request senha: ",request.POST["senha"] )
         if time.codigo_login == request.POST["senha"]:
+            #request.session.clear()
             request.session['nome_time'] = time.nome
     return HttpResponse("sdasdf")
 
