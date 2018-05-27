@@ -512,16 +512,19 @@ def iniciar_jogo(request):
     times = [] #TODO: inicializar times
     #times hardcoded para fins de teste
     times.append(LTime("time1"))
-    times[-1].codigo_login = utils.gerar_token(1)
+    tokens = utils.gerar_token(1)
+    times[-1].codigo_login = tokens[-1]
+    print("codigo: ", times[-1].codigo_login)
     logica_jogo.inicializa_jogo(rodadas, times)
     return HttpResponse("Iniciou")
 
-def tela_de_jogo(request, nome_time):
+def tela_de_jogo(request):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
-    if not request.session['nome_time']:
+    if 'nome_time' not in request.session:
         return HttpResponse("Usuário Não Logado")
 
+    nome_time = request.session['nome_time']
     time = logica_jogo.JogoAtual.times[nome_time]
     modulos = Modulo.objects.all()
     lista_medicos = Medico.objects.all()
@@ -575,9 +578,14 @@ def tela_de_jogo(request, nome_time):
         }
     return render(request, 'jogo/tela_de_jogo.html', contexto)
 
-def tela_de_jogo_hospital(request, nome_time):
+def tela_de_jogo_hospital(request):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
+    if 'nome_time' not in request.session:
+        return HttpResponse("Usuário Não Logado")
+
+    nome_time = request.session['nome_time']
+
     time = logica_jogo.JogoAtual.times[nome_time]
     # Separando modulos por area
     time_modulos_p_areas = {}
@@ -609,9 +617,13 @@ def tela_de_jogo_hospital(request, nome_time):
     }
     return render(request, 'jogo/meu_hospital.html', contexto)
 
-def tela_de_jogo_dashboard(request, nome_time):
+def tela_de_jogo_dashboard(request):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
+    if 'nome_time' not in request.session:
+        return HttpResponse("Usuário Não Logado")
+
+    nome_time = request.session['nome_time']
     time = logica_jogo.JogoAtual.times[nome_time]
     labels = time.estatisticas.lista_demandas[0].keys()
     total_atendidos = time.estatisticas.lista_total_atendidos[0].values()
@@ -651,8 +663,11 @@ def pre_jogo_5(request):
 
 def logar(request):
     print(request.POST["senha"])
-    for time in logica_jogo.JogoAtual.times:
+    for time in logica_jogo.JogoAtual.times.values():
+        print("Tenho codigo login: ", time.codigo_login)
+        print("Tenho request senha: ",request.POST["senha"] )
         if time.codigo_login == request.POST["senha"]:
+            #request.session.clear()
             request.session['nome_time'] = time.nome
     return HttpResponse("sdasdf")
 

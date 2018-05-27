@@ -3,9 +3,14 @@ from django.http import JsonResponse
 import jogo.logica.logica_de_jogo as logica_jogo
 from jogo.logica.time import Time as LTime
 
-def tela_de_jogo_graficos(request, nome_time):
+def tela_de_jogo_graficos(request):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
+    if 'nome_time' not in request.session:
+        return HttpResponse("Usuário Não Logado")
+
+    nome_time = request.session['nome_time']
+
     rodada = int(request.POST["rodada"])
     time = logica_jogo.JogoAtual.times[nome_time]
     labels = list(time.estatisticas.lista_demandas[rodada].keys())
