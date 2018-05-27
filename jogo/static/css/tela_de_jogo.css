@@ -74,14 +74,7 @@ div{
   border: 1px solid #888;
   width: 50%;
 }
-.medico-imagem{
-  border-top-right-radius:3px;
-  border-top-left-radius:3px;
-  padding:0px;
-  margin:0px;
-  height: 100px;
-  width: 100px;
-}
+
 .none {
   display: none;
 }
@@ -238,6 +231,57 @@ div{
     background: #fff;
     box-shadow: 2px 3px 3px 3px rgba(0,0,0,0.2);
 }
+/* classes do card medico */
+.med-place-holder{
+  display: inline-block;
+  vertical-align: bottom;
+  margin: 0.2em;
+}
+.card.medico{
+  flex-direction: column;
+  margin-top: auto;
+  padding:0px;
+  border-radius: 10px;
+}
+.card.medico, .med-place-holder{
+  width: 18em;
+  height: 9.8em;
+}
+.card.medico .head{
+  display:flex;
+  background-color:#ff3f3f;
+  height:1.5em;
+  border-bottom:1px solid #888;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.card.medico .head div{
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
+  color:#fff;
+}
+
+.card.medico .head div:first-child{
+  border-right:1px solid #888;
+  width: 3.5em;
+  line-height: 1.5em;
+}
+
+.card.medico .body{
+  display: flex;
+  height: 8.3em;
+  padding: 0.3em;
+}
+
+.medico-imagem{
+  border-top-right-radius:3px;
+  border-top-left-radius:3px;
+  padding:0px;
+  margin:0px;
+  height: 5em;
+  width: 5em;
+}
 
 .icone_conforto{
   border-top-right-radius:3px;
@@ -259,10 +303,10 @@ div{
 
 
 .icone_expertise{
-  border-top-right-radius:3px;
-  border-top-left-radius:3px;
-  padding:5px;
-  margin:0px;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  padding: 0.1em;
+  margin: 0px;
   width: 1.5em;
   height: 1.5em;
 }
@@ -270,7 +314,7 @@ div{
 .icone_pontualidade{
   border-top-right-radius:3px;
   border-top-left-radius:3px;
-  padding:5px;
+  padding: 0.1em;
   margin:0px;
   width: 1.5em;
   height: 1.5em;
@@ -279,7 +323,7 @@ div{
 .icone_atendimento{
   border-top-right-radius:3px;
   border-top-left-radius:3px;
-  padding:5px;
+  padding: 0.1em;
   margin:0px;
   width: 1.5em;
   height: 1.5em;
@@ -294,12 +338,6 @@ div{
   width: 150px;
 }
 
-.center-p{
-    text-aligin: center;
-    padding: 0px;
-    margin: 0px;
-    color:#fff;
-}
 
 /* TAMANHO DO GRAFICO*/
 .chart-container-pie{

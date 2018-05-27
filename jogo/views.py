@@ -510,11 +510,12 @@ def iniciar_jogo(request):
     #TODO: codigo de inicialização de jogo
     rodadas = Rodada.objects.all()
     times = [] #TODO: inicializar times
-    #times hardcoded para fins de teste
+    # times hardcoded para fins de teste
     times.append(LTime("time1"))
     tokens = utils.gerar_token(1)
     times[-1].codigo_login = tokens[-1]
     print("codigo: ", times[-1].codigo_login)
+    request.session['nome_time'] = "time1"
     logica_jogo.inicializa_jogo(rodadas, times)
     return HttpResponse("Iniciou")
 
