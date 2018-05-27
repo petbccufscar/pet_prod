@@ -46,10 +46,10 @@
       </li>
     </ul>
   </nav>
-  <div style="width:90%;display:flex;flex-direction:column">
+  <div style="width:100%;display:flex;flex-direction:column">
 
     <nav style="height:10%">
-      <ul class="nav">
+      <ul class="nav top">
         <li><span style="padding-right:0.5em;border-right: 1px solid #ccc">Seção</span>
           <span style="padding-left:0.5em">aba</span></li>
         <li style="margin-right:auto;margin-left:auto">
@@ -127,64 +127,66 @@
     </div>
 
     <!-- Loja -->
-    <div style="height: 88%" id="loja-medicos" class="aba">
+    <div style="height: 90%" id="loja-medicos" class="aba">
       <div style="display:flex;width: 100%">
-        <div style="display:block;margin-left:auto;margin-rigth:auto">
-          {% for medico in medicos %}
-          <div class="med-place-holder" onclick="confirmacao(this.children[0],'medico')">
-            <div class="card medico" onclick="" data-value="{{medico.id}}">
-              <div class="head">
-                <div>10</div>
-                <div style="line-height:1.5em;margin:auto">
-                  <span>Perfil:</span><span id="codigo_modal_modulo" class="center-p">{{medico.perfil}}</span>
+        <div style="width:100%;height: 90vh;display:flex;flex-direction:column;flex-grow: 1;margin-left:auto;margin-rigth:auto;border-top: 2pt solid var(--main-bg-color)">
+          <div class="central" style="overflow-y:auto;display:block;margin-left: auto;margin-right: auto">
+            {% for medico in medicos %}
+            <div class="med-place-holder" onclick="confirmacao(this.children[0],'medico')">
+              <div class="card medico" onclick="" data-value="{{medico.id}}">
+                <div class="head">
+                  <div>10</div>
+                  <div style="line-height:1.5em;margin:auto">
+                    <span>Perfil:</span><span id="codigo_modal_modulo" class="center-p">{{medico.perfil}}</span>
+                  </div>
                 </div>
-              </div>
-              <div class="body">
-                <div style="padding:0.5em; margin-left:0.5em; margin-right:1em">
-                  <img class="medico-imagem" src="{% static 'imagens/medico.png' %}" alt="Medico">
-                </div>
-                <div style="margin-right:auto">
-                  <div>
-                    <span style="display: inline">Salário:</span> <span id="preco_modal_modulo">{{medico.salario}}</span><br>
+                <div class="body">
+                  <div style="padding:0.5em; margin-left:0.5em; margin-right:1em">
+                    <img class="medico-imagem" src="{% static 'imagens/medico.png' %}" alt="Medico">
                   </div>
-                  <div>
-                    {% for i in medico.expertise %}
-                    <img class="icone_expertise" src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
-                    {% endfor %}
-                  </div>
-                  <div>
-                    {% for i in medico.atendimento %}
-                    <img class="icone_atendimento" src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
-                    {% endfor %}
-                  </div>
-                  <div>
-                    {% for i in medico.pontualidade %}
-                    <img class="icone_pontualidade" src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
-                    {% endfor %}
+                  <div style="margin-right:auto">
+                    <div>
+                      <span style="display: inline">Salário:</span> <span id="preco_modal_modulo">{{medico.salario}}</span><br>
+                    </div>
+                    <div>
+                      {% for i in medico.expertise %}
+                      <img class="icone_expertise" src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
+                      {% endfor %}
+                    </div>
+                    <div>
+                      {% for i in medico.atendimento %}
+                      <img class="icone_atendimento" src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
+                      {% endfor %}
+                    </div>
+                    <div>
+                      {% for i in medico.pontualidade %}
+                      <img class="icone_pontualidade" src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
+                      {% endfor %}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            {% endfor %}
           </div>
-          {% endfor %}
         </div>
-        <div style="vertical-align:bottom">
+        <div style="vertical-align:bottom; background: var(--main-bg-color)">
           <div class="caixa">
             <div>
               Legendas
             </div>
             <div>
-              <div class="legenda">
+              <div class="card legenda">
                 <img src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
                 <span>Atendimento</span>
               </div>
-              <div class="legenda">
+              <div class="card legenda">
                 <img  src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
                 Expertise
               </div>
-              <div class="legenda">
-                Pontualidade
+              <div class="card legenda">
                 <img src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
+                Pontualidade
               </div>
             </div>
           </div>

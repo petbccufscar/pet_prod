@@ -48,6 +48,19 @@ function mudar_aba(aba){
   aba_atual = document.getElementById(aba);
   aba_atual.style.display = "flex";
 }
+function centralizar(){
+    central  = document.querySelector(".central");
+    console.log("dfdf");
+    c = central.children[0].offsetWidth + 20;
+    valor = (Math.floor(central.parentElement.offsetWidth/c)*c) + "px";
+    central.style.maxWidth = "calc("+valor +" + 0.3em)" ;
+    console.log((Math.floor(central.parentElement.offsetWidth/c)*c));
+}
+centralizar();
+window.addEventListener('resize', function(){
+  centralizar();
+}, true);
+
 
 elements = document.querySelectorAll(('.nav.lateral > li'))
 var l = elements.length;

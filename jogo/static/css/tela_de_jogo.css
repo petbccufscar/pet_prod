@@ -1,3 +1,6 @@
+:root {
+    --main-bg-color: #141414;
+}
 @font-face {
     font-family: WorkSans-Regular;
     src: "/font/WorkSans-Regular.ttf";
@@ -104,6 +107,13 @@ div{
   color: #fbb2b2;
   cursor: pointer;
 }
+/* barra do topo */
+.nav.top{
+
+}
+.nav.top li{
+  color: #000;
+}
 
 .nav.lateral{
   max-height: 100vh;
@@ -111,7 +121,7 @@ div{
   display:flex;
   flex-direction: column;
   align-items: center;
-  background: #000000;
+  background: var(--main-bg-color);
 }
 
 .nav.lateral > li{
@@ -235,7 +245,7 @@ div{
     margin: 10px;
     padding: 15px;
     background: #fff;
-    box-shadow: 2px 3px 3px 3px rgba(0,0,0,0.2);
+    box-shadow: 1pt 2pt 2pt 2px rgba(0,0,0,0.2);
 }
 /* classes do card medico */
 .med-place-holder{
@@ -247,7 +257,8 @@ div{
   flex-direction: column;
   margin-top: auto;
   padding:0px;
-  border-radius: 10px;
+  border-radius: 3pt;
+  transition: heigth 2s;
 }
 .card.medico, .med-place-holder{
   width: 18em;
@@ -258,8 +269,8 @@ div{
   background-color:#a20417 ;
   height:1.5em;
   border-bottom:1px solid #888;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 3pt;
+  border-top-right-radius: 3pt;
 }
 .card.medico .head div{
   text-align: center;
@@ -290,10 +301,14 @@ div{
 }
 .card.medico.modal-card-medico{
   position: absolute;
+  font-size: 18pt;
   left: calc(50% - 11em);
   top: calc(50% - 11em);
-  height: 13em;
+  height: 12em;
   z-index: 2;
+}
+.card.medico.modal-card-medico div{
+  font-size: 18pt;
 }
 
 .card.medico .bottom{
@@ -441,6 +456,7 @@ div{
 }
 
 
+
 .btn {
   -webkit-border-radius: 7;
   -moz-border-radius: 7;
@@ -461,40 +477,54 @@ div{
 }
 
 .caixa{
-  border: 1pt solid #ccc;
   display: flex;
+  padding: 1.5em;
+  padding-bottom: 0;
   flex-direction: column;
-  min-width: 20em;
+  min-width: 18em;
   border-radius: 3pt;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 3pt;
+  border-top-right-radius: 3pt;
+
 }
 .caixa > div:first-child{
-  background: #a20417;
   height: 2em;
-  text-align: center;
+  text-align: left;
+  padding-left: 0.5em;
+  border-top: 5pt solid #f20;
   line-height: 2em;
   color: #fff;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 3pt;
+  border-top-right-radius: 3pt;
 }
 .caixa > div:nth-child(2){
-  padding: 1em;
+  padding: 0em;
   display: flex;
+  width: 85%;
   margin-left: auto;
   margin-right: auto;
   flex-direction: column;
 }
 
 .caixa .legenda{
+  background: var(--main-bg-color);
+  color: #fff;
+  border-bottom: 1pt solid #666666;
   line-height: 1.5em;
   height: 1.5em;
+  width: 90%;
   margin: 0.1em;
-  font-size: 19.5pt;
+  font-size: 17.5pt;
+  border-radius: 3pt;
 }
 .legenda img{
+  filter: invert(100%);
   margin-right: 0.6em;
   float: left;
   height: 1.5em;
   width: 1.5em;
+}
+.central{
+  min-width: 20em;
+  height: 100%;
 }
