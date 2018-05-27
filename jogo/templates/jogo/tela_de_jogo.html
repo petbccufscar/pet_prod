@@ -14,7 +14,9 @@
 
   <nav style="width:8%;height:100vh">
     <ul id="b_lateral" class="nav lateral">
-      <li id="h-lateral">Time 1</li>
+      <li id="h-lateral">
+        <img class="imagem-logo" src="{% static 'imagens/logo_pet_prod.png' %}" alt="Hospital">
+        <span style="font-size: 16pt;color: #fff">Time 1</span></li>
       <li ><i class="fas fa-cart-plus" style="font-size:40"></i>
         <div style="float: right">
           <nav><ul class="submenu escondido">
@@ -94,7 +96,6 @@
       </div>
     </div>
     <div id="modalMedico" class="modal">
-
       <!-- Modal do médico -->
       <div class="modal-content-medico">
         <div style="padding:10px; display: flex">
@@ -126,45 +127,73 @@
     </div>
 
     <!-- Loja -->
-    <div id="loja-medicos" class="aba">
-      <div>
-        {% for medico in medicos %}
-        <div class="med-place-holder">
-          <div class="card medico" onclick="" data-value="{{medico.id}}">
-            <div class="head">
-              <div>10</div>
-              <div style="line-height:1.5em;margin:auto">
-                <span>Perfil:</span><span id="codigo_modal_modulo" class="center-p">{{medico.perfil}}</span>
+    <div style="height: 88%" id="loja-medicos" class="aba">
+      <div style="display:flex;width: 100%">
+        <div style="display:block;margin-left:auto;margin-rigth:auto">
+          {% for medico in medicos %}
+          <div class="med-place-holder" onclick="confirmacao(this.children[0],'medico')">
+            <div class="card medico" onclick="" data-value="{{medico.id}}">
+              <div class="head">
+                <div>10</div>
+                <div style="line-height:1.5em;margin:auto">
+                  <span>Perfil:</span><span id="codigo_modal_modulo" class="center-p">{{medico.perfil}}</span>
+                </div>
               </div>
-            </div>
-            <div class="body">
-              <div style="padding:0.5em; margin-left:0.5em; margin-right:1em">
-                <img class="medico-imagem" src="{% static 'imagens/medico.png' %}" alt="Medico">
-              </div>
-              <div style="margin-right:auto">
-                <div>
-                  <span style="display: inline">Salário:</span> <span id="preco_modal_modulo">{{medico.salario}}</span><br>
+              <div class="body">
+                <div style="padding:0.5em; margin-left:0.5em; margin-right:1em">
+                  <img class="medico-imagem" src="{% static 'imagens/medico.png' %}" alt="Medico">
                 </div>
-                <div>
-                  {% for i in medico.expertise %}
-                  <img class="icone_expertise" src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
-                  {% endfor %}
-                </div>
-                <div>
-                  {% for i in medico.atendimento %}
-                  <img class="icone_atendimento" src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
-                  {% endfor %}
-                </div>
-                <div>
-                  {% for i in medico.pontualidade %}
-                  <img class="icone_pontualidade" src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
-                  {% endfor %}
+                <div style="margin-right:auto">
+                  <div>
+                    <span style="display: inline">Salário:</span> <span id="preco_modal_modulo">{{medico.salario}}</span><br>
+                  </div>
+                  <div>
+                    {% for i in medico.expertise %}
+                    <img class="icone_expertise" src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
+                    {% endfor %}
+                  </div>
+                  <div>
+                    {% for i in medico.atendimento %}
+                    <img class="icone_atendimento" src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
+                    {% endfor %}
+                  </div>
+                  <div>
+                    {% for i in medico.pontualidade %}
+                    <img class="icone_pontualidade" src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
+                    {% endfor %}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
+        <div style="vertical-align:bottom">
+          <div class="caixa">
+            <div>
+              Legendas
+            </div>
+            <div>
+              <div class="legenda">
+                <img src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
+                <span>Atendimento</span>
+              </div>
+              <div class="legenda">
+                <img  src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
+                Expertise
+              </div>
+              <div class="legenda">
+                Pontualidade
+                <img src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
+              </div>
+            </div>
+          </div>
+          <div class="caixa">
+            <div>
+              Meu hospital
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -181,7 +210,7 @@
       {% for area, modulos in mod_p_area.items %}
       <div class="area area-{{area}}" style="overflow: auto;background: #e5e5e5;height:95%;padding:1em;">
         {% for modulo in modulos%}
-        <div onclick="confirmacao(this.children[0])" style="display:inline-block;width:22em;height:14em;vertical-align: bottom">
+        <div onclick="confirmacao(this.children[0],'modulo')" style="display:inline-block;width:22em;height:14em;vertical-align: bottom">
           <div data-value="{{modulo.id}}" class="card asdf" style="width:22em;display:flex;margin-top:auto; padding:0px; flex-direction:column; border-radius: 20px;">
             <div style="border-bottom:1px solid #888; display:flex; background-color:#ff3f3f; height:1.5em; border-top-left-radius: 20px; border-top-right-radius: 20px">
               <div class="center-p" style="border-right:1px solid #888; padding-right:1em; margin-left:1em">

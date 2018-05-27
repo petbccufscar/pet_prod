@@ -101,20 +101,21 @@ div{
 .nav li{
   padding: 1em;
   align-content: center;
-  color: #4d92cc;
+  color: #fbb2b2;
   cursor: pointer;
 }
 
 .nav.lateral{
-  height: 100%;
+  max-height: 100vh;
+  min-width: 5.5em;
   display:flex;
   flex-direction: column;
   align-items: center;
-  background: #010812;
+  background: #000000;
 }
 
 .nav.lateral > li{
-  background: #010812;
+  margin-top: 1.2em;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
@@ -124,6 +125,13 @@ div{
 .lateral li:last-child{
   margin-bottom: auto;
 }
+.imagem-logo{
+  padding: 0.2em;
+  margin:0px;
+  margin-bottom: 0.5em;
+  height: 4.5em;
+  width: 4.5em;
+}
 
 .nav.lateral .submenu{
   position: absolute;
@@ -131,8 +139,7 @@ div{
   padding: 0;
   margin: 0;
   width: 9em;
-  background: #010812;
-
+  background: #000000;
   list-style-type: none;
 }
 
@@ -156,18 +163,17 @@ div{
   border-bottom: 1px solid  #cdd4db;
   height: 0.2em;
   line-height: 0.2em;
-  background: #010812;
 }
 
 #h-lateral{
     text-align: center;
     margin-top: 2em;
-    margin-bottom: 5em;
+    margin-bottom: 3%;
     padding: 0;
 }
 
 .nav li:hover{
-    color: #cdd4db;
+    color:#fde5e5;
 }
 
 .timer{
@@ -249,7 +255,7 @@ div{
 }
 .card.medico .head{
   display:flex;
-  background-color:#ff3f3f;
+  background-color:#a20417 ;
   height:1.5em;
   border-bottom:1px solid #888;
   border-top-left-radius: 10px;
@@ -281,6 +287,19 @@ div{
   margin:0px;
   height: 5em;
   width: 5em;
+}
+.card.medico.modal-card-medico{
+  position: absolute;
+  left: calc(50% - 11em);
+  top: calc(50% - 11em);
+  height: 13em;
+  z-index: 2;
+}
+
+.card.medico .bottom{
+  display: flex;
+  justify-content: space-around;
+  height: 3em;
 }
 
 .icone_conforto{
@@ -419,4 +438,63 @@ div{
   left: calc(50% - 11em);
   top: calc(50% - 11em);
   z-index: 2;
+}
+
+
+.btn {
+  -webkit-border-radius: 7;
+  -moz-border-radius: 7;
+  border-radius: 7px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #bf4234;
+  text-decoration: none;
+  padding: 0.1em;
+  height: 2em;
+  width: 6em;
+}
+
+.btn:hover {
+  background: #fa7b0d;
+  text-decoration: none;
+}
+
+.caixa{
+  border: 1pt solid #ccc;
+  display: flex;
+  flex-direction: column;
+  min-width: 20em;
+  border-radius: 3pt;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.caixa > div:first-child{
+  background: #a20417;
+  height: 2em;
+  text-align: center;
+  line-height: 2em;
+  color: #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.caixa > div:nth-child(2){
+  padding: 1em;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: column;
+}
+
+.caixa .legenda{
+  line-height: 1.5em;
+  height: 1.5em;
+  margin: 0.1em;
+  font-size: 19.5pt;
+}
+.legenda img{
+  margin-right: 0.6em;
+  float: left;
+  height: 1.5em;
+  width: 1.5em;
 }

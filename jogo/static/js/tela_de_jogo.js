@@ -81,34 +81,45 @@ function close_this(el){
 
 }
 
-function confirmacao(card){
-  if(card.classList.contains("modal-card-modulo")){
+function confirmacao(card, tipo){
+  if(card.classList.contains("modal-card-" + tipo)){
     return;
   }
 
-  card.classList.add("modal-card-modulo");
+  card.classList.add("modal-card-" + tipo);
   var modal = document.getElementById("modalB");
   modal.style.display= "block";
+  var div = document.createElement("div");
+  div.classList.add("bottom");
   var confirmar = document.createElement("button");
   var cancelar = document.createElement("button");
+  div.appendChild(confirmar);
+  div.appendChild(cancelar);
   confirmar.innerHTML = "Confirmar";
-  console.log(card.getAttribute('data-value'));
   cancelar.innerHTML = "Cancelar";
-  card.appendChild(confirmar);
-  card.appendChild(cancelar);
+  confirmar.classList.add("btn");
+  cancelar.classList.add("btn");
+  card.appendChild(div);
 
   window.onclick = function(event) {
       if (event.target == confirmar){
         modal.style.display = "none";
-        card.classList.remove("modal-card-modulo");
+        card.classList.remove("modal-card-" + tipo);
         card.removeChild(card.lastChild);
-        card.removeChild(card.lastChild);   
-        comprar_modulo(card.getAttribute('data-value'));       
+        switch(tipo) {
+          case "modulo":
+              comprar_modulo(card.getAttribute('data-value'));
+              break;
+          case "medico":
+              contratar_medico(card.getAttribute('data-value'))
+              break;
+          default:
+              ;
+        }
         }
       if (event.target == modal || event.target == cancelar) {
           modal.style.display = "none";
-          card.classList.remove("modal-card-modulo");
-          card.removeChild(card.lastChild);
+          card.classList.remove("modal-card-"+tipo);
           card.removeChild(card.lastChild);
       }
   }
