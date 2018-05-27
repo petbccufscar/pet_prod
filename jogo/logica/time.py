@@ -78,7 +78,6 @@ class Estatistica:
         self.lista_atr_mod.append(0)
 
 
-
     def get_ultimo_caixa(self):
         return self.caixa[-1]
 
@@ -124,7 +123,7 @@ class Time:
 
         self.atributos = {}
         self.nome = nome
-
+        self.codigo_login = None
 
     def adicionar_medico(self, med_id):
         self.medicos.append(med_id)

@@ -21,6 +21,7 @@ from .models import Rodada
 from .forms import Rodada_Form
 from .forms import Modulo_Form
 from .forms import Area_Classe_Social_Form
+from jogo.logica import utils
 
 import jogo.logica.logica_de_jogo as logica_jogo
 from jogo.logica.time import Time as LTime
@@ -511,12 +512,16 @@ def iniciar_jogo(request):
     times = [] #TODO: inicializar times
     #times hardcoded para fins de teste
     times.append(LTime("time1"))
+    times[-1].codigo_login = utils.gerar_token(1)
     logica_jogo.inicializa_jogo(rodadas, times)
     return HttpResponse("Iniciou")
 
 def tela_de_jogo(request, nome_time):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
+    if not request.session['nome_time']:
+        return HttpResponse("Usuário Não Logado")
+
     time = logica_jogo.JogoAtual.times[nome_time]
     modulos = Modulo.objects.all()
     lista_medicos = Medico.objects.all()
@@ -644,5 +649,13 @@ def pre_jogo_4(request):
 def pre_jogo_5(request):
     return render(request, 'pre_jogo/tela_pre_jogo_5.html',{})
 
+def logar(request):
+    print(request.POST["senha"])
+    for time in logica_jogo.JogoAtual.times:
+        if time.codigo_login == request.POST["senha"]:
+            request.session['nome_time'] = time.nome
+    return HttpResponse("sdasdf")
+
 def login_jogador(request):
+
     return render(request, 'jogo/login_jogador.html',{})

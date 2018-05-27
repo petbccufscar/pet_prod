@@ -33,6 +33,7 @@ def encerrar_jogo():
 
 def vender_modulo(request, nome_time):
     print("VENTI UM MODULO")
+
     # JogoAtual.encerrar_rodada()
     JogoAtual.vender_modulo(nome_time, int(request.POST["modulo_id"]))
     return HttpResponse(JogoAtual.times[nome_time].estatisticas.get_ultimo_caixa())
