@@ -29,6 +29,9 @@ if (socket_rodada.readyState == WebSocket.OPEN) socket_rodada.onopen();
 function mudar_area_modulos(aba, classe){
    var anterior = document.querySelector(".area.ativo");
    var seletor_ant = document.querySelector(".subaba-ativa");
+   if(aba == null){
+     aba = document.querySelector(".nav.modulos > li");
+   }
    if(anterior!= null){
      anterior.classList.remove("ativo");
    }
@@ -43,11 +46,13 @@ function mudar_area_modulos(aba, classe){
 /* Funções e variaveis para mudança de abas */
 var aba_atual = document.getElementById("loja-medicos");
 aba_atual.style.display = "flex";
+
 function mudar_aba(aba){
   aba_atual.style.display = "none";
   aba_atual = document.getElementById(aba);
   aba_atual.style.display = "flex";
 }
+
 function centralizar(){
     central  = document.querySelector(".central");
     console.log("dfdf");
@@ -57,6 +62,7 @@ function centralizar(){
     console.log((Math.floor(central.parentElement.offsetWidth/c)*c));
 }
 centralizar();
+
 window.addEventListener('resize', function(){
   centralizar();
 }, true);
@@ -155,7 +161,6 @@ function comprar_modulo(id) {
             //console.log(parseFloat(json));
             //console.log("coisos"+ caixa.innerHTML + json);
             animar_incremento(600,parseFloat(caixa.innerHTML),parseFloat(json), caixa);
-            alert("Modulo comprado!");
         },
 
         // handle a non-successful response
@@ -178,7 +183,6 @@ function vender_modulo(id) {
             caixa = document.getElementById("t_caixa");
             animar_incremento(800,parseFloat(caixa.innerHTML), parseFloat(json), caixa);
             //console.log("success");
-            atualizar_hospital();
         },
 
         // handle a non-successful response
@@ -219,7 +223,6 @@ function despedir_medico(id) {
         success : function(json) {
             //console.log(json);
             //console.log("success");
-            atualizar_hospital();
 
         },
 
@@ -404,12 +407,28 @@ function abrir_informacoes_medico(medico, acao){
   }
 }
 
-function atualizar_hospital(){
+function atualizar_hospital_medicos(){
   $.ajax({
-      url : "hospital/",
+      url : "hospital/medicos/",
       type : "GET",
       success : function(data) {
-        document.getElementById("hospit").innerHTML = data;
+        document.getElementById("hospital-medicos").innerHTML = data;
+      },
+      error : function(xhr,errmsg,err) {
+          //console.log("erro");
+      }
+  });
+}
+
+function atualizar_hospital_modulos(){
+  $.ajax({
+      url : "hospital/modulos/",
+      type : "GET",
+      success : function(data) {
+        hosp_mod = document.getElementById("hospital-modulos");
+        hosp_mod.innerHTML = data;
+        area = hosp_mod.querySelector(".area");
+        area.classList.add("ativo");
       },
       error : function(xhr,errmsg,err) {
           //console.log("erro");

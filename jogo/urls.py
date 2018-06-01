@@ -59,11 +59,13 @@ urlpatterns = [
     url(r'^jogo/despedir_medico', logica_de_jogo.despedir_medico, name='despedir_medico'),
     url(r'^jogo/busca_modulo', logica_de_jogo.busca_modulo, name='busca_modulo'),
     url(r'^jogo/busca_medico', logica_de_jogo.busca_medico, name='busca_medico'),
-    url(r'^jogo/hospital', views.tela_de_jogo_hospital, name='tela_de_jogo_hospital'),
+    url(r'^jogo/hospital/medicos/$', ajax.tela_de_jogo_hospital_medicos, name='tela_de_jogo_hospital_med'),
+    url(r'^jogo/hospital/modulos/$', ajax.tela_de_jogo_hospital_modulos, name='tela_de_jogo_hospital_mod'),
+    url(r'^jogo/hospital/$', views.tela_de_jogo_hospital, name='tela_de_jogo_hospital'),
     url(r'^jogo/dashboard', views.tela_de_jogo_dashboard, name='tela_de_jogo_dashboard'),
     url(r'^jogo/dados_graficos', ajax.tela_de_jogo_graficos, name='tela_de_jogo_graficos'),
 
-    url(r'^jogo/', views.tela_de_jogo, name='tela_de_jogo'),
+    url(r'^jogo/$', views.tela_de_jogo, name='tela_de_jogo'),
 
     #telas de pre jogo
     url(r'^pre_jogo_1/$', views.pre_jogo_1, name='pre_jogo_1'),

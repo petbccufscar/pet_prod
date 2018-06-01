@@ -22,7 +22,7 @@ from .forms import Rodada_Form
 from .forms import Modulo_Form
 from .forms import Area_Classe_Social_Form
 from jogo.logica import utils
-
+from django.views.decorators.csrf import ensure_csrf_cookie
 import jogo.logica.logica_de_jogo as logica_jogo
 from jogo.logica.time import Time as LTime
 
@@ -519,6 +519,7 @@ def iniciar_jogo(request):
     logica_jogo.inicializa_jogo(rodadas, times)
     return HttpResponse("Iniciou")
 
+@ensure_csrf_cookie
 def tela_de_jogo(request):
     if logica_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")

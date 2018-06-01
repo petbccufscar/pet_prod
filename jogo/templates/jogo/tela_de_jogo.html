@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/tela_de_jogo.css' %}">
-
+  <link rel="stylesheet" href="{% static 'css/timer.css' %}">
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body style="display:flex">
   <div id="modalB" class="modal">
   </div>
 
-  <nav style="width:8%;height:100vh">
+  <nav  style="width:8%;height:100vh">
     <ul id="b_lateral" class="nav lateral">
       <li id="h-lateral">
         <img class="imagem-logo" src="{% static 'imagens/logo_pet_prod.png' %}" alt="Hospital">
@@ -30,8 +30,8 @@
         <div style="float: right">
           <nav><ul class="submenu escondido">
             <li>Hospital</li>
-            <li onclick="mudar_aba('hospital-medicos')">Medicos</li>
-            <li onclick="mudar_aba('hospital-modulos')">Modulos</li>
+            <li onclick="mudar_aba('hospital-medicos');atualizar_hospital_medicos()">Medicos</li>
+            <li onclick="mudar_aba('hospital-modulos');atualizar_hospital_modulos()">Modulos</li>
           </ul></nav>
         </div>
       </li>
@@ -48,22 +48,65 @@
   </nav>
   <div style="width:100%;display:flex;flex-direction:column">
 
-    <nav style="height:10%">
+    <nav id="barra-top" style="height:10%">
       <ul class="nav top">
         <li><span style="padding-right:0.5em;border-right: 1px solid #ccc">Seção</span>
           <span style="padding-left:0.5em">aba</span></li>
         <li style="margin-right:auto;margin-left:auto">
           <span style="padding-right:0.5em;border-right: 1px solid #ccc;"id="t_rodada">Rodada: {{rodada_atual}}
           </span>
-        <span style="padding-left:0.5em;" class="timer" id="t_timer">00:00</span></li>
-        <li id="t_caixa">{{caixa}}</li>
+          <span style="padding-left:0.5em;" class="timer" id="t_timer">00:00</span>
+      </li>
+      <li id="t_caixa">{{caixa}}
+
+      </li>
+      <li style="background:#8e9ac9;height:100%">
+        <div style="height:100%;width:3em">
+          <svg version="1.1" style="fill:#fff" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+            <g>
+            	<g>
+            		<path d="M395.539,189.691c-19.908-25.487-42.46-46.964-65.215-62.107c-8.21-5.463-16.34-10.054-24.371-13.786
+            			c8.143-7.262,16.09-16.364,23.814-27.301c15.578-22.056,24.664-43.902,25.043-44.822c3.297-7.991-0.08-17.175-7.767-21.128
+            			s-17.122-1.357-21.704,5.975c-6.962,11.138-16.651,13.933-23.553,14.317c-11.944,0.663-24.079-5.251-32.45-15.824
+            			C256.752,9.118,236.848,0,214.73,0s-42.022,9.118-54.607,25.013c-3.738,4.721-4.631,11.095-2.333,16.661
+            			c0.379,0.919,9.465,22.765,25.043,44.822c7.72,10.93,15.662,20.028,23.8,27.289c-8.097,3.758-16.294,8.385-24.57,13.899
+            			c-22.822,15.202-45.438,36.763-65.406,62.352c-42.166,54.037-67.34,118.482-67.34,172.39c0,44.349,15.787,79.883,46.927,105.616
+            			C131.563,497.21,185.412,512,256.298,512c70.631,0,124.317-14.91,159.567-44.315c31.068-25.918,46.82-61.672,46.82-106.267
+            			C462.684,307.717,437.583,243.52,395.539,189.691z M193.29,39.266c5.918-3.848,13.432-6.01,21.44-6.01
+            			c11.719,0,22.386,4.636,28.532,12.4c13.715,17.324,33.636,27.671,54.239,28.441c-11.906,15.155-26.394,27.749-41.202,27.749
+            			C230.138,101.846,204.971,62.527,193.29,39.266z M394.561,442.148c-29.111,24.282-75.629,36.596-138.264,36.596
+            			c-62.951,0-109.675-12.228-138.874-36.341c-23.126-19.112-34.852-46.02-34.852-79.978c0-46.744,22.543-103.541,60.303-151.932
+            			c36.285-46.503,79.747-75.392,113.423-75.392c33.558,0,76.871,28.762,113.034,75.062c37.631,48.178,60.098,104.722,60.098,151.255
+            			C429.429,395.685,417.697,422.847,394.561,442.148z"/>
+            	</g>
+            </g>
+            <g>
+            	<g>
+            		<path d="M264.274,302.615c-17.444-9.221-35.484-18.757-35.484-29.641c0-15.281,12.431-27.713,27.713-27.713
+            			c15.281,0,27.713,12.432,27.713,27.713c0,9.183,7.445,16.628,16.628,16.628c9.183,0,16.628-7.445,16.628-16.628
+            			c0-27.854-18.782-51.387-44.341-58.645v-7.866c0-9.183-7.445-16.628-16.628-16.628c-9.183,0-16.628,7.445-16.628,16.628v7.866
+            			c-25.559,7.258-44.341,30.792-44.341,58.645c0,30.922,29.497,46.514,53.198,59.042c17.445,9.221,35.484,18.756,35.484,29.64
+            			c0,15.281-12.432,27.713-27.713,27.713c-15.281,0-27.713-12.432-27.713-27.713c0-9.183-7.445-16.628-16.628-16.628
+            			c-9.183,0-16.628,7.445-16.628,16.628c0,27.854,18.782,51.387,44.341,58.645v7.866c0,9.183,7.445,16.628,16.628,16.628
+            			c9.183,0,16.628-7.445,16.628-16.628v-7.866c25.559-7.258,44.341-30.792,44.341-58.645
+            			C317.472,330.735,287.975,315.144,264.274,302.615z"/>
+            	</g>
+          </svg>
+        </div>
+      </li>
       </ul>
     </nav>
 
     <!-- Loja -->
     <div style="height: 90%" id="loja-medicos" class="aba">
+
       <div style="display:flex;width: 100%">
-        <div style="width:100%;height: 90vh;display:flex;flex-direction:column;flex-grow: 1;margin-left:auto;margin-rigth:auto;border-top: 2pt solid var(--main-bg-color)">
+        <div style="display:flex;flex-direction:column;width:100%;">
+          <div style="display:flex">
+            <div style="width:40%;border-bottom: 0.3em solid #00de03"></div>
+          </div>
+         <div style="background-color: #f6f6fc;padding: 1em;width:100%;display:flex;flex-direction:column;flex-grow: 1;margin-left:auto;margin-rigth:auto;">
           <div class="central" style="overflow-y:auto;display:block;margin-left: auto;margin-right: auto">
             {% for medico in medicos %}
             <div class="med-place-holder" onclick="confirmacao(this.children[0],'medico')">
@@ -103,12 +146,27 @@
                     </div>
                     <div>
                       {% for i in medico.atendimento %}
-                      <img class="icone_atendimento" src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
+                        <svg version="1.1" class="icone_atendimento" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+                        <metadata> Svg Vector Icons : http://www.onlinewebfonts.com/icon </metadata>
+                        <g><g transform="translate(0.000000,502.000000) scale(0.100000,-0.100000)"><path d="M1263.5,4898.5c-35.2-11.7-107.5-62.5-158.3-115.3c-78.2-80.1-111.4-99.7-242.3-134.8c-285.4-78.2-504.2-216.9-598.1-377.2c-48.9-87.9-58.6-123.1-58.6-244.3c0-173.9,70.4-596.1,187.6-1116C792.5,1126.5,1394.5-153.6,2064.8-654c129-95.8,134.8-103.6,134.8-181.8c0-203.3,93.8-537.5,218.9-777.9c86-164.2,240.4-349.8,330.3-396.7c54.7-27.4,56.7-35.2,56.7-162.2c0-289.3,68.4-756.3,148.5-1008.5c304.9-963.5,998.7-1495.1,2167.4-1663.2c349.9-50.8,1018.2-46.9,1319.2,7.8c660.6,119.2,1119.9,355.7,1499,770c336.1,369.4,560.9,875.6,635.2,1424.8l21.5,168.1l146.6,35.2c238.4,56.7,437.8,170,631.3,361.6c187.6,185.7,287.3,344,365.5,582.4c64.5,195.4,72.3,564.8,17.6,766.1c-111.4,396.7-377.2,721.2-746.6,899c-205.2,99.7-365.5,136.8-607.8,136.8c-392.9,0-703.6-129-987-410.4c-275.6-273.6-406.5-592.2-408.5-988.9c0-633.2,431.9-1188.3,1053.4-1348.5l130.9-33.2l-15.7-119.2c-62.5-459.3-248.2-883.4-515.9-1184.4c-431.9-482.7-1022.2-703.6-1886-703.6c-1331,0-2126.4,457.3-2429.3,1395.4c-60.6,187.6-121.2,557-138.8,834.5l-11.7,209.1l70.4,43c244.3,150.5,484.7,660.6,527.7,1114c13.7,144.6,15.6,146.6,89.9,195.4c43,25.4,136.8,105.5,209.1,175.9c613.7,588.3,1149.2,1798,1506.8,3406.5c181.8,813,222.8,1137.5,170,1297.7c-64.5,193.5-306.8,365.5-650.8,459.3c-132.9,37.1-166.1,54.7-201.3,107.5c-54.7,80.1-216.9,162.2-320.5,162.2c-175.9-2-340.1-136.8-383.1-312.7c-58.6-246.3,140.7-488.6,400.6-488.6c76.2,0,213,64.5,269.7,125.1l46.9,48.9l115.3-35.2c144.6-43,236.5-89.9,302.9-152.5c60.6-56.7,60.6-50.8-13.7-494.5c-144.6-858-426.1-1854.7-715.3-2540.7c-256-603.9-596.1-1137.5-858-1350.5c-123.1-99.7-121.2-99.7-224.8-50.8c-89.9,41.1-121.2,43-535.5,43c-416.3,0-445.6-2-535.5-45c-109.4-50.8-121.2-46.9-281.4,101.6c-430,392.8-875.6,1299.7-1207.8,2458.6c-150.5,525.7-330.3,1372-369.4,1727.7l-13.7,121.2l87.9,60.6c46.9,31.3,150.5,80.1,230.6,107.5l142.7,46.9l78.2-66.4c132.9-115.3,273.6-132.9,435.8-58.6c138.8,64.5,207.2,170,216.9,332.3c7.8,146.6-46.9,267.8-164.2,349.8C1533.2,4910.2,1374.9,4931.7,1263.5,4898.5z M8625.8-112.6c459.3-109.4,766.1-494.5,766.1-965.5c0-293.2-86-502.3-291.2-707.5c-203.3-203.3-414.3-291.2-701.6-291.2c-621.5,0-1100.3,574.6-977.2,1170.7c44.9,222.8,119.2,361.6,279.5,521.8C7955.4-126.3,8281.8-32.5,8625.8-112.6z M3388-812.3c7.8-142.7-52.8-385-144.6-574.6c-66.4-138.8-195.4-299-238.4-299c-52.8,0-175.9,142.7-244.3,283.4c-117.3,234.5-193.5,607.8-142.7,689.9c9.8,17.6,113.4,23.5,388.9,19.6l375.2-5.9L3388-812.3z"/><path d="M8215.4-511.3C8059-562.1,7889-732.1,7836.2-888.5c-43-132.9-29.3-345.9,29.3-461.2c56.7-113.3,168.1-220.8,285.3-277.5c134.9-66.5,347.9-66.5,492.5-2c134.8,60.6,261.9,197.4,318.6,345.9c103.6,273.6-23.4,598.1-287.3,730.9c-72.3,37.1-129,48.9-250.1,52.8C8338.5-497.6,8244.7-503.5,8215.4-511.3z M8545.6-953c31.3-35.2,45-76.2,45-136.8c0-70.4-9.8-91.9-60.6-134.9c-103.6-88-244.3-64.5-302.9,50.8c-43,84-21.5,175.9,54.7,240.4c52.8,45,76.2,50.8,140.7,43C8475.3-898.3,8518.3-919.8,8545.6-953z"/></g></g>
+                        </svg>
                       {% endfor %}
                     </div>
                     <div>
                       {% for i in medico.pontualidade %}
-                      <img class="icone_pontualidade" src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
+                      <svg version="1.1" class="icone_pontualidade" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        	 viewBox="0 0 55.668 55.668" style="enable-background:new 0 0 55.668 55.668;" xml:space="preserve">
+                        <g>
+                        	<g>
+                        		<path d="M27.833,0C12.487,0,0,12.486,0,27.834s12.487,27.834,27.833,27.834
+                        			c15.349,0,27.834-12.486,27.834-27.834S43.182,0,27.833,0z M27.833,51.957c-13.301,0-24.122-10.821-24.122-24.123
+                        			S14.533,3.711,27.833,3.711c13.303,0,24.123,10.821,24.123,24.123S41.137,51.957,27.833,51.957z"/>
+                        		<path d="M41.618,25.819H29.689V10.046c0-1.025-0.831-1.856-1.855-1.856c-1.023,0-1.854,0.832-1.854,1.856
+                        			v19.483h15.638c1.024,0,1.855-0.83,1.854-1.855C43.472,26.65,42.64,25.819,41.618,25.819z"/>
+                        	</g>
+                        </g>
+                      </svg>
+
                       {% endfor %}
                     </div>
                   </div>
@@ -117,6 +175,7 @@
             </div>
             {% endfor %}
           </div>
+        </div>
         </div>
         <div style="vertical-align:bottom; background: var(--main-bg-color)">
           <div class="caixa">
@@ -147,19 +206,20 @@
       </div>
     </div>
 
-    <div id="loja-modulos" style="height:100%;flex-direction: column"class="aba">
-      <div style="height:3em">
-        <ul class="nav" style="height:4%;display:flex">
-          {% for area in mod_p_area.keys %}
-          <li onclick="mudar_area_modulos(this,'.area-{{area}}')">
-            {{area}}
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div style="display:flex">
+    <div id="loja-modulos" style="height:100%" class="aba">
+
+      <div style="display:flex;flex-direction: column">
+        <div style="height:2.8em;display:flex">
+          <ul class="nav modulos" style="margin-top: auto;margin-bottom: auto;display:flex">
+            {% for area in mod_p_area.keys %}
+            <li onclick="mudar_area_modulos(this,'.area-{{area}}')">
+              {{area}}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
         {% for area, modulos in mod_p_area.items %}
-        <div class="area area-{{area}}" style="overflow: auto;background: #e5e5e5;height:95%;padding:1em;">
+        <div class="area area-{{area}}" style="overflow: auto;background: #f6f6fc;height:95%;padding:1em;">
             {% for modulo in modulos%}
             <div class="mod-place-holder" onclick="confirmacao(this.children[0],'modulo')">
               <div class="card modulo" data-value="{{modulo.id}}" style="">
@@ -200,34 +260,34 @@
             {% endfor %}
         </div>
         {% endfor %}
-        <div style="vertical-align:bottom; background: var(--main-bg-color)">
-          <div class="caixa">
-            <div>
-              Legendas
-            </div>
-            <div>
-              <div class="card legenda">
-                <img src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
-                <span>Atendimento</span>
-              </div>
-              <div class="card legenda">
-                <img src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
-                Expertise
-              </div>
-              <div class="card legenda">
-                <img src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
-                Pontualidade
-              </div>
-            </div>
+
+      </div>
+      <div style="vertical-align:bottom; background: var(--main-bg-color)">
+        <div class="caixa">
+          <div>
+            Legendas
           </div>
-          <div class="caixa">
-            <div>
-              Meu hospital
+          <div>
+            <div class="card legenda">
+              <img src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
+              <span>Atendimento</span>
+            </div>
+            <div class="card legenda">
+              <img src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
+              Expertise
+            </div>
+            <div class="card legenda">
+              <img src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
+              Pontualidade
             </div>
           </div>
         </div>
+        <div class="caixa">
+          <div>
+            Meu hospital
+          </div>
+        </div>
       </div>
-
     </div>
 
     <!-- Hospital -->

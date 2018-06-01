@@ -1,0 +1,82 @@
+{% load staticfiles %}
+
+      <div style="width: 100%;display:flex;flex-direction: column">
+        <div style="height:2.8em;display:flex">
+          <ul class="nav modulos" style="margin-top: auto;margin-bottom: auto;display:flex">
+            {% for area in mod_p_area.keys %}
+            <li onclick="mudar_area_modulos(this,'.area-hosp-{{area}}')">
+              {{area}}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% for area, modulos in mod_p_area.items %}
+        <div class="area area-hosp-{{area}}" style="overflow: auto;background: #f6f6fc;height:95%;padding:1em;">
+            {% for modulo in modulos%}
+            <div class="mod-place-holder" onclick="confirmacao(this.children[0],'modulo')">
+              <div class="card modulo" data-value="{{modulo.id}}" style="">
+                <div class="head">
+                  <div>10</div>
+                  <div style="line-height:1.5em;margin:auto">
+                    <span class="center-p">Cod.:<span id="codigo_modal_modulo" class="center-p">{{modulo.id}}</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="body">
+                  <div>
+                    <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Hospital">
+                  </div>
+                  <div style="margin-left:1em; margin-top:0.5em">
+                    <div>
+                      {% for i in modulo.conforto %}
+                      <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital"></img>{% endfor %}
+                    </div>
+                    <div>
+                      {% for i in modulo.tecnologia %}
+                      <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital"></img>{% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
+                  <div style="margin-right:2em">
+                    <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">{{modulo.custo_de_aquisicao}}</span><br>
+                    <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">{{modulo.custo_mensal}}</span><br>
+                  </div>
+                  <div>
+                    <span style="display: inline">Tratamento:</span> <span id="tratamento_modal_modulo">{{modulo.preco_do_tratamento}}</span><br>
+                    <span style="display: inline">Capacidade:</span> <span id="capacidade_modal_modulo">{{modulo.capacidade}}</span><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+      </div>
+      <div style="vertical-align:bottom; background: var(--main-bg-color)">
+        <div class="caixa">
+          <div>
+            Legendas
+          </div>
+          <div>
+            <div class="card legenda">
+              <img src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
+              <span>Atendimento</span>
+            </div>
+            <div class="card legenda">
+              <img src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
+              Expertise
+            </div>
+            <div class="card legenda">
+              <img src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
+              Pontualidade
+            </div>
+          </div>
+        </div>
+        <div class="caixa">
+          <div>
+            Meu hospital
+          </div>
+        </div>
+      </div>

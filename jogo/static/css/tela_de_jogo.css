@@ -121,6 +121,7 @@ div{
 .nav.top{
 
 }
+
 .nav.top li{
   color: #000;
 }
@@ -167,6 +168,19 @@ div{
   border-left: 1px solid #cdd4db;
   height: 1em;
 
+}
+
+.nav.modulos{
+  font-size: 12pt;
+  font-weight: 900;
+  color: #2550cc;
+}
+
+.nav.modulos li{
+  font-size: 12pt;
+  font-weight: 900;
+  color: #2550cc;
+  padding-left: 1.4em;
 }
 
 @keyframes example {
@@ -271,8 +285,11 @@ div{
   transition: heigth 2s;
 }
 .card.medico, .med-place-holder{
-  width: 18em;
+  width: 20em;
   height: 9.8em;
+}
+.card.medico div{
+  font-size: 15pt;
 }
 .card.medico .head{
   display:flex;
@@ -409,6 +426,7 @@ div{
   margin:0px;
   width: 1.5em;
   height: 1.5em;
+  fill: #878d29;;
 }
 
 .icone_atendimento{
@@ -418,6 +436,7 @@ div{
   margin:0px;
   width: 1.5em;
   height: 1.5em;
+  fill: #0002ae;
 }
 
 .modulo-imagem{
@@ -502,7 +521,7 @@ div{
     display: block;
 }
 .subaba-ativa{
-  border-bottom: 0.2em solid #ccc;
+  border-bottom: 0.8em solid #00de03;
 }
 
 .card.modulo.modal-card-modulo{
@@ -592,4 +611,13 @@ div{
 .svg{
   height: 1.5em;
   width: 1.5em;
+  fill: #02ae00;
+}
+
+#t_caixa{
+  height: 100%;
+  padding: 0.2em;
+  font-size: 15pt;
+  line-height: 3em;
+  color: #8e9ac9;
 }
