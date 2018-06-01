@@ -60,72 +60,6 @@
       </ul>
     </nav>
 
-    <div id="modalModulo" class="modal">
-      <!-- Modal do módulo -->
-      <div class="modal-content-modulo">
-        <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Hospital">
-        <div style="padding:15px">
-          <ul style="list-style-type: none;" id="card-content">
-            <li>
-              <span style="display: inline">Cod.:</span> <span id="codigo_modal_modulo">12</span>
-            </li>
-            <li>
-              <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">1,200.00</span>
-            </li>
-            <li>
-              <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">78 $</span>
-            </li>
-            <li>
-              <span style="display: inline">Tratamento:</span> <span id="tratamento_modal_modulo">50 $</span>
-            </li>
-            <li>
-              <span style="display: inline">Capacidade:</span> <span id="capacidade_modal_modulo">50 $</span>
-            </li>
-            <li>
-              <span style="display: inline">Conforto:</span> <span id="conforto_modal_modulo">50 $</span>
-            </li>
-            <li>
-              <span style="display: inline">Tecnologia:</span> <span id="tecnologia_modal_modulo">50 $</span>
-            </li>
-          </ul>
-          <div style="display:flex;margin-top:auto;justify-content: space-around; padding:5px">
-            <button id="b_comprar">Contratar</button>
-            <button class="close">Cancelar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="modalMedico" class="modal">
-      <!-- Modal do médico -->
-      <div class="modal-content-medico">
-        <div style="padding:10px; display: flex">
-          <img class="medico-imagem" src="{% static 'imagens/medico.png' %}" alt="Medico">
-
-          <ul style="list-style-type: none; margin: auto;" id="card-content">
-            <li style="padding:10px; margin: auto">
-              <span style="display: inline">Perfil</span> <span id="perfil_modal_medico">12</span>
-            </li>
-            <li>
-              <span style="display: inline">Salário</span> <span id="salario_modal_medico">1,200.00</span>
-            </li>
-            <li>
-              <span style="display: inline">Pontualidade:<span id = "pontualidade_modal_medico"> </span>
-            </li>
-            <li>
-              <span style="display: inline">Expertise:<span id = "expertise_modal_medico"> </span>
-            </li>
-            <li>
-              <span style="display: inline">Atendimento:<span id = "atendimento_modal_medico"> </span>
-            </li>
-          </ul>
-        </div>
-        <div style="display:flex;margin-top:auto;justify-content: space-around; padding:10px">
-          <button id="b_comprar_med">Contratar</button>
-          <button id="b_cancelar_med" class="close">Cancelar</button>
-        </div>
-      </div>
-    </div>
-
     <!-- Loja -->
     <div style="height: 90%" id="loja-medicos" class="aba">
       <div style="display:flex;width: 100%">
@@ -150,7 +84,21 @@
                     </div>
                     <div>
                       {% for i in medico.expertise %}
-                      <img class="icone_expertise" src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
+                      <svg class="svg"version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                      	 width="288.147px" height="288.147px" viewBox="0 0 288.147 288.147" style="enable-background:new 0 0 288.147 288.147;"
+                      	 xml:space="preserve">
+                      	<g>
+                      		<g>
+                      			<path d="M142.45,174.613c-4.645,0-11.495-0.514-17.779-2.926l-50.271-19.366H49.774v30.162c0,9.274,6.9,19.802,15.405,23.499
+                      				l60.872,26.496c8.505,3.691,22.312,3.707,30.826,0.036l61.536-26.574c8.508-3.671,15.41-14.183,15.41-23.457v-30.162h-27.175
+                      				l-44.547,18.78C156.742,173.365,149.756,174.613,142.45,174.613z"/>
+                      			<path d="M6.475,112.944l121.222,46.709c8.661,3.329,22.603,3.112,31.152-0.492l115.768-48.801v71.999l-7.151,23.866h20.682
+                      				l-7.399-24.114V107.45h-0.208c4.997-3.449,3.832-7.747-3.567-10.393L159.196,55.146c-8.74-3.117-22.859-2.985-31.545,0.277
+                      				L6.529,100.99C-2.157,104.258-2.178,109.612,6.475,112.944z"/>
+                      		</g>
+                      	</g>
+                      </svg>
+
                       {% endfor %}
                     </div>
                     <div>
@@ -200,59 +148,85 @@
     </div>
 
     <div id="loja-modulos" style="height:100%;flex-direction: column"class="aba">
-      <div style="height:5%">
-      <ul class="nav" style="height:4%;display:flex">
-        {% for area in mod_p_area.keys %}
-        <li onclick="mudar_area_modulos(this,'.area-{{area}}')">
-          {{area}}
-        </li>
-        {% endfor %}
-      </ul>
+      <div style="height:3em">
+        <ul class="nav" style="height:4%;display:flex">
+          {% for area in mod_p_area.keys %}
+          <li onclick="mudar_area_modulos(this,'.area-{{area}}')">
+            {{area}}
+          </li>
+          {% endfor %}
+        </ul>
       </div>
-      {% for area, modulos in mod_p_area.items %}
-      <div class="area area-{{area}}" style="overflow: auto;background: #e5e5e5;height:95%;padding:1em;">
-        {% for modulo in modulos%}
-        <div onclick="confirmacao(this.children[0],'modulo')" style="display:inline-block;width:22em;height:14em;vertical-align: bottom">
-          <div data-value="{{modulo.id}}" class="card asdf" style="width:22em;display:flex;margin-top:auto; padding:0px; flex-direction:column; border-radius: 20px;">
-            <div style="border-bottom:1px solid #888; display:flex; background-color:#ff3f3f; height:1.5em; border-top-left-radius: 20px; border-top-right-radius: 20px">
-              <div class="center-p" style="border-right:1px solid #888; padding-right:1em; margin-left:1em">
-                10
-              </div>
-              <div style="margin-left:auto; margin-right:auto">
-                <span style="margin-left:auto; margin-right:auto"class="center-p">Cod.:<span id="codigo_modal_modulo" class="center-p">{{modulo.id}}</span>
-                </span>
+      <div style="display:flex">
+        {% for area, modulos in mod_p_area.items %}
+        <div class="area area-{{area}}" style="overflow: auto;background: #e5e5e5;height:95%;padding:1em;">
+            {% for modulo in modulos%}
+            <div class="mod-place-holder" onclick="confirmacao(this.children[0],'modulo')">
+              <div class="card modulo" data-value="{{modulo.id}}" style="">
+                <div class="head">
+                  <div>10</div>
+                  <div style="line-height:1.5em;margin:auto">
+                    <span class="center-p">Cod.:<span id="codigo_modal_modulo" class="center-p">{{modulo.id}}</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="body">
+                  <div>
+                    <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Hospital">
+                  </div>
+                  <div style="margin-left:1em; margin-top:0.5em">
+                    <div>
+                      {% for i in modulo.conforto %}
+                      <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital"></img>{% endfor %}
+                    </div>
+                    <div>
+                      {% for i in modulo.tecnologia %}
+                      <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital"></img>{% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
+                  <div style="margin-right:2em">
+                    <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">{{modulo.custo_de_aquisicao}}</span><br>
+                    <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">{{modulo.custo_mensal}}</span><br>
+                  </div>
+                  <div>
+                    <span style="display: inline">Tratamento:</span> <span id="tratamento_modal_modulo">{{modulo.preco_do_tratamento}}</span><br>
+                    <span style="display: inline">Capacidade:</span> <span id="capacidade_modal_modulo">{{modulo.capacidade}}</span><br>
+                  </div>
+                </div>
               </div>
             </div>
-            <div style="display:flex;margin:auto; padding:10px">
-              <div>
-                <img class="modulo-imagem" src="{% static 'imagens/modulo.jpg' %}" alt="Hospital">
-              </div>
-              <div style="margin-left:1em; margin-top:0.5em">
-                <div>
-                  {% for i in modulo.conforto %}
-                  <img class="icone_conforto" src="{% static 'imagens/conforto.png' %}" alt="Hospital"></img>{% endfor %}
-                </div>
-                <div>
-                  {% for i in modulo.tecnologia %}
-                  <img class="icone_tecnologia" src="{% static 'imagens/tecnologia.png' %}" alt="Hospital"></img>{% endfor %}
-                </div>
-              </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <div style="vertical-align:bottom; background: var(--main-bg-color)">
+          <div class="caixa">
+            <div>
+              Legendas
             </div>
-            <div style="display:flex;margin:auto;justify-content: space-around; padding:10px">
-              <div style="margin-right:2em">
-                <span style="display: inline">Preço:</span> <span id="preco_modal_modulo">{{modulo.custo_de_aquisicao}}</span><br>
-                <span style="display: inline">Custo/mês:</span> <span id="custo_modal_modulo">{{modulo.custo_mensal}}</span><br>
+            <div>
+              <div class="card legenda">
+                <img src="{% static 'imagens/atendimento.png' %}" alt="Atendimento"></img>
+                <span>Atendimento</span>
               </div>
-              <div>
-                <span style="display: inline">Tratamento:</span> <span id="tratamento_modal_modulo">{{modulo.preco_do_tratamento}}</span><br>
-                <span style="display: inline">Capacidade:</span> <span id="capacidade_modal_modulo">{{modulo.capacidade}}</span><br>
+              <div class="card legenda">
+                <img src="{% static 'imagens/expertise.png' %}" alt="Expertise"></img>
+                Expertise
+              </div>
+              <div class="card legenda">
+                <img src="{% static 'imagens/pontualidade.png' %}" alt="Hospital"></img>
+                Pontualidade
               </div>
             </div>
           </div>
+          <div class="caixa">
+            <div>
+              Meu hospital
+            </div>
+          </div>
         </div>
-        {% endfor %}
-        </div>
-      {% endfor %}
+      </div>
 
     </div>
 

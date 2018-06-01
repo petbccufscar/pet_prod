@@ -26,7 +26,7 @@ if (socket_rodada.readyState == WebSocket.OPEN) socket_rodada.onopen();
 
 /* Areas e modulos */
 
-function mudar_area_modulos(aba,classe){
+function mudar_area_modulos(aba, classe){
    var anterior = document.querySelector(".area.ativo");
    var seletor_ant = document.querySelector(".subaba-ativa");
    if(anterior!= null){
@@ -60,7 +60,8 @@ centralizar();
 window.addEventListener('resize', function(){
   centralizar();
 }, true);
-
+mudar_aba('loja-modulos');
+mudar_area_modulos(null,'.area-Pediatria');
 
 elements = document.querySelectorAll(('.nav.lateral > li'))
 var l = elements.length;

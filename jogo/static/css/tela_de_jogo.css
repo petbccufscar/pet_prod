@@ -1,5 +1,15 @@
 :root {
     --main-bg-color: #141414;
+    --gl-border-radius: 3pt;
+    --cor-2:  #a20417;
+    --cor-letra-2: #fff;
+    --pattern:
+      linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+      linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+      linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+      linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+      linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+      linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
 }
 @font-face {
     font-family: WorkSans-Regular;
@@ -245,7 +255,7 @@ div{
     margin: 10px;
     padding: 15px;
     background: #fff;
-    box-shadow: 1pt 2pt 2pt 2px rgba(0,0,0,0.2);
+    box-shadow: 0pt 1pt 1pt 1pt rgba(0,0,0,0.2);
 }
 /* classes do card medico */
 .med-place-holder{
@@ -266,7 +276,7 @@ div{
 }
 .card.medico .head{
   display:flex;
-  background-color:#a20417 ;
+  background-color: var(--cor-2);
   height:1.5em;
   border-bottom:1px solid #888;
   border-top-left-radius: 3pt;
@@ -315,6 +325,53 @@ div{
   display: flex;
   justify-content: space-around;
   height: 3em;
+}
+/* cards modulo */
+.mod-place-holder{
+  display:inline-block;
+  vertical-align: bottom
+}
+.card.modulo{
+  display: flex;
+  margin-top: auto;
+  padding: 0px;
+  flex-direction: column;
+  border-radius: var(--gl-border-radius);
+}
+.card.modulo, .mod-place-holder{
+  width: 22em;
+  height: 12em;
+}
+
+.card.modulo .head{
+  border-bottom:1px solid #888;
+  display: flex;
+  background: var(--cor-2);
+  color: var(--cor-letra-2);
+  height: 1.5em;
+  border-top-left-radius: var(--gl-border-radius);
+  border-top-right-radius: var(--gl-border-radius);
+}
+
+.card.modulo .head div{
+  color: var(--cor-letra2);
+}
+.card.modulo .head div:first-child{
+  border-right:1px solid #888;
+  width: 2em;
+  text-align: center;
+  padding-right: 1em;
+  margin-left: 1em;
+  line-height: 1.5em;
+}
+
+.card.modulo .body{
+  height: 5em;
+  display: flex;
+  width: 100%;
+  margin: auto;
+  padding: 10px;
+  padding-left: 0.6em;
 }
 
 .icone_conforto{
@@ -433,7 +490,7 @@ div{
   height: 400px;
 }
 .area{
-  display: none
+  display: none;
 }
 .ativo{
   display: block;
@@ -448,11 +505,15 @@ div{
   border-bottom: 0.2em solid #ccc;
 }
 
-.modal-card-modulo{
+.card.modulo.modal-card-modulo{
   position: absolute;
   left: calc(50% - 11em);
   top: calc(50% - 11em);
+  font-size: 16pt;
   z-index: 2;
+}
+.card.modulo.modal-card-modulo div{
+  font-size: 16pt;
 }
 
 
@@ -527,4 +588,8 @@ div{
 .central{
   min-width: 20em;
   height: 100%;
+}
+.svg{
+  height: 1.5em;
+  width: 1.5em;
 }
