@@ -4,6 +4,80 @@ import jogo.logica.logica_de_jogo as logica_jogo
 from jogo.logica.time import Time as LTime
 from jogo.models import Medico
 from jogo.models import Modulo
+from jogo.logica import controlador as ctrler
+from django.http import HttpResponse
+
+def ajax_sanitizer(func):
+    def requisicao_ajax(request):
+        controlador = ctrler.InstanciaJogo()
+        if controlador.estado_jogo == ctrler.JG_NAO_INICIADO:
+            return HttpResponse("Jogo Não Iniciado")
+        if controlador.estado_jogo == ctrler.JG_PAUSADO:
+            return HttpResponse("Jogo Não Iniciado")
+        if controlador.estado_jogo == ctrler.JG_PRONTO:
+            return HttpResponse("Jogo Não Iniciado")
+        if 'nome_time' not in request.session:
+            return HttpResponse("Usuário Não Logado")
+
+        return func(request)
+    return requisicao_ajax
+
+def encerrar_jogo():
+    pass
+
+
+def aplicar_acao(request):
+    acao = request.POST['acao']
+    controlador = ctrler.InstanciaJogo()
+    if acao == "start_jogo":
+        if controlador.get_estado_jogo != "rodando":
+            controlador.init_timer()
+            request.session['nome_time'] = "time2"
+    if acao == "stop_jogo":
+        pass
+    return HttpResponse("grrrr")
+
+@ajax_sanitizer
+def vender_modulo(request):
+    controlador = ctrler.InstanciaJogo()
+    nome_time = request.session['nome_time']
+    print("Modulo Vendido")
+    controlador.vender_modulo(nome_time, int(request.POST["modulo_id"]))
+    return HttpResponse(controlador.get_caixa(nome_time))
+
+@ajax_sanitizer
+def comprar_modulo(request):
+    controlador = ctrler.InstanciaJogo()
+    nome_time = request.session['nome_time']
+    print("Modulo comprado")
+    controlador.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
+    return HttpResponse(controlador.get_caixa(nome_time))
+
+@ajax_sanitizer
+def contratar_medico(request):
+    nome_time = request.session['nome_time']
+    controlador = ctrler.InstanciaJogo()
+    print("Medico Contratado")
+    controlador.contratar_medico(nome_time, int(request.POST["medico_id"]))
+    return HttpResponse("contratado")
+
+@ajax_sanitizer
+def despedir_medico(request):
+
+    nome_time = request.session['nome_time']
+    controlador = ctrler.InstanciaJogo()
+
+    controlador.despedir_medico(nome_time, int(request.POST["medico_id"]))
+    print("despedido")
+    return HttpResponse("despedido")
+
+def busca_modulo(request):
+    data = serializers.serialize("json", [Modulo.objects.get(id = request.POST["modulo_id"]), ])
+    return HttpResponse(data)
+
+def busca_medico(request):
+    data = serializers.serialize("json", [Medico.objects.get(id = request.POST["medico_id"]), ])
+    return HttpResponse(data)
 
 def tela_de_jogo_graficos(request):
     if logica_jogo.JogoAtual is None:
@@ -31,54 +105,24 @@ def tela_de_jogo_graficos(request):
         }
     return JsonResponse(json)
 
+@ajax_sanitizer
 def tela_de_jogo_hospital_medicos(request):
-    if logica_jogo.JogoAtual is None:
-        return HttpResponse("Jogo Não Iniciado")
-    if 'nome_time' not in request.session:
-        return HttpResponse("Usuário Não Logado")
+    controlador = ctrler.InstanciaJogo()
 
     nome_time = request.session['nome_time']
-
-    time = logica_jogo.JogoAtual.times[nome_time]
-    medicos = []
-    time = logica_jogo.JogoAtual.times[nome_time];
-    for id_med in time.medicos:
-        medico = Medico.objects.get(id = id_med)
-        medicos.append(medico)
-        medico.salario =  "{:,.2f}".format(medico.salario)
-        medico.expertise = range(0, medico.expertise)
-        medico.atendimento = range(0, medico.atendimento)
-        medico.pontualidade = range(0, medico.pontualidade)
-
+    medicos = controlador.get_medicos(nome_time)
     contexto = {
         "medicos": medicos,
     }
     return render(request, 'jogo/hospital_medicos.html', contexto)
 
+@ajax_sanitizer
 def tela_de_jogo_hospital_modulos(request):
-    if logica_jogo.JogoAtual is None:
-        return HttpResponse("Jogo Não Iniciado")
-    if 'nome_time' not in request.session:
-        return HttpResponse("Usuário Não Logado")
-
     nome_time = request.session['nome_time']
-    time = logica_jogo.JogoAtual.times[nome_time]
-    # Separando modulos por area
-    time_modulos_p_areas = {}
-    for id_mod in time.modulos:
-        modulo = Modulo.objects.get(id = id_mod)
-        if modulo.area.nome in time_modulos_p_areas:
-            time_modulos_p_areas[modulo.area.nome].append(modulo)
-        else:
-            time_modulos_p_areas[modulo.area.nome] = [modulo]
-
-        modulo.custo_de_aquisicao = "{:,.2f}".format(modulo.custo_de_aquisicao)
-        modulo.custo_mensal = "{:,.0f}".format(modulo.custo_mensal)
-        modulo.preco_do_tratamento = "{:,.0f}".format(modulo.preco_do_tratamento)
-        modulo.tecnologia = range(0, modulo.tecnologia)
-        modulo.conforto = range(0, modulo.conforto)
+    controlador = ctrler.InstanciaJogo()
+    areas, modulos_p_areas = controlador.get_modulos(nome_time)
     contexto = {
-        "areas": list(time_modulos_p_areas.keys()),
-        "mod_p_area": time_modulos_p_areas,
+        "areas": areas,
+        "mod_p_area": modulos_p_areas,
     }
     return render(request, 'jogo/hospital_modulos.html', contexto)

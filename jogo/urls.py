@@ -1,6 +1,5 @@
 from django.conf.urls import url
 from jogo import views
-from jogo.logica import logica_de_jogo
 from django.urls import path
 from jogo import ajax
 app_name = 'jogo'
@@ -11,7 +10,8 @@ urlpatterns = [
     url(r'^login/$', views.login, name='login'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^base_configuracoes/$', views.base_configuracoes, name='base_configuracoes'),
-    url(r'^base_aplicar_dinamica/$', views.base_aplicar_dinamica, name='base_aplicar_dinamica'),
+    url(r'^aplicar_dinamica/aplicar_acao/$', ajax.aplicar_acao, name='aplicar_acao'),
+    url(r'^aplicar_dinamica/$', views.tela_aplicar_dinamica, name='base_aplicar_dinamica'),
     # Cuidado com as URLS!
     # Como estamos utilizando apenas um app, temos que colocar o class/xxx
     url(r'^medico/$', views.medico_index, name='medico_index'),
@@ -53,12 +53,12 @@ urlpatterns = [
 
     #interações do jogador
     url(r'^irrelevante', views.iniciar_jogo, name='iniciar_jogo'),
-    url(r'^jogo/comprar_modulo', logica_de_jogo.comprar_modulo, name='comprar_modulo'),
-    url(r'^jogo/vender_modulo', logica_de_jogo.vender_modulo, name='vender_modulo'),
-    url(r'^jogo/contratar_medico', logica_de_jogo.contratar_medico, name='contratar_medico'),
-    url(r'^jogo/despedir_medico', logica_de_jogo.despedir_medico, name='despedir_medico'),
-    url(r'^jogo/busca_modulo', logica_de_jogo.busca_modulo, name='busca_modulo'),
-    url(r'^jogo/busca_medico', logica_de_jogo.busca_medico, name='busca_medico'),
+    url(r'^jogo/comprar_modulo', ajax.comprar_modulo, name='comprar_modulo'),
+    url(r'^jogo/vender_modulo', ajax.vender_modulo, name='vender_modulo'),
+    url(r'^jogo/contratar_medico', ajax.contratar_medico, name='contratar_medico'),
+    url(r'^jogo/despedir_medico', ajax.despedir_medico, name='despedir_medico'),
+    url(r'^jogo/busca_modulo', ajax.busca_modulo, name='busca_modulo'),
+    url(r'^jogo/busca_medico', ajax.busca_medico, name='busca_medico'),
     url(r'^jogo/hospital/medicos/$', ajax.tela_de_jogo_hospital_medicos, name='tela_de_jogo_hospital_med'),
     url(r'^jogo/hospital/modulos/$', ajax.tela_de_jogo_hospital_modulos, name='tela_de_jogo_hospital_mod'),
     url(r'^jogo/hospital/$', views.tela_de_jogo_hospital, name='tela_de_jogo_hospital'),

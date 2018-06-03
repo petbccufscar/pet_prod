@@ -12,100 +12,23 @@ import _thread
 import random
 import datetime
 
-#para teste
-JogoAtual = None
-
-
-def init_timer(jogo):
-    _thread.start_new_thread(jogo.atualiza_timer, ())
-
-
-def inicializa_jogo(rodadas, times):
-    global JogoAtual # eu sei eu sei, chame de singleton e ta ok
-    JogoAtual = Logica(len(rodadas), len(times), rodadas)
-    for time in times:
-        JogoAtual.add_time(time)
-    init_timer(JogoAtual)
-
-
-def encerrar_jogo():
-    pass
-
-def vender_modulo(request):
-    if 'nome_time' not in request.session:
-        return HttpResponse("Usuário Não Logado")
-
-    nome_time = request.session['nome_time']
-
-    print("VENTI UM MODULO")
-
-    # JogoAtual.encerrar_rodada()
-    JogoAtual.vender_modulo(nome_time, int(request.POST["modulo_id"]))
-    return HttpResponse(JogoAtual.times[nome_time].estatisticas.get_ultimo_caixa())
-
-
-def comprar_modulo(request):
-    if 'nome_time' not in request.session:
-        return HttpResponse("Usuário Não Logado")
-
-    nome_time = request.session['nome_time']
-
-    print("COMPREI UM MODULO")
-    print(request.POST["modulo_id"], nome_time)
-    JogoAtual.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
-    return HttpResponse(JogoAtual.times[nome_time].estatisticas.get_ultimo_caixa())
-
-def contratar_medico(request):
-    if 'nome_time' not in request.session:
-        return HttpResponse("Usuário Não Logado")
-
-    nome_time = request.session['nome_time']
-
-    print(request.POST["medico_id"], nome_time)
-    print("contratado")
-    JogoAtual.comprar_medico(nome_time,int(request.POST["medico_id"]))
-    return HttpResponse("contratado")
-
-
-def despedir_medico(request):
-    if 'nome_time' not in request.session:
-        return HttpResponse("Usuário Não Logado")
-
-    nome_time = request.session['nome_time']
-
-    print(request.POST["medico_id"], nome_time)
-    JogoAtual.vender_medico(nome_time, int(request.POST["medico_id"]))
-    print("despedido")
-    return HttpResponse("despedido")
-
-def busca_modulo(request):
-    data = serializers.serialize("json", [Modulo.objects.get(id = request.POST["modulo_id"]), ])
-    return HttpResponse(data)
-
-def busca_medico(request):
-    data = serializers.serialize("json", [Medico.objects.get(id = request.POST["medico_id"]), ])
-    return HttpResponse(data)
-
 class Logica(object):
-    def __init__(self, qtd_rodadas, nrotimes, rodadas):
-        self.qtd_rodadas = qtd_rodadas #TODO: talvez pegar qtd_rodadas com len()
-        self.medicos_por_perfil = nrotimes*6 #TODO: Não deve ser hardcoded
+    def __init__(self, modulos, tps_medico, rodadas, times):
+        self.qtd_rodadas = list(rodadas)
         self.medicos = {}
         self.modulos = []
         self.times = dict()
         self.rodadas = rodadas
         self.rodada_atual = 0
-
         self.areas_c_social = [] # PRECISA DISSO?
 
-        med = Medico.objects.all()
-        mod = Modulo.objects.all()
-        #TODO: isso deve ser pego da interface
-        for medico in med:
+        for time in times:
+            self.times[time.nome] = time
+        for tp_med in tps_medico:
             # inicia todos os perfis existentes no bd com 3 médicos
-            self.medicos[medico.id] = 3
-        for modulo in mod:
-            self.modulos.append(modulo.id)
+            self.medicos[tp_med[0]] = tp_med[1]
+        for modulo_id in modulos:
+            self.modulos.append(modulo_id)
 
     def add_time(self, time):
         self.times[time.nome] = time
@@ -136,7 +59,6 @@ class Logica(object):
         else:
             return False
 
-
     def comprar_medico(self, id_time, perfil_medico):
         if (self.medicos[perfil_medico] > 0):
             time = self.times[id_time]
@@ -157,7 +79,6 @@ class Logica(object):
 
         return False
 
-
     def get_multiplicador(self, nomeEvento):
         evento = Evento.objects.get(nome=nomeEvento)
         multiplicadores  = {}
@@ -167,7 +88,6 @@ class Logica(object):
         multiplicadores['D'] = evento.multiplicador_classeD
         multiplicadores['E'] = evento.multiplicador_classeE
         return multiplicadores
-
 
     def encerrar_rodada(self):
         print("ENCERRAR RODADA")
@@ -192,8 +112,6 @@ class Logica(object):
             # salvar em estatisticas
             # REVIEW: talvez salvar_estatisticas seja um nome melhor para a função (Verificar)
             time.estatisticas.nova_rodada(entrada_atendimento, demanda, total_atendidos, entradas_por_area, salarios_medicos, manutencao_modulos, atributos_modulos)
-
-
 
     def nova_rodada(self):
         # TODO: tratar sincronização das threads

@@ -25,7 +25,7 @@ from jogo.logica import utils
 from django.views.decorators.csrf import ensure_csrf_cookie
 import jogo.logica.logica_de_jogo as logica_jogo
 from jogo.logica.time import Time as LTime
-
+import jogo.logica.controlador as ctrler
 # from django.core.exceptions import ObjectDoesNotExist
 
 # views para home
@@ -520,22 +520,30 @@ def iniciar_jogo(request):
     return HttpResponse("Iniciou")
 
 @ensure_csrf_cookie
+def tela_aplicar_dinamica(request):
+
+    ctrler.__inicializa_jogo_pra_teste()
+    controlador = ctrler.InstanciaJogo()
+
+    times = controlador.jogo_atual.times
+    contexto = {
+        "times" : [{"nome": x.nome, "codigo": x.codigo_login} for x in times.values()]
+    }
+    return render(request, 'jogo/base_aplicar_dinamica.html', contexto)
+
+@ensure_csrf_cookie
 def tela_de_jogo(request):
-    if logica_jogo.JogoAtual is None:
-        return HttpResponse("Jogo Não Iniciado")
+    controlador = ctrler.InstanciaJogo()
+
+    if controlador.get_estado_jogo() == ctrler.JG_NAO_INICIADO:
+        return HttpResponse("Jogo Ainda não comecou")
+    if controlador.get_estado_jogo() == ctrler.JG_PRONTO:
+        return HttpResponse("Jogo Ainda não comecou")
     if 'nome_time' not in request.session:
         return HttpResponse("Usuário Não Logado")
 
     nome_time = request.session['nome_time']
-    time = logica_jogo.JogoAtual.times[nome_time]
-    modulos = Modulo.objects.all()
-    lista_medicos = Medico.objects.all()
-    for medico in lista_medicos:
-        medico.salario =  "{:,.2f}".format(medico.salario)
-        medico.expertise = range(0, medico.expertise)
-        medico.atendimento = range(0, medico.atendimento)
-        medico.pontualidade = range(0, medico.pontualidade)
-    # Separando modulos por area
+    time = controlador.jogo_atual.times[nome_time]
     modulos_p_areas = {}
 
     print(time.estatisticas.lista_demandas)
@@ -548,35 +556,24 @@ def tela_de_jogo(request):
     for i in procuraram_atendimento:
         aux.append(sum(i.values()))
 
-    for modulo in modulos:
-        if modulo.area.nome in modulos_p_areas:
-            modulos_p_areas[modulo.area.nome].append(modulo)
-        else:
-            modulos_p_areas[modulo.area.nome] = [modulo]
-
-        modulo.custo_de_aquisicao = "{:,.2f}".format(modulo.custo_de_aquisicao)
-        modulo.custo_mensal = "{:,.0f}".format(modulo.custo_mensal)
-        modulo.preco_do_tratamento = "{:,.0f}".format(modulo.preco_do_tratamento)
-        modulo.tecnologia = range(0, modulo.tecnologia)
-        modulo.conforto = range(0, modulo.conforto)
     labels_tabela = time.estatisticas.get_estatisticas().keys()
 
-    colunas = ["col1", "col2", "col1"] # exemplo
+    medicos = controlador.get_medicos()
+    areas, modulos_p_areas = controlador.get_modulos()
     contexto = {
-        "areas": list(modulos_p_areas.keys()),
-        "nome_time": time.nome,
+        "areas": areas,
         "mod_p_area": modulos_p_areas,
-        "medicos": lista_medicos,
-        "colunas" : colunas, # adiciona aqui pra ser acessivel no template
+        "nome_time": time.nome,
+        "medicos": medicos,
         "caixa": time.estatisticas.get_ultimo_caixa(),
         "labels": labels,
         "total_atendidos": total_atendidos,
         "procuraram_atendimento": aux,
         "labels_tabela": labels_tabela,
         "estatisticas": time.estatisticas.get_estatisticas(),
-        "rodada_atual": logica_jogo.JogoAtual.rodada_atual + 1,
-        "rodadas_ate_atual":range(0,logica_jogo.JogoAtual.rodada_atual),
-        "rodadas": range(1,len(logica_jogo.JogoAtual.rodadas)+2),
+        "rodada_atual": controlador.jogo_atual.rodada_atual + 1,
+        "rodadas_ate_atual":range(0,controlador.jogo_atual.rodada_atual),
+        "rodadas": range(1,len(controlador.jogo_atual.rodadas)+2),
         }
     return render(request, 'jogo/tela_de_jogo.html', contexto)
 

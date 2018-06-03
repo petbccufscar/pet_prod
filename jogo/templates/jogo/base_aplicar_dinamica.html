@@ -1,9 +1,52 @@
 {% extends 'base.html' %}
 {% block base_aplicar_dinamica %}class="active"{% endblock %}
 {% block base_aplicar_dinamica_span %}<span class="sr-only">(current)</span>{% endblock %}
+{% load staticfiles %}
+
 {% block body %}
 <br><br>
-<a href="{% url 'jogo:iniciar_jogo' %}">
-  <button type="submit" class="btn btn-primary">Iniciar Jogo</button>
-</a>
+    <style type="text/css">
+    .top-buffer { margin-top:10px; }
+    </style>
+<div class="container" style="width:970px; max-width: none !important;">
+    <div class="row">
+      <div class="col-lg-4"></div>
+      <div class="col-lg-4">
+           <table class="table" align="center" style="width:200px">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Código</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for time in times %}
+                <tr>
+                  <td>{{time.nome}}</td>
+                  <td>{{time.codigo}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+      </div>
+      <div class="col-xs-4">   </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-xs-9"></div>
+        <div class="col-xs-3">
+            <button onclick="aplicar_acao('stop_jogo')" type="submit" class="btn btn-primary">Parar Jogo</button>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-xs-9"></div>
+        <div class="col-xs-3">
+          <a>
+            <button id="b_start_jogo" onclick="aplicar_acao('start_jogo')" type="submit" class="btn btn-primary">Iniciar Jogo</button>
+          </a>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+<script src="{% static 'js/aplicar_dinamica.js' %}"></script>
 {% endblock body %}
