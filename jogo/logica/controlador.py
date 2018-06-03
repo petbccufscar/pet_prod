@@ -162,7 +162,6 @@ class InstanciaJogo:
             medicos.append(med)
         return medicos
 
-
     def get_modulos(self, nome_time=None):
         modulos = None
         if nome_time is None:
