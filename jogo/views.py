@@ -546,8 +546,6 @@ def tela_de_jogo(request):
     time = controlador.jogo_atual.times[nome_time]
     modulos_p_areas = {}
 
-    print(time.estatisticas.lista_demandas)
-    print(time.estatisticas.lista_total_atendidos)
     labels = time.estatisticas.lista_demandas[0].keys()
     total_atendidos = time.estatisticas.lista_total_atendidos[0].values()
     procuraram_atendimento = time.estatisticas.lista_demandas[0].values()

@@ -188,6 +188,17 @@ class InstanciaJogo:
 
         return list(modulos_p_areas.keys()), modulos_p_areas
 
+    def get_dados_graf_pizza(self, nome_time, rodada):
+        data = {}
+        estat = self.jogo_atual.times[nome_time].estatisticas
+        for area in estat.lista_atr_mod[0].keys():
+            temp = {}
+            """lista com capacidades d"""
+            temp["capacidade"] = estat.lista_atr_mod[rodada][area]["capacidade"]
+            temp["total_atendidos"] =  estat.lista_total_atendidos[rodada][area]
+            data[area] = temp
+        return data
+
 def __inicializa_jogo_pra_teste():
     if(InstanciaJogo.jogo_atual != None):
         return False

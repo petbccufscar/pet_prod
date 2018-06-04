@@ -459,75 +459,29 @@ function onScroll(a){
   c.scrollTop = a.scrollTop;
 }
 
-/* COISAS PRO GRÁFICO DE PIZZA */
-/*
-var ctx = document.getElementById("myPieChart");
-//console.log(ctx);
-var myPieChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ["Capacidade Ociosa", "Capacidade Utilizada"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19],
-            backgroundColor: [
-                'rgba(240, 128, 128, 1)',
-                'rgba(0, 191, 255, 1)',
-            ],
-            borderColor: [
-                'rgba(240, 128, 128, 1)',
-                'rgba(0, 191, 255, 1)',
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-  }
-});
-*/
-
-
 /* COISAS PRO GRÁFICO DE COLUNAS */
 function atualizar_graficos(r){
   $.ajax({
       url : "dados_graficos/",
       type : "POST",
       data : {rodada: r},
-      success : function(data) {
-        console.log(data);
+      success : function(json) {
+        console.log(json);
         var chart = null;
         // pegando o grafico
-
+        areas =  Object.keys(json.dados_graf_pizza)
         Chart.helpers.each(Chart.instances, function(instance){
-          if(instance.chart.canvas.id == "myBarChart"){
-            chart = instance;
-          }
+          instance.atualizar(json);
         })
         if(chart == null){
-          grafico_barra(data.labels, data.total_atendidos, data.procuraram_atendimento);
+          for(var i = 0; i < areas.length; i++){
+            grafico_pizza(areas[i],
+              json.dados_graf_pizza[areas[i]].total_atendidos,
+              json.dados_graf_pizza[areas[i]].capacidade)
+          }
+          grafico_barra(json.labels, json.total_atendidos, json.procuraram_atendimento);
           return;
         }
-        // preparando dados do grafico_barra
-        var data = {
-            labels: data.labels,
-            datasets: [
-                {
-                    label: "Pacientes que procuraram o hospital",
-                    backgroundColor: "blue",
-                    data: data.procuraram_atendimento
-                },
-                {
-                    label: "Pacientes que foram atendidos",
-                    backgroundColor: "red",
-                    data: data.total_atendidos
-                },
-
-            ]
-        };
-        chart.data = data;
-        chart.update();
       },
       error : function(xhr,errmsg,err) {
           //console.log("erro");
@@ -536,6 +490,62 @@ function atualizar_graficos(r){
 
 }
 
+function grafico_pizza(area, total_atendidos, capacidade){
+  ctx = document.getElementById("chart-pie-"+area);
+  options = {
+				responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					text: area
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
+			}
+  data = {
+    datasets: [{
+        data: [total_atendidos, capacidade - total_atendidos],
+        backgroundColor: [
+            'rgb(255, 99, 132)',
+            "rgb(54, 162, 235)",
+        ],
+    }],
+
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: [
+        'Total Utilizado',
+        'Total Livre '
+    ]
+  };
+  var myPieChart = new Chart(ctx,{
+      type: 'pie',
+      data: data,
+      options: options
+  });
+  myPieChart.atualizar = function (json){
+    data = {
+      datasets: [{
+          data: [json.dados_graf_pizza[area].total_atendidos,
+          json.dados_graf_pizza[area].capacidade] - json.dados_graf_pizza[area].total_atendidos,
+          backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+          ],
+      }],
+
+      // These labels appear in the legend and in the tooltips when hovering different arcs
+      labels: [
+          'Total Utilizado',
+          'Total Livre '
+      ]
+    };
+    this.update()
+  }.bind(myPieChart)
+}
 
 function grafico_barra(areas, total_atendidos, procuraram_atendimento){
   var ctx = document.getElementById("myBarChart");
@@ -556,6 +566,7 @@ function grafico_barra(areas, total_atendidos, procuraram_atendimento){
       ]
   };
 
+
   var myBarChart = new Chart(ctx, {
       type: 'bar',
       data: data,
@@ -570,4 +581,24 @@ function grafico_barra(areas, total_atendidos, procuraram_atendimento){
           }
       }
   });
+  myBarChart.atualizar = function (json){
+    var data = {
+        labels: json.labels,
+        datasets: [
+            {
+                label: "Pacientes que procuraram o hospital",
+                backgroundColor: "blue",
+                data: json.procuraram_atendimento
+            },
+            {
+                label: "Pacientes que foram atendidos",
+                backgroundColor: "red",
+                data: json.total_atendidos
+            },
+
+        ]
+    };
+    this.data = data;
+    this.update()
+  }.bind(myBarChart);
 }

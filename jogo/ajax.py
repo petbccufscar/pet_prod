@@ -93,12 +93,14 @@ def tela_de_jogo_graficos(request):
     for i in procuraram_atendimento:
         demanda.append(sum(i.values()))
     labels_tabela = list(time.estatisticas.get_estatisticas().keys())
+    dados_graf_pizza = controlador.get_dados_graf_pizza(nome_time,rodada)
     json = {
         "nome_time": time.nome,
         "labels": labels,
         "total_atendidos": total_atendidos,
         "procuraram_atendimento": demanda,
         "labels_tabela": labels_tabela,
+        "dados_graf_pizza": dados_graf_pizza,
         }
     return JsonResponse(json)
 
