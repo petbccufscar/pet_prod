@@ -16,7 +16,7 @@
     <ul id="b_lateral" class="nav lateral">
       <li id="h-lateral">
         <img class="imagem-logo" src="{% static 'imagens/logo_pet_prod.png' %}" alt="Hospital">
-        <span style="font-size: 16pt;color: #fff">Time 1</span></li>
+        <span style="font-size: 16pt;color: #fff">{{nome_time}}</span></li>
       <li ><i class="fas fa-cart-plus" style="font-size:40"></i>
         <div style="float: right">
           <nav><ul class="submenu escondido">
@@ -106,7 +106,7 @@
           <div style="display:flex">
             <div style="width:40%;border-bottom: 0.3em solid #00de03"></div>
           </div>
-         <div style="background-color: #f6f6fc;padding: 1em;width:100%;display:flex;flex-direction:column;flex-grow: 1;margin-left:auto;margin-rigth:auto;">
+         <div style="border-top: 1pt solid #e7e7e7e7;background-color: #f8f8f8f8;padding: 1em;width:100%;display:flex;flex-direction:column;flex-grow: 1;margin-left:auto;margin-rigth:auto;">
           <div class="central" style="overflow-y:auto;display:block;margin-left: auto;margin-right: auto">
             {% for medico in medicos %}
             <div class="med-place-holder" onclick="confirmacao(this.children[0],'medico')">
@@ -209,7 +209,7 @@
     <div id="loja-modulos" style="height:100%" class="aba">
 
       <div style="display:flex;flex-direction: column">
-        <div style="height:2.8em;display:flex">
+        <div style="height:2.8em;display:flex;border-top: 1pt solid #e7e7e7e7;border-bottom: 1pt solid #e7e7e7e7">
           <ul class="nav modulos" style="margin-top: auto;margin-bottom: auto;display:flex">
             {% for area in mod_p_area.keys %}
             <li onclick="mudar_area_modulos(this,'.area-{{area}}')">
@@ -219,7 +219,7 @@
           </ul>
         </div>
         {% for area, modulos in mod_p_area.items %}
-        <div class="area area-{{area}}" style="overflow: auto;background: #f6f6fc;height:95%;padding:1em;">
+        <div class="area area-{{area}}" style="overflow: auto;background: #f8f8f8f8;height:95%;padding:1em;">
             {% for modulo in modulos%}
             <div class="mod-place-holder" onclick="confirmacao(this.children[0],'modulo')">
               <div class="card modulo" data-value="{{modulo.id}}" style="">
@@ -305,26 +305,29 @@
     </div>
 
     <div id="estatisticas-dashboards" class="aba" style="">
-      <div class="card" >
+      <div style="display: flex;flex-direction: column;border-top:1pt solid #e7e7e7e7;border-right:1pt solid #e7e7e7e7">
         <div>
-          <select id="select" onchange="atualizar_graficos(this.value)">
-            {% for rod in rodadas_ate_atual %}
-            <option  value="{{rod}}">{{rod}}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="chart-container-bar">
-          <canvas id="myBarChart" heigth="400"> </canvas>
+          <div class="card" >
+            <div>
+              <select id="select" onchange="atualizar_graficos(this.value)">
+                {% for rod in rodadas_ate_atual %}
+                <option  value="{{rod}}">{{rod}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="chart-container-bar">
+              <canvas id="myBarChart" heigth="400"> </canvas>
+            </div>
+          </div>
         </div>
       </div>
-      <div style="">
-        {% for area in areas %}
-          <div class="card" style="display:inline-block">
+      <div style="border-top: 1pt solid #e7e7e7e7;background: #fff">
+        {% for area in areas %}<div class="card" style="display:inline-block">
             <div class="chart-container-pie">
               <canvas id="chart-pie-{{area}}" width="100%" height="100%"></canvas>
             </div>
-          </div>
-        {% endfor %}
+          </div>{% endfor %}
+
       </div>
     </div>
   </div>

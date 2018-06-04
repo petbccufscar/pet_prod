@@ -114,7 +114,7 @@ div{
 .nav li{
   padding: 1em;
   align-content: center;
-  color: #fbb2b2;
+  color: #f8f8f8;
   cursor: pointer;
 }
 /* barra do topo */
@@ -577,6 +577,8 @@ div{
   color: #fff;
   border-top-left-radius: 3pt;
   border-top-right-radius: 3pt;
+  border-bottom: 1pt solid #666666;
+
 }
 .caixa > div:nth-child(2){
   padding: 0em;
@@ -596,7 +598,8 @@ div{
   width: 90%;
   margin: 0.1em;
   font-size: 17.5pt;
-  border-radius: 3pt;
+
+  box-shadow: 0 0 0 0 #fff;
 }
 .legenda img{
   filter: invert(100%);

@@ -74,7 +74,7 @@ class InstanciaJogo:
         InstanciaJogo.pausado = threading.Event()
         InstanciaJogo.timer_thread = t = Timer( InstanciaJogo.pausado, InstanciaJogo.jogo_atual)
         InstanciaJogo.jogo_lock = Lock()
-        InstanciaJogo.estado_jogo = "inicializado"
+        InstanciaJogo.estado_jogo = JG_PRONTO
 
     def avancar_rodada(self):
         pass
@@ -82,7 +82,7 @@ class InstanciaJogo:
     def init_timer(self):
         self.timer_thread.start()
         self.pausado.set()
-        InstanciaJogo.estado_jogo = "rodando"
+        InstanciaJogo.estado_jogo = JG_EXECUTANDO
 
     def pause(self):
         self.pausado.clear()
@@ -205,7 +205,10 @@ def __inicializa_jogo_pra_teste():
     i_jogo = InstanciaJogo()
     rodadas = Rodada.objects.all()
     times = []
-    times.append(Time("time2"))
+    times.append(Time("Time 1"))
+    tokens = utils.gerar_token(1)
+    times[-1].codigo_login = tokens[-1]
+    times.append(Time("Time 2"))
     tokens = utils.gerar_token(1)
     times[-1].codigo_login = tokens[-1]
     modulos = Modulo.objects.all()

@@ -32,7 +32,7 @@ def aplicar_acao(request):
     if acao == "start_jogo":
         if controlador.get_estado_jogo != "rodando":
             controlador.init_timer()
-            request.session['nome_time'] = "time2"
+            request.session['nome_time'] = "Time 1"
     if acao == "stop_jogo":
         pass
     return HttpResponse("grrrr")

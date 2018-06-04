@@ -615,13 +615,10 @@ def tela_de_jogo_hospital(request):
     return render(request, 'jogo/meu_hospital.html', contexto)
 
 def tela_de_jogo_dashboard(request):
-    if logica_jogo.JogoAtual is None:
-        return HttpResponse("Jogo Não Iniciado")
-    if 'nome_time' not in request.session:
-        return HttpResponse("Usuário Não Logado")
 
+    controlador = ctrler.InstanciaJogo()
     nome_time = request.session['nome_time']
-    time = logica_jogo.JogoAtual.times[nome_time]
+    time = controlador.jogo_atual.times[nome_time]
     labels = time.estatisticas.lista_demandas[0].keys()
     total_atendidos = time.estatisticas.lista_total_atendidos[0].values()
     procuraram_atendimento = time.estatisticas.lista_demandas[0].values()
@@ -639,7 +636,7 @@ def tela_de_jogo_dashboard(request):
         "procuraram_atendimento": aux,
         "labels_tabela": labels_tabela,
         "estatisticas": time.estatisticas.get_estatisticas(),
-        "rodadas": range(1,len(logica_jogo.JogoAtual.rodadas)+2),
+        "rodadas": range(1,len(controlador.jogo_atual.rodadas)+2),
         }
     return render(request, 'jogo/dashboard.html', contexto)
 
@@ -660,13 +657,24 @@ def pre_jogo_5(request):
 
 def logar(request):
     print(request.POST["senha"])
-    for time in logica_jogo.JogoAtual.times.values():
+    controlador = ctrler.InstanciaJogo()
+    if controlador.get_estado_jogo() == ctrler.JG_NAO_INICIADO:
+        return HttpResponse("Login Falhou: jogo não inicializado")
+
+    if controlador.get_estado_jogo() == ctrler.JG_NAO_INICIADO:
+        return HttpResponse("Login Falhou: jogo não inicializado")
+    logado = False
+    for time in controlador.jogo_atual.times.values():
         print("Tenho codigo login: ", time.codigo_login)
         print("Tenho request senha: ",request.POST["senha"] )
         if time.codigo_login == request.POST["senha"]:
             #request.session.clear()
+            logado = True
             request.session['nome_time'] = time.nome
-    return HttpResponse("sdasdf")
+    if logado:
+        return HttpResponse("Logado")
+    else:
+        return HttpResponse("Login Falhou: token inexistente")
 
 def login_jogador(request):
 
