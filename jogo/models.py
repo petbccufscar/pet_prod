@@ -83,8 +83,8 @@ class Rodada(models.Model):
 
 
 class Area_Classe_Social(models.Model):
-    area = models.ForeignKey(Area, on_delete=models.CASCADE)
-    classe_social = models.ForeignKey(Classe_Social, on_delete=models.CASCADE)
+    area = models.CharField(max_length=200)
+    classe_social = models.CharField(max_length=200)
     entrada = models.IntegerField(validators=[MinValueValidator(1)])
     desvios = models.IntegerField(validators=[MinValueValidator(0)])
 
