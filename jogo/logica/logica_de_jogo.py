@@ -79,6 +79,18 @@ class Logica(object):
 
         return False
 
+    def pedir_emprestimo(self, id_time, id_emprestimo):
+        print("VOU PEDIR UM EMPRESTIMO")
+        time = self.times[id_time]
+        if time.adicionar_emprestimo(id_emprestimo):
+            return True
+
+        return False
+
+
+
+
+
     def get_multiplicador(self, nomeEvento):
         evento = Evento.objects.get(nome=nomeEvento)
         multiplicadores  = {}
