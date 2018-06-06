@@ -14,7 +14,8 @@ from .models import Emprestimo
 from .forms import Emprestimo_Form
 from .models import Time
 from .forms import Time_Form
-from .models import Area, Area_Classe_Social
+from .models import Area
+from .models import Area_Classe_Social
 from .forms import Area_Form
 from .models import Classe_Social
 from .forms import Classe_Social_Form
@@ -267,10 +268,26 @@ def rodada_delete(request, id):
 
 def area_index(request):
     areas = Area.objects.order_by('id')
-    area_classe = Area_Classe_Social.objects.order_by('id')
-    print (areas)
-    print (area_classe)
-    return render(request, 'area/area_index.html', {'area_classe':area_classe,'areas':areas})
+    classes = Classe_Social.objects.all()
+    classesNomes = []
+    desvios_entradas_areas = []
+    valores = []
+    for c in classes:
+        classesNomes.append("Desvio " + c.nome)
+        classesNomes.append("Entrada " + c.nome)
+    for area in areas:
+        desvios_entradas = []
+        valores = []
+        for classe in classes:
+            area_classe = Area_Classe_Social.objects.get(area=area.nome, classe_social=classe.nome)
+            desvios_entradas.append(area_classe.desvios)
+            desvios_entradas.append(area_classe.entrada)
+        valores.append(area)
+        valores.append(desvios_entradas)
+        desvios_entradas_areas.append(valores)
+
+    print (desvios_entradas_areas)
+    return render(request, 'area/area_index.html', {'desvios_entradas_areas': desvios_entradas_areas , 'classesNomes': classesNomes})
 
 def area_new(request):
     if request.method == 'POST':
@@ -315,7 +332,7 @@ def area_new(request):
             list_entradas = iter(list_entradas)
             list_desvios = iter(list_desvios)
             for classe in Classe_Social.objects.order_by('id'):
-                area_classesocial = Area_Classe_Social(area=area,classe_social=classe,entrada=next(list_entradas),desvios=next(list_desvios))
+                area_classesocial = Area_Classe_Social(area=area.nome,classe_social=classe.nome,entrada=next(list_entradas),desvios=next(list_desvios))
                 area_classesocial.save()
 
             return HttpResponseRedirect('/area')
@@ -397,11 +414,11 @@ def area_edit(request, id):
                            'form_area_classesocial': form_area_classesocial,'list':list})
 
     form = Area_Form(instance=area)
-    area_classe = Area_Classe_Social.objects.order_by('id')
+    area_classes = Area_Classe_Social.objects.all()
     form_ac = []
     nomes = []
-    for a in area_classe:
-        if a.area_id == int(id):
+    for a in area_classes:
+        if a.area == area.nome :
             form_area_classesocial =  Area_Classe_Social_Form(instance=a)
             form_ac.append(form_area_classesocial)
 
@@ -507,6 +524,7 @@ def classe_social_new(request):
         print(request.POST)
         form = Classe_Social_Form(request.POST)
         eventos = Evento.objects.all()
+        areas = Area.objects.all()
         if form.is_valid():
             for evento in eventos:
                 multiplicador = Multiplicador()
@@ -514,6 +532,13 @@ def classe_social_new(request):
                 multiplicador.eventoNome = evento.nome
                 multiplicador.classeNome = form['nome'].value()
                 multiplicador.save()
+            for area in areas:
+                area_classe = Area_Classe_Social()
+                area_classe.area = area.nome
+                area_classe.classe_social = form['nome'].value()
+                area_classe.entrada = 1
+                area_classe.desvios = 0
+                area_classe.save()
             form.save()
             return HttpResponseRedirect('/classe_social')
         else:
@@ -527,7 +552,7 @@ def classe_social_edit(request, id):
     form = Classe_Social_Form(instance=classe)
     nomeClasse = Classe_Social_Form(instance=classe)['nome'].value()
     eventos = Evento.objects.all()
-
+    areas = Area.objects.all()
     if request.method == 'POST':
         form = Classe_Social_Form(request.POST, instance=classe)
         if form.is_valid():
@@ -535,6 +560,9 @@ def classe_social_edit(request, id):
                 multi = Multiplicador.objects.filter(eventoNome=evento.nome, classeNome=nomeClasse)
                 multi.update(classeNome=form['nome'].value())
             form.save()
+            for area in areas:
+                multi = Area_Classe_Social.objects.filter(area=area.nome, classe_social=nomeClasse)
+                multi.update(classe_social=form['nome'].value())
             return HttpResponseRedirect('/classe_social')
 
     return render(request, 'classe_social/classe_social_edit.html', {'form': form, 'id': id})
