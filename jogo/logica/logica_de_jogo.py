@@ -141,10 +141,18 @@ class Logica(object):
 
         if(self.rodada_atual == len(self.rodadas)):
             # Notificar fim de jogo
+            self.fim_de_jogo()
             return None
 
         # Notificar os clients que a proxima rodada comecou
         return self.rodadas[self.rodada_atual].duracao * 60 * 1000000
+
+    def fim_de_jogo(self):
+        #TODO: Todo o codigo de fim de jogo aqui (ou tudo no time(?))
+        print("fim de jogo")
+        for time in self.times.values():
+            time.estatisticas.fim_de_jogo()
+
 
     def atualiza_timer(self):
         timer = self.rodadas[0].duracao * 60 * 1000000

@@ -101,7 +101,6 @@ class Estatistica:
             lucro.append(total_entrada[-1] - total_saida[-1])
 
         data = {
-            # TODO: no futuro vai ter entrada e saida de emprestimo aqui
             'vendas_modulos': self.vendasModulo,
             'valores_emprestimos': self.lista_valores_emprestimos,
              'total_entrada': total_entrada,
@@ -120,6 +119,15 @@ class Estatistica:
             data.update({area: entradas_da_area})
         return data
 
+    def fim_de_jogo(self):
+        #TODO: Todo o codigo de fim de jogo de cada time (fechamento de contas).. tem mais coisa?
+
+        # Pagamento dos emprestimos
+        total_emprestimos = 0
+        for i in range(len(self.lista_valores_emprestimos)):
+            total_emprestimos += self.lista_valores_emprestimos[i]
+
+        self.caixa[-1] -= total_emprestimos
 
 class Time:
 
