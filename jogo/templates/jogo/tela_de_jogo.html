@@ -23,7 +23,7 @@
           <nav><ul class="submenu escondido">
             <li>Loja</li>
             <li onclick="mudar_aba('loja-medicos','Loja','Medicos');">Medicos</li>
-            <li onclick="mudar_aba('loja-modulos');mudar_area_modulos(null,'.area-{{areas.0}}')">Modulos</li>
+            <li onclick="mudar_aba('loja-modulos','Loja','Modulos');mudar_area_modulos(null,'.area-{{areas.0}}')">Modulos</li>
           </ul></nav>
         </div>
       </li>
@@ -31,8 +31,8 @@
         <div style="float: right">
           <nav><ul class="submenu escondido">
             <li>Hospital</li>
-            <li onclick="mudar_aba('hospital-medicos');atualizar_hospital_medicos()">Medicos</li>
-            <li onclick="mudar_aba('hospital-modulos');atualizar_hospital_modulos()">Modulos</li>
+            <li onclick="mudar_aba('hospital-medicos','Meu Hospital','Medicos');atualizar_hospital_medicos()">Medicos</li>
+            <li onclick="mudar_aba('hospital-modulos','Meu Hospital','Modulos');atualizar_hospital_modulos()">Modulos</li>
           </ul></nav>
         </div>
       </li>
@@ -40,8 +40,8 @@
         <div style="float: right">
           <nav><ul class="submenu escondido">
             <li>Estatisticas</li>
-            <li onclick="mudar_aba('estatisticas-tabela');atualizar_dashboard()">Tabela</li>
-            <li onclick="mudar_aba('estatisticas-dashboards');atualizar_graficos(0)">Dashboard</li>
+            <li onclick="mudar_aba('estatisticas-tabela','Dashboards','Rendimentos');atualizar_dashboard()">Tabela</li>
+            <li onclick="mudar_aba('estatisticas-dashboards','Dashboards','Graficos');atualizar_graficos(0)">Dashboard</li>
           </ul></nav>
         </div>
       </li>
@@ -221,11 +221,11 @@
         </div>
         {% for area, modulos in mod_p_area.items %}
         <div class="area area-{{area}}" style="overflow: auto;background: #f8f8f8f8;height:95%;padding:1em;">
-            {% for modulo in modulos%}
-            <div class="mod-place-holder" onclick="confirmacao(this.children[0],'modulo')">
+
+            {% for modulo in modulos%}<div class="mod-place-holder" onclick="confirmacao(this.children[0],'modulo')">
               <div class="card modulo" data-value="{{modulo.id}}" style="">
                 <div class="head">
-                  <div>10</div>
+                  <div class="qtd-disponiveis">10</div>
                   <div style="line-height:1.5em;margin:auto">
                     <span class="center-p">Cod.:<span id="codigo_modal_modulo" class="center-p">{{modulo.id}}</span>
                     </span>

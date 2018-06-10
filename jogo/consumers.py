@@ -4,6 +4,11 @@ from channels import Group
 
 
 # Connected to websocket.connect
+
+def ws_add_on_mercado(message):
+    message.reply_channel.send({"accept": True})
+    Group("mercado").add(message.reply_channel)
+
 def ws_add_on_rodada(message):
     message.reply_channel.send({"accept": True})
     Group("rodada").add(message.reply_channel)

@@ -3,18 +3,27 @@ socket_rodada = new WebSocket("ws://" + window.location.host + "/rodada/");
 var rodada_atual = 0;
 socket_rodada.onmessage = function(e) {
     document.getElementById("t_rodada").innerHTML = e.data;
-/*    rodada_atual += 1;
-    s = document.getElementById("select");
-    var option = document.createElement("option");
-    option.text = rodada_atual;
-    option.value = rodada_atual;
-    x.add(option);*/
      location.reload();
 }
 
 socket_rodada = new WebSocket("ws://" + window.location.host + "/timer/");
 socket_rodada.onmessage = function(e) {
     document.getElementById("t_timer").innerHTML = e.data;
+}
+
+socket_rodada = new WebSocket("ws://" + window.location.host + "/mercado/");
+socket_rodada.onmessage = function(e) {
+    msg = JSON.parse(e.data);
+    if(msg.tipo == "Modulo"){
+      cards = document.getElementsByClassName("modulo")
+      for(var i = 0; i < cards.length; i++){
+        if(cards[i].attributes["data-value"].value == msg.id){
+          cards[i].querySelector(".qtd-disponiveis").innerHTML = msg.qtd;
+          break;
+        }
+      }
+    }
+
 }
 
 
@@ -51,6 +60,10 @@ function mudar_aba(aba, sec, subsec){
   if(sec != undefined){
     document.getElementById("h-sec").innerHTML=sec;
     document.getElementById("h-aba").innerHTML=subsec;
+  }else{
+    document.getElementById("h-sec").innerHTML='---';
+    document.getElementById("h-aba").innerHTML='---';
+
   }
   aba_atual.style.display = "none";
   aba_atual = document.getElementById(aba);
@@ -70,7 +83,7 @@ centralizar();
 window.addEventListener('resize', function(){
   centralizar();
 }, true);
-mudar_aba('loja-modulos');
+mudar_aba('loja-modulos','Loja','Modulos');
 mudar_area_modulos(null,'.area-Pediatria');
 
 elements = document.querySelectorAll(('.nav.lateral > li'))

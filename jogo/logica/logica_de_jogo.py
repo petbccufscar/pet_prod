@@ -19,7 +19,7 @@ class Logica(object):
     def __init__(self, modulos, tps_medico, rodadas, times):
         self.qtd_rodadas = list(rodadas)
         self.medicos = {}
-        self.modulos = []
+        self.modulos = {}
         self.times = dict()
         self.rodadas = rodadas
         self.rodada_atual = 0
@@ -31,19 +31,20 @@ class Logica(object):
             # inicia todos os perfis existentes no bd com 3 médicos
             self.medicos[tp_med[0]] = tp_med[1]
         for modulo_id in modulos:
-            self.modulos.append(modulo_id)
+            self.modulos[modulo_id] = 5
 
     def add_time(self, time):
         self.times[time.nome] = time
 
     def comprar_modulo(self, id_time, id_modulo):
-        if id_modulo in self.modulos:           # verificação se existe esse módulo
+        if id_modulo in self.modulos.keys():           # verificação se existe esse módulo
             time = self.times[id_time]
             custo_modulo = Modulo.objects.get(id=id_modulo).custo_de_aquisicao
             if time.estatisticas.get_ultimo_caixa() >= custo_modulo:
                 time.adicionar_modulo(id_modulo)
                 time.estatisticas.comprasModulo[-1] += custo_modulo # [-1] acessa a última posição do vetor
                 time.estatisticas.caixa[-1] -= custo_modulo # ja deve ser feito essa conta na hora pois não pode ficar endividado por compra, apenas por má administração
+                self.modulos[id_modulo] = self.modulos[id_modulo] - 1;
                 return SUCESSO
             else:
                 return CAIXA_INSUFICIENTE

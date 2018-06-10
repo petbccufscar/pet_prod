@@ -2,6 +2,7 @@ from jogo.logica import logica_de_jogo as lj
 from jogo.logica import utils
 from jogo.models import Modulo, Medico, Rodada
 from jogo.logica.time import Time
+import jogo.logica.utils as utils
 from threading import Lock
 import datetime
 import threading
@@ -42,9 +43,11 @@ class Timer(threading.Thread):
             Group("timer").send({
             "text" : "%02d:%02d" % (minutos, segundos),
             })
+            print("%02d:%02d" % (minutos, segundos), file=open("timelog.txt", "a"))
             #print("timer: %0d" % (timer /1e6))
             sleep(0.5)
             if(self.timer < 0):
+                print("Nova Rodada:", file=open("timelog.txt", "a"))
                 self.timer = self.jogo.nova_rodada()
 
 
@@ -101,8 +104,13 @@ class InstanciaJogo:
             lj.CAIXA_INSUFICIENTE: (405, "Caixa Insuficiente"),
         }
         ret = None
+        qtd = -1
         with self.jogo_lock:
             ret = self.jogo_atual.comprar_modulo(nome_time, modulo_id)
+            qtd = self.jogo_atual.modulos[modulo_id]
+        Group("mercado").send({
+        "text" : utils.json_para_mercado("Modulo", modulo_id, qtd)
+        })
         return resultados[ret] # Retorna mensagem de erro ou sucesso
 
     def contratar_medico(self, nome_time, medico_id):
