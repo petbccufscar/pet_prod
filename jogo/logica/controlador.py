@@ -96,9 +96,14 @@ class InstanciaJogo:
         return "ok"
 
     def comprar_modulo(self, nome_time, modulo_id):
+        resultados = {
+            lj.SUCESSO: (200, "Modulo Comprado"),
+            lj.CAIXA_INSUFICIENTE: (405, "Caixa Insuficiente"),
+        }
+        ret = None
         with self.jogo_lock:
-            self.jogo_atual.comprar_modulo(nome_time, modulo_id)
-        return "ok" # Retorna mensagem de erro ou sucesso
+            ret = self.jogo_atual.comprar_modulo(nome_time, modulo_id)
+        return resultados[ret] # Retorna mensagem de erro ou sucesso
 
     def contratar_medico(self, nome_time, medico_id):
         with self.jogo_lock:
@@ -205,7 +210,7 @@ def __inicializa_jogo_pra_teste():
     i_jogo = InstanciaJogo()
     rodadas = Rodada.objects.all()
     times = []
-    times.append(Time("Time 1"))
+    times.append(Time("Time 1",200000))
     tokens = utils.gerar_token(1)
     times[-1].codigo_login = tokens[-1]
     times.append(Time("Time 2"))

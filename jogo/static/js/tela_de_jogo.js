@@ -158,6 +158,7 @@ function comprar_modulo(id) {
             //console.log(json); // log the returned json to the console
             //console.log("success"); // another sanity check
             caixa = document.getElementById("t_caixa");
+            toast("Modulo Comprado");
             //console.log(parseFloat(json));
             //console.log("coisos"+ caixa.innerHTML + json);
             animar_incremento(600,parseFloat(caixa.innerHTML),parseFloat(json), caixa);
@@ -165,8 +166,7 @@ function comprar_modulo(id) {
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            //console.log("erro"); // provide a bit more info about the error to the console
-            alert("Algo de errado não está certo!");
+            toast(xhr.responseText);
         }
     });
 };
@@ -204,6 +204,8 @@ function contratar_medico(id) {
           //  $('#post-text').val(''); // remove the value from the input
             //console.log(json); // log the returned json to the console
             //console.log("success"); // another sanity check
+            toast("Medico Contratado");
+
         },
 
         // handle a non-successful response
@@ -601,4 +603,15 @@ function grafico_barra(areas, total_atendidos, procuraram_atendimento){
     this.data = data;
     this.update()
   }.bind(myBarChart);
+}
+
+function toast(texto) {
+    var x = document.createElement("div")
+    document.body.appendChild(x)
+    x.className = "toast show";
+    x.innerHTML = texto
+    setTimeout(function(){
+      x.className = x.className.replace("show", "");
+      setTimeout (function(){document.body.removeChild(x)},2500)
+    }, 2000);
 }

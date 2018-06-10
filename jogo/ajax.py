@@ -50,8 +50,12 @@ def comprar_modulo(request):
     controlador = ctrler.InstanciaJogo()
     nome_time = request.session['nome_time']
     print("Modulo comprado")
-    controlador.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
-    return HttpResponse(controlador.get_caixa(nome_time))
+    estado, msg = controlador.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
+    if estado == 200:
+        return HttpResponse(controlador.get_caixa(nome_time), status=200)
+    else:
+        return HttpResponse(msg, status=estado)
+
 
 @ajax_sanitizer
 def contratar_medico(request):

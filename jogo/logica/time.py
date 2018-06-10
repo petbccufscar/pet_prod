@@ -131,12 +131,12 @@ class Estatistica:
 
 class Time:
 
-    def __init__(self, nome='Team with no name'):
+    def __init__(self, nome='Team with no name', caixa_inicial=200000):
         self.nome = nome
         self.medicos = []
         self.modulos = []
 
-        self.estatisticas = Estatistica()
+        self.estatisticas = Estatistica(caixa_inicial)
 
         self.atributos = {}
         self.nome = nome

@@ -11,6 +11,9 @@ from random import randint
 import _thread
 import random
 import datetime
+SUCESSO = 0
+CAIXA_INSUFICIENTE = 1
+ID_NAO_EXISTENTE = 2
 
 class Logica(object):
     def __init__(self, modulos, tps_medico, rodadas, times):
@@ -41,9 +44,9 @@ class Logica(object):
                 time.adicionar_modulo(id_modulo)
                 time.estatisticas.comprasModulo[-1] += custo_modulo # [-1] acessa a última posição do vetor
                 time.estatisticas.caixa[-1] -= custo_modulo # ja deve ser feito essa conta na hora pois não pode ficar endividado por compra, apenas por má administração
-                return True
+                return SUCESSO
             else:
-                return False
+                return CAIXA_INSUFICIENTE
 
     def vender_modulo(self, id_time, id_modulo):
         if self.rodada_atual < len(self.rodadas) - 1:         # Só pode vender módulos até antes do último mês
