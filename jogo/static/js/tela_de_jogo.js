@@ -47,7 +47,11 @@ function mudar_area_modulos(aba, classe){
 var aba_atual = document.getElementById("loja-medicos");
 aba_atual.style.display = "flex";
 
-function mudar_aba(aba){
+function mudar_aba(aba, sec, subsec){
+  if(sec != undefined){
+    document.getElementById("h-sec").innerHTML=sec;
+    document.getElementById("h-aba").innerHTML=subsec;
+  }
   aba_atual.style.display = "none";
   aba_atual = document.getElementById(aba);
   aba_atual.style.display = "flex";

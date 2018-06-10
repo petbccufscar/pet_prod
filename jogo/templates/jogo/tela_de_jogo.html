@@ -22,7 +22,7 @@
         <div style="float: right">
           <nav><ul class="submenu escondido">
             <li>Loja</li>
-            <li onclick="mudar_aba('loja-medicos')">Medicos</li>
+            <li onclick="mudar_aba('loja-medicos','Loja','Medicos');">Medicos</li>
             <li onclick="mudar_aba('loja-modulos');mudar_area_modulos(null,'.area-{{areas.0}}')">Modulos</li>
           </ul></nav>
         </div>
@@ -51,8 +51,8 @@
 
     <nav id="barra-top" style="height:10%">
       <ul class="nav top">
-        <li><span style="padding-right:0.5em;border-right: 1px solid #ccc">Seção</span>
-          <span style="padding-left:0.5em">aba</span></li>
+        <li><span id="h-sec" style="padding-right:0.5em;border-right: 1px solid #ccc">Seção</span>
+          <span id="h-aba" style="padding-left:0.5em">aba</span></li>
         <li style="margin-right:auto;margin-left:auto">
           <span style="padding-right:0.5em;border-right: 1px solid #ccc;"id="t_rodada">Rodada: {{rodada_atual}}
           </span>
