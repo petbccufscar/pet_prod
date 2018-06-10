@@ -101,15 +101,15 @@ class Estatistica:
             lucro.append(total_entrada[-1] - total_saida[-1])
 
         data = {
-            'vendas_modulos': self.vendasModulo,
-            'valores_emprestimos': self.lista_valores_emprestimos,
-             'total_entrada': total_entrada,
-            'custo_aquisicao': self.comprasModulo,
-            'custos_modulos': self.lista_manutencao_modulos,
-            'salarios_medicos': self.lista_salarios_medicos,
-            'total_saida': total_saida,
-            'lucro': lucro,
-            'caixa': self.caixa
+            'Vendas De Modulos': self.vendasModulo,
+            'Emprestimos': self.lista_valores_emprestimos,
+            'Total Entrada': total_entrada,
+            'Custo Aquisicao': self.comprasModulo,
+            'Custos Modulos': self.lista_manutencao_modulos,
+            'Salarios Medicos': self.lista_salarios_medicos,
+            'Total Saida': total_saida,
+            'Lucro': lucro,
+            'Caixa': self.caixa
         }
 
         # Adicionando lista de entradas por area
