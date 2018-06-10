@@ -25,12 +25,13 @@ class Evento(models.Model):
         return self.nome
 
     nome = models.CharField(max_length=50)
-    #TODO: esta hardcode deve ser uma lista de multiplicadores
-    multiplicador_classeA = models.FloatField(validators=[MinValueValidator(0.0)])
-    multiplicador_classeB = models.FloatField(validators=[MinValueValidator(0.0)])
-    multiplicador_classeC = models.FloatField(validators=[MinValueValidator(0.0)])
-    multiplicador_classeD = models.FloatField(validators=[MinValueValidator(0.0)])
-    multiplicador_classeE = models.FloatField(validators=[MinValueValidator(0.0)])
+
+
+class Multiplicador(models.Model):
+
+    eventoNome = models.CharField(max_length=50)
+    classeNome = models.CharField(max_length=50)
+    valor = models.FloatField(default=0, validators=[MinValueValidator(0.0)])
 
 
 class Emprestimo(models.Model):

@@ -17,8 +17,9 @@ from .models import Area
 from .models import Area_Classe_Social
 from .forms import Area_Form
 from .models import Classe_Social
-from .forms import Classe_Social_Form
+from .forms import Classe_Social_Form, Multiplicador_Form
 from .models import Rodada
+from .forms import Multiplicador
 from .forms import Rodada_Form
 from .forms import Modulo_Form
 from .forms import Area_Classe_Social_Form
@@ -132,36 +133,99 @@ def medico_delete(request, id):
 
 
 # VIEWS PARA EVENTO
+# VIEWS PARA EVENTO
 def evento_index(request):
     eventos = Evento.objects.all()
-    print(eventos)
-    return render(request, 'evento/evento_index.html', {'eventos': eventos})
+    classes = Classe_Social.objects.all()
+    mu = Multiplicador.objects.all()
+    for m in mu:
+        print(m.classeNome, " ", m.eventoNome, " ", m.valor, "\n")
+    listaEventos = []
+    for evento in eventos:
+        event = []
+        event.append(evento)
+        mult = []
+        for classe in classes:
+            multiplicadores = Multiplicador.objects.get(eventoNome=evento.nome, classeNome=classe.nome)
+            mult.append(multiplicadores)
+        event.append(mult)
+        listaEventos.append(event)
+        print(listaEventos)
+    return render(request, 'evento/evento_index.html', {'eventos': eventos, 'classes': classes, 'listaEventos':listaEventos})
 
 def evento_new(request):
+    classes = Classe_Social.objects.all()
     if request.method == 'POST':
         form = Evento_Form(request.POST)
-        if form.is_valid():
+        multiForm = []
+        for classe in classes:
+            mul = []
+            mul.append(classe)
+            m = Multiplicador_Form(request.POST)
+
+            mul.append(m)
+            multiForm.append(mul)
+
+        if (form.is_valid()):
             form.save()
+
+            for e, multi in multiForm:
+                multiplicador = Multiplicador()
+                multiplicador.valor = multi['valor'].value()
+                multiplicador.eventoNome = form['nome'].value()
+                multiplicador.classeNome = e.nome
+                multiplicador.save()
+
+                print(Multiplicador.objects.all())
             return HttpResponseRedirect('/evento')
         else:
-            return render(request, 'evento/evento_new.html', {'form': form})
+            print(form.errors)
+            return render(request, 'evento/evento_new.html', {'form': form, 'multiForm': multiForm})
     else:
         form = Evento_Form()
-        return render(request, 'evento/evento_new.html', {'form': form})
+        multiForm = []
+        for classe in classes:
+            mul = []
+            mul.append(classe)
+            m = Multiplicador_Form()
+            mul.append(m)
+            multiForm.append(mul)
+        return render(request, 'evento/evento_new.html', {'form': form, 'multiForm': multiForm})
 
 
 def evento_edit(request, id):
     evento = get_object_or_404(Evento, pk=id)
+    eventoNome = get_object_or_404(Evento, pk=id).nome
     form = Evento_Form(instance=evento)
+    multiplicadores = Multiplicador.objects.all()
+    classes = Classe_Social.objects.all()
+    multiForm = []
+    for classe in classes:
+        for multiplicador in multiplicadores:
+            mul = []
+            if(multiplicador.classeNome == classe.nome and multiplicador.eventoNome == evento.nome):
+                mul.append(classe)
+                m = Multiplicador_Form(request.POST)
+                mul.append(m)
+                multiForm.append(mul)
 
     if request.method == 'POST':
         form = Evento_Form(request.POST, instance=evento)
+
+        for e, multi in multiForm:
+            mul = Multiplicador.objects.filter(eventoNome=eventoNome, classeNome=e.nome)
+            mul.update(valor=multi['valor'].value(), eventoNome=form['nome'].value())
+
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/evento')
-    return render(request, 'evento/evento_edit.html', {'form': form})
+    return render(request, 'evento/evento_edit.html', {'form': form, 'multiForm': multiForm})
 
 def evento_delete(request, id):
+    classes = Classe_Social.objects.all()
+    evento = get_object_or_404(Evento, pk=id)
+    for classe in classes:
+        Multiplicador.objects.filter(eventoNome=evento.nome, classeNome=classe.nome).delete()
     get_object_or_404(Evento, pk=id).delete()
     return HttpResponseRedirect('/evento')
 
