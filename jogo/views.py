@@ -514,7 +514,6 @@ def emprestimo_delete(request, id):
     return HttpResponseRedirect('/emprestimo')
 
 
-#Views para Classe Social
 def classe_social_index(request):
     classes = Classe_Social.objects.order_by('id')
     return render(request, 'classe_social/classe_social_index.html', {'classes':classes})
@@ -556,6 +555,9 @@ def classe_social_edit(request, id):
     if request.method == 'POST':
         form = Classe_Social_Form(request.POST, instance=classe)
         if form.is_valid():
+            for evento in eventos:
+                multi = Multiplicador.objects.filter(eventoNome=evento.nome, classeNome=nomeClasse)
+                multi.update(classeNome=form['nome'].value())
             form.save()
             for area in areas:
                 multi = Area_Classe_Social.objects.filter(area=area.nome, classe_social=nomeClasse)
@@ -565,6 +567,10 @@ def classe_social_edit(request, id):
     return render(request, 'classe_social/classe_social_edit.html', {'form': form, 'id': id})
 
 def classe_social_delete(request, id):
+    eventos = Evento.objects.all()
+    classe = get_object_or_404(Classe_Social, pk=id)
+    for evento in eventos:
+        Multiplicador.objects.filter(eventoNome=evento.nome, classeNome=classe.nome).delete()
     get_object_or_404(Classe_Social, pk=id).delete()
     return HttpResponseRedirect('/classe_social')
 
