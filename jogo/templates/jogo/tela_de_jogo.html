@@ -113,7 +113,7 @@
             <div class="med-place-holder" onclick="confirmacao(this.children[0],'medico')">
               <div class="card medico" onclick="" data-value="{{medico.id}}">
                 <div class="head">
-                  <div>10</div>
+                  <div class="qtd-disponiveis">{{medico.qtd_disponiveis}}</div>
                   <div style="line-height:1.5em;margin:auto">
                     <span>Perfil:</span><span id="codigo_modal_modulo" class="center-p">{{medico.id}}</span>
                   </div>
@@ -225,7 +225,7 @@
             {% for modulo in modulos%}<div class="mod-place-holder" onclick="confirmacao(this.children[0],'modulo')">
               <div class="card modulo" data-value="{{modulo.id}}" style="">
                 <div class="head">
-                  <div class="qtd-disponiveis">10</div>
+                  <div class="qtd-disponiveis">{{modulo.qtd_disponiveis}}</div>
                   <div style="line-height:1.5em;margin:auto">
                     <span class="center-p">Cod.:<span id="codigo_modal_modulo" class="center-p">{{modulo.id}}</span>
                     </span>

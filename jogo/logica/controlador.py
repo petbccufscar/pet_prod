@@ -114,8 +114,13 @@ class InstanciaJogo:
         return resultados[ret] # Retorna mensagem de erro ou sucesso
 
     def contratar_medico(self, nome_time, medico_id):
+        qtd = -1
         with self.jogo_lock:
             self.jogo_atual.comprar_medico(nome_time, medico_id)
+            qtd = self.jogo_atual.medicos[medico_id]
+        Group("mercado").send({
+        "text" : utils.json_para_mercado("Medico", medico_id, qtd)
+        })
         return "ok"
 
     def despedir_medico(self, nome_time, medico_id):
@@ -198,6 +203,7 @@ class InstanciaJogo:
             modulo.preco_do_tratamento = "{:,.0f}".format(modulo.preco_do_tratamento)
             modulo.tecnologia = range(0, modulo.tecnologia)
             modulo.conforto = range(0, modulo.conforto)
+            modulo.__dict__["qtd_disponiveis"] = modulos[id_mod]
 
         return list(modulos_p_areas.keys()), modulos_p_areas
 

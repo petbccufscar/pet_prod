@@ -14,13 +14,16 @@ socket_rodada.onmessage = function(e) {
 socket_rodada = new WebSocket("ws://" + window.location.host + "/mercado/");
 socket_rodada.onmessage = function(e) {
     msg = JSON.parse(e.data);
-    if(msg.tipo == "Modulo"){
+    var cards = undefined
+    if(msg.tipo == "Modulo")
       cards = document.getElementsByClassName("modulo")
-      for(var i = 0; i < cards.length; i++){
-        if(cards[i].attributes["data-value"].value == msg.id){
-          cards[i].querySelector(".qtd-disponiveis").innerHTML = msg.qtd;
-          break;
-        }
+    else if(msg.tipo == "Medico")
+      cards = document.getElementsByClassName("medico")
+
+    for(var i = 0; i < cards.length; i++){
+      if(cards[i].attributes["data-value"].value == msg.id){
+        cards[i].querySelector(".qtd-disponiveis").innerHTML = msg.qtd;
+        break;
       }
     }
 
