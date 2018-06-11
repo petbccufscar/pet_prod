@@ -16,6 +16,12 @@
     src: "/font/WorkSans-Regular.ttf";
 }
 
+@font-face {
+    font-family: glyphicons-halflings-regular;
+    src: url('/static/fonts/glyphicons-halflings-regular.eot');
+    src: url('/static/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/static/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/static/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/static/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
 body{
   padding: 0px;
   margin: 0px;
@@ -127,7 +133,7 @@ div{
 }
 
 .nav.lateral{
-  max-height: 100vh;
+  min-height: 100vh;
   min-width: 5.5em;
   display:flex;
   flex-direction: column;
@@ -136,22 +142,20 @@ div{
 }
 
 .nav.lateral > li{
-  margin-top: 1.2em;
-  padding-left: 0;
+  padding: 0;
   padding-right: 0;
   width: 100%;
-  text-align: center;
+  text-align: left;
 }
 
 .lateral li:last-child{
   margin-bottom: auto;
 }
 .imagem-logo{
-  padding: 0.2em;
-  margin:0px;
-  margin-bottom: 0.5em;
-  height: 4.5em;
-  width: 4.5em;
+  padding: 0;
+  margin: 0;
+  height: 3em;
+  width: 3em;
 }
 
 .nav.lateral .submenu{
@@ -202,7 +206,7 @@ div{
 #h-lateral{
     text-align: center;
     margin-top: 2em;
-    margin-bottom: 3%;
+    margin-bottom: 2em;
     padding: 0;
 }
 
@@ -672,4 +676,57 @@ However, delay the fade out process for 2.5 seconds */
 @keyframes fadeout {
    from {bottom: 30px; opacity: 1;}
    to {bottom: 0; opacity: 0;}
+}
+
+.collapsible {
+    background-color: var(--main-bg-color);
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.active, .collapsible:hover {
+    background-color: #2a2a2a;
+}
+
+.content {
+    padding: 0 1.2em;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+}
+
+.collapsible.barra-lateral{
+  display: flex;
+}
+
+.collapsible.barra-lateral div{
+  color: #fff;
+  padding-left: 1em;
+  font-size:12pt;
+  display:flex;
+  margin-top:auto;
+  margin-bottom:auto;
+}
+
+.collapsible.barra-lateral svg{
+  fill:#fff;
+  height:2.2em;
+  width:2.2em
+}
+
+.content.barra-lateral{
+  background-color: var(--main-bg-color);
+}
+.content.barra-lateral > div{
+  height: 1.5em;
+  font-size: 12pt;
+  color: #fff;
+  padding-top: 1em;
 }
