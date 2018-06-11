@@ -154,8 +154,8 @@ div{
 .imagem-logo{
   padding: 0;
   margin: 1em;
-  height: 3em;
-  width: 3em;
+  height: 4em;
+  width: 4em;
 }
 
 .nav.lateral .submenu{
@@ -206,7 +206,7 @@ div{
 #h-lateral{
     text-align: center;
     margin-top: 2em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     padding: 0;
 }
 

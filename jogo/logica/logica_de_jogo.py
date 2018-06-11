@@ -92,9 +92,6 @@ class Logica(object):
         return False
 
 
-
-
-
     def get_multiplicador(self, nomeEvento):
         evento = Evento.objects.get(nome=nomeEvento)
         multiplicadores  = {}

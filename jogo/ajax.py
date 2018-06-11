@@ -30,11 +30,15 @@ def aplicar_acao(request):
     acao = request.POST['acao']
     controlador = ctrler.InstanciaJogo()
     if acao == "start_jogo":
-        if controlador.get_estado_jogo != "rodando":
+        if controlador.get_estado_jogo() != ctrler.JG_EXECUTANDO:
             controlador.init_timer()
             request.session['nome_time'] = "Time 1"
     if acao == "stop_jogo":
-        pass
+        if controlador.get_estado_jogo() == ctrler.JG_EXECUTANDO:
+            controlador.finalizar_jogo()
+    if acao == "avancar_rodada":
+        if controlador.get_estado_jogo() == ctrler.JG_EXECUTANDO:
+            controlador.avancar_rodada()
     return HttpResponse("grrrr")
 
 @ajax_sanitizer

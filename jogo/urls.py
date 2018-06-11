@@ -64,6 +64,7 @@ urlpatterns = [
     url(r'^jogo/hospital/$', views.tela_de_jogo_hospital, name='tela_de_jogo_hospital'),
     url(r'^jogo/dashboard', views.tela_de_jogo_dashboard, name='tela_de_jogo_dashboard'),
     url(r'^jogo/dados_graficos', ajax.tela_de_jogo_graficos, name='tela_de_jogo_graficos'),
+    url(r'^jogo/ranking/$', views.jogo_ranking, name='jogo_ranking'),    
 
     url(r'^jogo/$', views.tela_de_jogo, name='tela_de_jogo'),
 

@@ -14,6 +14,7 @@ JG_PRONTO = 0
 JG_PAUSADO = 1
 JG_NAO_INICIADO = 2
 JG_EXECUTANDO = 3
+JG_FINALIZADO = 4
 
 
 class Timer(threading.Thread):
@@ -23,14 +24,22 @@ class Timer(threading.Thread):
         self.atualiza_timer = jogo.atualiza_timer;
         self.jogo = jogo
         self.timer = None
+        self.lock = Lock()
+        self.fim_jogo = False
+        self.waiting = threading.Event()
 
     def run(self):
         self.timer = self.jogo.rodadas[0].duracao * 60 * 1000000
         anterior = datetime.datetime.utcnow()
         #print (anterior)
+        Group("rodada").send({
+        "text": "Rodada: %s" % str(1),
+        })
         while self.timer is not None:
             if self.se_pausado.isSet() == False:
+                self.waiting.set()
                 self.se_pausado.wait()
+                self.waiting.clear()
                 anterior = datetime.datetime.utcnow()
 
             atual = datetime.datetime.utcnow()
@@ -46,10 +55,17 @@ class Timer(threading.Thread):
             print("%02d:%02d" % (minutos, segundos), file=open("timelog.txt", "a"))
             #print("timer: %0d" % (timer /1e6))
             sleep(0.5)
+            with self.lock:
+                if self.fim_jogo:
+                    break;
             if(self.timer < 0):
                 print("Nova Rodada:", file=open("timelog.txt", "a"))
                 self.timer = self.jogo.nova_rodada()
 
+        InstanciaJogo.estado_jogo = JG_FINALIZADO
+        Group("rodada").send({
+        "text": "Rodada:",
+        })
 
 class InstanciaJogo:
     jogo_atual = None
@@ -80,7 +96,18 @@ class InstanciaJogo:
         InstanciaJogo.estado_jogo = JG_PRONTO
 
     def avancar_rodada(self):
-        pass
+        self.pausado.clear()
+        print("wtf")
+        self.timer_thread.waiting.wait()
+        print("wtff")
+        self.timer_thread.timer = self.jogo_atual.nova_rodada();
+        segundos = (round(self.timer_thread.timer/1e6)) % 60
+        minutos = (round(self.timer_thread.timer)/1e6)/60
+        Group("timer").send({
+        "text" : "%02d:%02d" % (minutos, segundos),
+        })
+        self.pausado.set()
+        print("saind0")
 
     def init_timer(self):
         self.timer_thread.start()
@@ -92,6 +119,11 @@ class InstanciaJogo:
 
     def resume(self):
         self.pausado.set()
+
+    def finalizar_jogo(self):
+        with self.timer_thread.lock:
+            self.timer_thread.fim_jogo = True
+            self.timer_thread.fim_jogo.join()
 
     def vender_modulo(self, nome_time, modulo_id):
         with self.jogo_lock:
@@ -217,6 +249,11 @@ class InstanciaJogo:
             temp["total_atendidos"] =  estat.lista_total_atendidos[rodada][area]
             data[area] = temp
         return data
+
+    def pontuacao(self):
+        with self.jogo_lock:
+            return [(x.nome, x.estatisticas.get_ultimo_caixa()) for x in self.jogo_atual.times.values()]
+
 
 def __inicializa_jogo_pra_teste():
     if(InstanciaJogo.jogo_atual != None):

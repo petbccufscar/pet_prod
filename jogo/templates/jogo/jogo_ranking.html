@@ -1,0 +1,57 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <style>
+      body{
+        display: flex;
+        height: 70%;
+        background: #fbfbfb;
+      }
+      table{
+        margin: auto;
+        border-collapse: collapse;
+      }
+      thead{
+        padding: 0;
+        border-bottom: 2pt solid #e8e8e8;
+        border-top-right-radius: 3pt;
+        border-top-left-radius: 3pt;
+        background: #f8f8f8;
+      }
+      th{
+        padding: 0.5em;
+      }
+      td{
+        background: #fff;
+        padding: 0.5em;
+        border-bottom: 2pt solid #e8e8e8;
+      }
+    </style>
+
+    <table>
+      <thead>
+        <tr>
+          <th>
+            Time
+          </th>
+          <th>
+            Caixa Final
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in scores %}
+        <tr>
+          <td>
+            {{s.0}}
+          </td>
+          <td>
+            {{s.1}}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+<html>
