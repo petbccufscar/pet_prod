@@ -14,6 +14,8 @@ import datetime
 SUCESSO = 0
 CAIXA_INSUFICIENTE = 1
 ID_NAO_EXISTENTE = 2
+MOMENTO_RUIM = 3
+NAO_DISPONIVEL = 4
 
 class Logica(object):
     def __init__(self, modulos, tps_medico, rodadas, times):
@@ -48,6 +50,8 @@ class Logica(object):
                 return SUCESSO
             else:
                 return CAIXA_INSUFICIENTE
+        else:
+            return ID_NAO_EXISTENTE
 
     def vender_modulo(self, id_time, id_modulo):
         if self.rodada_atual < len(self.rodadas) - 1:         # Só pode vender módulos até antes do último mês
@@ -57,20 +61,20 @@ class Logica(object):
                 custo_modulo = Modulo.objects.get(id=id_modulo).custo_de_aquisicao * 0.4 # o módulo é vendido por 40% do preco de aquisição
                 time.estatisticas.vendasModulo[-1] += custo_modulo  # [-1] acessa a última posição do vetor
                 time.estatisticas.caixa[-1] += custo_modulo  # para ser igual a compra, a venda já é calculada agora
-                return True
+                return SUCESSO
             else:
-                return False
+                return ID_NAO_EXISTENTE
         else:
-            return False
+            return MOMENTO_RUIM
 
     def comprar_medico(self, id_time, perfil_medico):
         if (self.medicos[perfil_medico] > 0):
             time = self.times[id_time]
             time.adicionar_medico(perfil_medico)
             self.medicos[perfil_medico] -= 1
-            return True
+            return SUCESSO
         else:
-            return False
+            return NAO_DISPONIVEL
 
     def vender_medico(self, id_time, perfil_medico):
         #TODO: fazer verificação se pode vender o médico .. 3 meses depois de contratado?
@@ -79,17 +83,17 @@ class Logica(object):
         time = self.times[id_time]
         if (time.remover_medico(perfil_medico)):
             self.medicos[perfil_medico] += 1
-            return True
+            return SUCESSO
 
-        return False
+        return ID_NAO_EXISTENTE
 
     def pedir_emprestimo(self, id_time, id_emprestimo):
         print("VOU PEDIR UM EMPRESTIMO")
         time = self.times[id_time]
         if time.adicionar_emprestimo(id_emprestimo):
-            return True
+            return SUCESSO
 
-        return False
+        return NAO_DISPONIVEL
 
 
     def get_multiplicador(self, nomeEvento):
