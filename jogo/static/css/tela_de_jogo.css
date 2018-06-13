@@ -61,37 +61,13 @@ div{
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-/* Modal Content Modulo */
-.modal-content-modulo {
-  border-radius: 5px;
-  border:1px solid black;
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
-  height: 400px;
-  margin: 10px;
-  box-shadow: 2px 4px 4px 2px rgba(0,0,0,0.2);
+/* Modal Content Emprestimo*/
+.modal-content-emprestimo {
   background-color: #fefefe;
   margin: auto;
+  padding: 20px;
   border: 1px solid #888;
-  width: 50%;
-}
-
-
-/* Modal Content */
-.modal-content-medico {
-  border-radius: 5px;
-  border:1px solid black;
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  height: 250px;
-  margin: 10px;
-  box-shadow: 2px 4px 4px 2px rgba(0,0,0,0.2);
-  background-color: #fefefe;
-  margin: auto;
-  border: 1px solid #888;
-  width: 50%;
+  width: 30em;
 }
 
 .none {
@@ -727,4 +703,26 @@ However, delay the fade out process for 2.5 seconds */
   font-size: 12pt;
   color: #fff;
   padding-top: 1em;
+
+#mainselection select {
+   border: 0;
+   color: #EEE;
+   background: transparent;
+   font-size: 20px;
+   font-weight: bold;
+   padding: 2px 10px;
+   width: 378px;
+   *width: 350px;
+   *background: #000;
+   -webkit-appearance: none;
+}
+
+#mainselection {
+   overflow:hidden;
+   width:350px;
+   -moz-border-radius: 9px 9px 9px 9px;
+   -webkit-border-radius: 9px 9px 9px 9px;
+   border-radius: 9px 9px 9px 9px;
+   background:  #bf4234 url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 319px center;
+
 }

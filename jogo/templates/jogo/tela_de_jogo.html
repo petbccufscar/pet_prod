@@ -8,7 +8,30 @@
   <link rel="stylesheet" href="{% static 'css/timer.css' %}">
   <title>{% block title %}{% endblock %}</title>
 </head>
+
 <body style="display:flex;height:100vh">
+
+  <div id="modalA" class="modal">
+    <div id="modal_emprestimo" class="modal-content-emprestimo" style="text-align:center">
+      <div class = "head">
+        Empréstimo
+      </div>
+      <p>========================================</p>
+      <p>Realizar Empréstimo</p>
+      <div id = "mainselection" style="margin:auto">
+        <select>
+          <option value="Valor 1">Valor 1</option>
+          <option value="Valor 2">Valor 2</option>
+          <option value="Valor 3">Valor 3</option>
+          <option value="Valor 4">Valor 4</option>
+        </select>
+      </div>
+      <br>
+      <button class="btn">Confirmar</button>
+      <p>========================================</p>
+      <p>Empréstimos Realizados</p>
+    </div>
+  </div>
   <div id="modalB" class="modal">
   </div>
 
@@ -98,7 +121,7 @@
 
       </li>
       <li style="background:#8e9ac9;height:100%">
-        <div style="height:100%;width:3em">
+        <div style="height:100%;width:3em" onclick="abrir_informacoes_emprestimo()">
           <svg version="1.1" style="fill:#fff" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
             <g>

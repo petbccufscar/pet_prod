@@ -270,98 +270,9 @@ function despedir_medico(id) {
     });
 };
 
-function busca_modulo(id_modulo_buscar, acao){
+function abre_emprestimos(id_medico_buscar, acao){
   $.ajax({
-      url : "busca_modulo/",
-      type : "POST",
-      data : {modulo_id: id_modulo_buscar}, // data sent with the post request
-
-      // handle a successful response
-      success : function(json) {
-          //console.log("success");
-          var modulo = JSON.parse(json)[0];
-          abrir_informacoes_modulo(modulo, acao);
-      },
-
-      // handle a non-successful response
-      error : function(xhr,errmsg,err) {
-          //console.log("erro");
-      }
-  });
-}
-
-function abrir_informacoes_modulo(modulo, acao){
-
-  var modal = document.getElementById('modalModulo');
-
-  var b_cmpr = document.getElementById("b_comprar");
-
-  var close = document.getElementsByClassName("close")[0];
-
-  var codigo = document.getElementById("codigo_modal_modulo");
-  codigo.innerHTML = modulo.pk;
-
-  var preco = document.getElementById("preco_modal_modulo");
-  preco.innerHTML = modulo.fields.custo_de_aquisicao;
-
-  var custo = document.getElementById("custo_modal_modulo");
-  custo.innerHTML = modulo.fields.custo_mensal;
-
-  var tratamento = document.getElementById("tratamento_modal_modulo");
-  tratamento.innerHTML = modulo.fields.preco_do_tratamento;
-
-  var capacidade = document.getElementById("capacidade_modal_modulo");
-  capacidade.innerHTML = modulo.fields.capacidade;
-
-  var conforto = document.getElementById("conforto_modal_modulo");
-  conforto.innerHTML = ""
-  for (i = 0; i < modulo.fields.conforto; i++)
-  {
-    conforto.innerHTML = "<i class=\"fa fa-heart\" style=\"font-size:25px;color:#ef4646\"></i>" + conforto.innerHTML;
-  }
-
-  var tecnologia = document.getElementById("tecnologia_modal_modulo");
-  tecnologia.innerHTML = ""
-  for (i = 0; i < modulo.fields.tecnologia; i++)
-  {
-    tecnologia.innerHTML = "<i class=\"fa fa-medkit\" style=\"font-size:25px;color:blue\"></i>" + tecnologia.innerHTML;
-  }
-
-  modal.style.display = "block";
-  close.onclick = function() {
-      modal.style.display = "none";
-  }
-  window.onclick = function(event) {
-      if (event.target == modal) {
-          modal.style.display = "none";
-      }
-  }
-
-  switch(acao) {
-    case "comprar_modulo":
-        b_cmpr.innerHTML= "Comprar";
-        b_cmpr.onclick = function() {
-          //console.log("kay");
-          comprar_modulo(modulo.pk);
-          modal.style.display = "none"
-        }
-        break;
-    case "vender_modulo":
-          b_cmpr.innerHTML= "Vender";
-          b_cmpr.onclick = function() {
-          //console.log("kay");
-          vender_modulo(modulo.pk);
-          modal.style.display = "none"
-        }
-        break;
-    default:
-        ;
-  }
-}
-
-function busca_medico(id_medico_buscar, acao){
-  $.ajax({
-      url : "busca_medico/",
+      url : "abre_emprestimos/",
       type : "POST",
       data : {medico_id: id_medico_buscar}, // data sent with the post request
 
@@ -369,7 +280,7 @@ function busca_medico(id_medico_buscar, acao){
       success : function(json) {
           //console.log("success");
           var medico = JSON.parse(json)[0];
-          abrir_informacoes_medico(medico, acao);
+          abrir_informacoes_emprestimo();
       },
 
       // handle a non-successful response
@@ -379,68 +290,14 @@ function busca_medico(id_medico_buscar, acao){
   });
 }
 
-function abrir_informacoes_medico(medico, acao){
-
-  var modal = document.getElementById('modalMedico');
-
-  var b_cmpr = document.getElementById("b_comprar_med");
-
-  var close = document.getElementById("b_cancelar_med");
-
-  var perfil = document.getElementById("perfil_modal_medico");
-  perfil.innerHTML = medico.pk;
-
-  var salario = document.getElementById("salario_modal_medico");
-  salario.innerHTML = medico.fields.salario;
-
-  var pontualidade = document.getElementById("pontualidade_modal_medico");
-  pontualidade.innerHTML = ""
-  for (i = 0; i < medico.fields.pontualidade; i++)
-  {
-    pontualidade.innerHTML = "<i class=\"far fa-clock\" style=\"font-size:25px;color:blue\"></i>" + pontualidade.innerHTML;
-  }
-
-  var expertise = document.getElementById("expertise_modal_medico");
-  expertise.innerHTML = ""
-  for (i = 0; i < medico.fields.expertise; i++)
-  {
-    expertise.innerHTML = "<i class=\"fas fa-graduation-cap\" style=\"font-size:25px\">" + expertise.innerHTML;
-  }
-
-  var atendimento = document.getElementById("atendimento_modal_medico");
-  atendimento.innerHTML = ""
-  for (i = 0; i < medico.fields.atendimento; i++)
-  {
-    atendimento.innerHTML = "<i class=\"fas fa-user-md\" style=\"font-size:25px;color:green\"></i>" + atendimento.innerHTML;
-  }
-
+function abrir_informacoes_emprestimo(){
+  var modal = document.getElementById("modalA");
   modal.style.display = "block";
-  close.onclick = function() {
-      modal.style.display = "none";
-  }
-  window.onclick = function(event) {
-      if (event.target == modal) {
-          modal.style.display = "none";
-      }
-  }
 
-  switch(acao) {
-    case "contratar_medico":
-        b_cmpr.innerHTML= "Contratar";
-        b_cmpr.onclick = function() {
-          contratar_medico(medico.pk);
-          modal.style.display = "none"
-        }
-        break;
-    case "despedir_medico":
-          b_cmpr.innerHTML= "Despedir";
-          b_cmpr.onclick = function() {
-          despedir_medico(medico.pk);
-          modal.style.display = "none"
-        }
-        break;
-    default:
-        ;
+  window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
   }
 }
 

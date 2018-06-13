@@ -79,12 +79,8 @@ def despedir_medico(request):
     print("despedido")
     return HttpResponse("despedido")
 
-def busca_modulo(request):
+def abre_emprestimos(request):
     data = serializers.serialize("json", [Modulo.objects.get(id = request.POST["modulo_id"]), ])
-    return HttpResponse(data)
-
-def busca_medico(request):
-    data = serializers.serialize("json", [Medico.objects.get(id = request.POST["medico_id"]), ])
     return HttpResponse(data)
 
 @ajax_sanitizer
