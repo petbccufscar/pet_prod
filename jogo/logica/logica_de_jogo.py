@@ -16,6 +16,7 @@ CAIXA_INSUFICIENTE = 1
 ID_NAO_EXISTENTE = 2
 MOMENTO_RUIM = 3
 NAO_DISPONIVEL = 4
+PRECISA_DE_MAIS_MEDICOS = 5
 
 class Logica(object):
     def __init__(self, modulos, tps_medico, rodadas, times):
@@ -43,11 +44,14 @@ class Logica(object):
             time = self.times[id_time]
             custo_modulo = Modulo.objects.get(id=id_modulo).custo_de_aquisicao
             if time.estatisticas.get_ultimo_caixa() >= custo_modulo:
-                time.adicionar_modulo(id_modulo)
-                time.estatisticas.comprasModulo[-1] += custo_modulo # [-1] acessa a última posição do vetor
-                time.estatisticas.caixa[-1] -= custo_modulo # ja deve ser feito essa conta na hora pois não pode ficar endividado por compra, apenas por má administração
-                self.modulos[id_modulo] = self.modulos[id_modulo] - 1;
-                return SUCESSO
+                if time.cabe_comprar_modulo():
+                    time.adicionar_modulo(id_modulo)
+                    time.estatisticas.comprasModulo[-1] += custo_modulo # [-1] acessa a última posição do vetor
+                    time.estatisticas.caixa[-1] -= custo_modulo # ja deve ser feito essa conta na hora pois não pode ficar endividado por compra, apenas por má administração
+                    self.modulos[id_modulo] = self.modulos[id_modulo] - 1;
+                    return SUCESSO
+                else:
+                    return PRECISA_DE_MAIS_MEDICOS
             else:
                 return CAIXA_INSUFICIENTE
         else:
@@ -78,8 +82,6 @@ class Logica(object):
 
     def vender_medico(self, id_time, perfil_medico):
         #TODO: fazer verificação se pode vender o médico .. 3 meses depois de contratado?
-        # retorna true caso tenha tido sucesso, e false caso contrario
-        # lembrar disso quando criar a view para renderizar a resposta correta
         time = self.times[id_time]
         if (time.remover_medico(perfil_medico)):
             self.medicos[perfil_medico] += 1

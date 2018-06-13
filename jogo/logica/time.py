@@ -148,10 +148,11 @@ class Time:
     # retorna true caso a operacao tenha sido bem sucedida
     def remover_medico(self, med_id):
         if med_id in self.medicos:
-            self.medicos.remove(med_id)
-            return True
-        else:
-            return False
+            if len(self.medicos) > len(self.modulos):
+                self.medicos.remove(med_id)
+                return True
+
+        return False
 
     def adicionar_modulo(self, mod_id):
         self.modulos.append(mod_id)
@@ -178,6 +179,12 @@ class Time:
 
             print("CAIXA DEPOIS: ",  self.estatisticas.caixa[-1])
             return True
+
+    def cabe_comprar_modulo(self):
+        if len(self.modulos) < len(self.medicos):
+            return True
+        else:
+            return False
 
     def atributos_medicos(self):
         expertise = 0
