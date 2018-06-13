@@ -22,6 +22,7 @@
                 <th>Duração</th>
                 <th>Evento</th>
                 <th>Editar</th>
+                <th>Deletar</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,7 @@
                     <td>{{rodada.duracao}}</td>
                     <td>{{rodada.evento.nome}}</td>
                     <td><a href="{% url 'jogo:rodada_edit' rodada.id %}"><button type="button" class="btn btn-warning">Editar</button></a></td>
+                <td><a href="{% url 'jogo:rodada_delete' rodada.id %}"><button type="button" class="btn btn-danger">Deletar</button></a></td>
                 </tr>
             {% endfor %}
         </tbody>

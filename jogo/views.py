@@ -263,8 +263,8 @@ def rodada_edit(request, id):
 
 
 def rodada_delete(request, id):
-    #TODO IMPLEMENTAR DELETE DE RODADA
-    pass
+    get_object_or_404(Rodada, id=id).delete()
+    return HttpResponseRedirect('/rodada')
 
 def area_index(request):
     areas = Area.objects.order_by('id')
@@ -372,8 +372,7 @@ def area_edit(request, id):
             nomes.append(a.nome)
         list = zip(form_ac, nomes)
         for i in range(0, len(list_entradas)):
-            form_area_classesocial = Area_Classe_Social_Form(
-                initial={'entrada': list_entradas[i], 'desvios': list_desvios[i]})
+            form_area_classesocial = Area_Classe_Social_Form(initial={'entrada': list_entradas[i], 'desvios': list_desvios[i]})
             form_ac.append(form_area_classesocial)
         if form.is_valid():
 
@@ -404,7 +403,9 @@ def area_edit(request, id):
             list_entradas = iter(list_entradas)
             list_desvios = iter(list_desvios)
             for classe in Classe_Social.objects.order_by('id'):
-                area_classesocial = Area_Classe_Social(area = area, classe_social=classe, entrada=next(list_entradas), desvios=next(list_desvios))
+                area_classesocial = Area_Classe_Social.objects.get(area=area.nome, classe_social=classe.nome)
+                area_classesocial.entrada = next(list_entradas)
+                area_classesocial.desvios = next(list_desvios)
                 area_classesocial.save()
 
             return HttpResponseRedirect('/area')
