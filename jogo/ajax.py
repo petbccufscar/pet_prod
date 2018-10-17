@@ -30,11 +30,15 @@ def aplicar_acao(request):
     acao = request.POST['acao']
     controlador = ctrler.InstanciaJogo()
     if acao == "start_jogo":
-        if controlador.get_estado_jogo != "rodando":
+        if controlador.get_estado_jogo() != ctrler.JG_EXECUTANDO:
             controlador.init_timer()
             request.session['nome_time'] = "Time 1"
     if acao == "stop_jogo":
-        pass
+        if controlador.get_estado_jogo() == ctrler.JG_EXECUTANDO:
+            controlador.finalizar_jogo()
+    if acao == "avancar_rodada":
+        if controlador.get_estado_jogo() == ctrler.JG_EXECUTANDO:
+            controlador.avancar_rodada()
     return HttpResponse("grrrr")
 
 @ajax_sanitizer
@@ -50,8 +54,12 @@ def comprar_modulo(request):
     controlador = ctrler.InstanciaJogo()
     nome_time = request.session['nome_time']
     print("Modulo comprado")
-    controlador.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
-    return HttpResponse(controlador.get_caixa(nome_time))
+    estado, msg = controlador.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
+    if estado == 200:
+        return HttpResponse(controlador.get_caixa(nome_time), status=200)
+    else:
+        return HttpResponse(msg, status=estado)
+
 
 @ajax_sanitizer
 def contratar_medico(request):
@@ -71,12 +79,8 @@ def despedir_medico(request):
     print("despedido")
     return HttpResponse("despedido")
 
-def busca_modulo(request):
+def abre_emprestimos(request):
     data = serializers.serialize("json", [Modulo.objects.get(id = request.POST["modulo_id"]), ])
-    return HttpResponse(data)
-
-def busca_medico(request):
-    data = serializers.serialize("json", [Medico.objects.get(id = request.POST["medico_id"]), ])
     return HttpResponse(data)
 
 @ajax_sanitizer

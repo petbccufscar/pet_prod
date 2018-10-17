@@ -16,6 +16,12 @@
     src: "/font/WorkSans-Regular.ttf";
 }
 
+@font-face {
+    font-family: glyphicons-halflings-regular;
+    src: url('/static/fonts/glyphicons-halflings-regular.eot');
+    src: url('/static/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/static/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/static/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/static/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
 body{
   padding: 0px;
   margin: 0px;
@@ -55,37 +61,13 @@ div{
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-/* Modal Content Modulo */
-.modal-content-modulo {
-  border-radius: 5px;
-  border:1px solid black;
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
-  height: 400px;
-  margin: 10px;
-  box-shadow: 2px 4px 4px 2px rgba(0,0,0,0.2);
+/* Modal Content Emprestimo*/
+.modal-content-emprestimo {
   background-color: #fefefe;
   margin: auto;
+  padding: 20px;
   border: 1px solid #888;
-  width: 50%;
-}
-
-
-/* Modal Content */
-.modal-content-medico {
-  border-radius: 5px;
-  border:1px solid black;
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  height: 250px;
-  margin: 10px;
-  box-shadow: 2px 4px 4px 2px rgba(0,0,0,0.2);
-  background-color: #fefefe;
-  margin: auto;
-  border: 1px solid #888;
-  width: 50%;
+  width: 30em;
 }
 
 .none {
@@ -127,7 +109,7 @@ div{
 }
 
 .nav.lateral{
-  max-height: 100vh;
+  min-height: 100vh;
   min-width: 5.5em;
   display:flex;
   flex-direction: column;
@@ -136,22 +118,20 @@ div{
 }
 
 .nav.lateral > li{
-  margin-top: 1.2em;
-  padding-left: 0;
+  padding: 0;
   padding-right: 0;
   width: 100%;
-  text-align: center;
+  text-align: left;
 }
 
 .lateral li:last-child{
   margin-bottom: auto;
 }
 .imagem-logo{
-  padding: 0.2em;
-  margin:0px;
-  margin-bottom: 0.5em;
-  height: 4.5em;
-  width: 4.5em;
+  padding: 0;
+  margin: 1em;
+  height: 4em;
+  width: 4em;
 }
 
 .nav.lateral .submenu{
@@ -202,7 +182,7 @@ div{
 #h-lateral{
     text-align: center;
     margin-top: 2em;
-    margin-bottom: 3%;
+    margin-bottom: 1em;
     padding: 0;
 }
 
@@ -562,7 +542,7 @@ div{
   padding: 1.5em;
   padding-bottom: 0;
   flex-direction: column;
-  min-width: 18em;
+  min-width: 13em;
   border-radius: 3pt;
   border-top-left-radius: 3pt;
   border-top-right-radius: 3pt;
@@ -597,8 +577,6 @@ div{
   height: 1.5em;
   width: 90%;
   margin: 0.1em;
-  font-size: 17.5pt;
-
   box-shadow: 0 0 0 0 #fff;
 }
 .legenda img{
@@ -624,4 +602,127 @@ div{
   font-size: 15pt;
   line-height: 3em;
   color: #8e9ac9;
+}
+
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+.toast {
+   visibility: hidden; /* Hidden by default. Visible on click */
+   min-width: 250px; /* Set a default minimum width */
+   margin-left: -125px; /* Divide value of min-width by 2 */
+   background-color: #333; /* Black background color */
+   color: #fff; /* White text color */
+   text-align: center; /* Centered text */
+   border-radius: 2px; /* Rounded borders */
+   padding: 16px; /* Padding */
+   position: fixed; /* Sit on top of the screen */
+   z-index: 1; /* Add a z-index if needed */
+   left: 50%; /* Center the snackbar */
+   bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+.toast.show {
+   visibility: visible; /* Show the snackbar */
+
+/* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+However, delay the fade out process for 2.5 seconds */
+   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+   from {bottom: 0; opacity: 0;}
+   to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+   from {bottom: 0; opacity: 0;}
+   to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+   from {bottom: 30px; opacity: 1;}
+   to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+   from {bottom: 30px; opacity: 1;}
+   to {bottom: 0; opacity: 0;}
+}
+
+.collapsible {
+    background-color: var(--main-bg-color);
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.active, .collapsible:hover {
+    background-color: #2a2a2a;
+}
+
+.content {
+    padding: 0 1.2em;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+}
+
+.collapsible.barra-lateral{
+  display: flex;
+}
+
+.collapsible.barra-lateral div{
+  color: #fff;
+  padding-left: 1em;
+  font-size:12pt;
+  display:flex;
+  margin-top:auto;
+  margin-bottom:auto;
+}
+
+.collapsible.barra-lateral svg{
+  fill:#fff;
+  height:2.2em;
+  width:2.2em
+}
+
+.content.barra-lateral{
+  background-color: var(--main-bg-color);
+}
+.content.barra-lateral > div{
+  height: 1.5em;
+  font-size: 12pt;
+  color: #fff;
+  padding-top: 1em;
+
+#mainselection select {
+   border: 0;
+   color: #EEE;
+   background: transparent;
+   font-size: 20px;
+   font-weight: bold;
+   padding: 2px 10px;
+   width: 378px;
+   *width: 350px;
+   *background: #000;
+   -webkit-appearance: none;
+}
+
+#mainselection {
+   overflow:hidden;
+   width:350px;
+   -moz-border-radius: 9px 9px 9px 9px;
+   -webkit-border-radius: 9px 9px 9px 9px;
+   border-radius: 9px 9px 9px 9px;
+   background:  #bf4234 url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 319px center;
+
 }

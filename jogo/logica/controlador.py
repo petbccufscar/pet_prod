@@ -2,6 +2,7 @@ from jogo.logica import logica_de_jogo as lj
 from jogo.logica import utils
 from jogo.models import Modulo, Medico, Rodada
 from jogo.logica.time import Time
+import jogo.logica.utils as utils
 from threading import Lock
 import datetime
 import threading
@@ -13,6 +14,7 @@ JG_PRONTO = 0
 JG_PAUSADO = 1
 JG_NAO_INICIADO = 2
 JG_EXECUTANDO = 3
+JG_FINALIZADO = 4
 
 
 class Timer(threading.Thread):
@@ -22,14 +24,22 @@ class Timer(threading.Thread):
         self.atualiza_timer = jogo.atualiza_timer;
         self.jogo = jogo
         self.timer = None
+        self.lock = Lock()
+        self.fim_jogo = False
+        self.waiting = threading.Event()
 
     def run(self):
         self.timer = self.jogo.rodadas[0].duracao * 60 * 1000000
         anterior = datetime.datetime.utcnow()
         #print (anterior)
+        Group("rodada").send({
+        "text": "Rodada: %s" % str(1),
+        })
         while self.timer is not None:
             if self.se_pausado.isSet() == False:
+                self.waiting.set()
                 self.se_pausado.wait()
+                self.waiting.clear()
                 anterior = datetime.datetime.utcnow()
 
             atual = datetime.datetime.utcnow()
@@ -42,11 +52,20 @@ class Timer(threading.Thread):
             Group("timer").send({
             "text" : "%02d:%02d" % (minutos, segundos),
             })
+            print("%02d:%02d" % (minutos, segundos), file=open("timelog.txt", "a"))
             #print("timer: %0d" % (timer /1e6))
             sleep(0.5)
+            with self.lock:
+                if self.fim_jogo:
+                    break;
             if(self.timer < 0):
+                print("Nova Rodada:", file=open("timelog.txt", "a"))
                 self.timer = self.jogo.nova_rodada()
 
+        InstanciaJogo.estado_jogo = JG_FINALIZADO
+        Group("rodada").send({
+        "text": "Rodada:",
+        })
 
 class InstanciaJogo:
     jogo_atual = None
@@ -77,7 +96,18 @@ class InstanciaJogo:
         InstanciaJogo.estado_jogo = JG_PRONTO
 
     def avancar_rodada(self):
-        pass
+        self.pausado.clear()
+        print("wtf")
+        self.timer_thread.waiting.wait()
+        print("wtff")
+        self.timer_thread.timer = self.jogo_atual.nova_rodada();
+        segundos = (round(self.timer_thread.timer/1e6)) % 60
+        minutos = (round(self.timer_thread.timer)/1e6)/60
+        Group("timer").send({
+        "text" : "%02d:%02d" % (minutos, segundos),
+        })
+        self.pausado.set()
+        print("saind0")
 
     def init_timer(self):
         self.timer_thread.start()
@@ -90,19 +120,39 @@ class InstanciaJogo:
     def resume(self):
         self.pausado.set()
 
+    def finalizar_jogo(self):
+        with self.timer_thread.lock:
+            self.timer_thread.fim_jogo = True
+            self.timer_thread.fim_jogo.join()
+
     def vender_modulo(self, nome_time, modulo_id):
         with self.jogo_lock:
             self.jogo_atual.vender_modulo(nome_time, modulo_id)
         return "ok"
 
     def comprar_modulo(self, nome_time, modulo_id):
+        resultados = {
+            lj.SUCESSO: (200, "Modulo Comprado"),
+            lj.CAIXA_INSUFICIENTE: (405, "Caixa Insuficiente"),
+        }
+        ret = None
+        qtd = -1
         with self.jogo_lock:
-            self.jogo_atual.comprar_modulo(nome_time, modulo_id)
-        return "ok" # Retorna mensagem de erro ou sucesso
+            ret = self.jogo_atual.comprar_modulo(nome_time, modulo_id)
+            qtd = self.jogo_atual.modulos[modulo_id]
+        Group("mercado").send({
+        "text" : utils.json_para_mercado("Modulo", modulo_id, qtd)
+        })
+        return resultados[ret] # Retorna mensagem de erro ou sucesso
 
     def contratar_medico(self, nome_time, medico_id):
+        qtd = -1
         with self.jogo_lock:
             self.jogo_atual.comprar_medico(nome_time, medico_id)
+            qtd = self.jogo_atual.medicos[medico_id]
+        Group("mercado").send({
+        "text" : utils.json_para_mercado("Medico", medico_id, qtd)
+        })
         return "ok"
 
     def despedir_medico(self, nome_time, medico_id):
@@ -185,6 +235,7 @@ class InstanciaJogo:
             modulo.preco_do_tratamento = "{:,.0f}".format(modulo.preco_do_tratamento)
             modulo.tecnologia = range(0, modulo.tecnologia)
             modulo.conforto = range(0, modulo.conforto)
+            modulo.__dict__["qtd_disponiveis"] = modulos[id_mod]
 
         return list(modulos_p_areas.keys()), modulos_p_areas
 
@@ -199,13 +250,18 @@ class InstanciaJogo:
             data[area] = temp
         return data
 
+    def pontuacao(self):
+        with self.jogo_lock:
+            return [(x.nome, x.estatisticas.get_ultimo_caixa()) for x in self.jogo_atual.times.values()]
+
+
 def __inicializa_jogo_pra_teste():
     if(InstanciaJogo.jogo_atual != None):
         return False
     i_jogo = InstanciaJogo()
     rodadas = Rodada.objects.all()
     times = []
-    times.append(Time("Time 1"))
+    times.append(Time("Time 1",200000))
     tokens = utils.gerar_token(1)
     times[-1].codigo_login = tokens[-1]
     times.append(Time("Time 2"))

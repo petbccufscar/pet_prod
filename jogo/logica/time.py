@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from jogo.models import Medico, Modulo
+from jogo.models import Medico, Modulo, Emprestimo
 
 class Estatistica:
     """
@@ -32,6 +32,10 @@ class Estatistica:
         self.lista_manutencao_modulos = []
 
 
+        self.lista_id_emprestimos = [] #lista (de listas de id de emprestimos) por rodada
+        self.lista_valores_emprestimos = [] #lista (de listas de valores de emprestimos) por rodada
+
+
         # Lista de dicionarios que contem dicionarios com os atributos de modulos de cada rodada
         self.lista_atr_mod = []
 
@@ -46,6 +50,8 @@ class Estatistica:
         self.lista_salarios_medicos.append(0)
         self.lista_manutencao_modulos.append(0)
         self.lista_atr_mod.append(0)
+        self.lista_id_emprestimos.append([])
+        self.lista_valores_emprestimos.append(0)
 
 
     def nova_rodada(self, entrada_atendimento, demanda, total_atendidos, entradas_por_area, salarios_medicos, manutencao_modulos, atributos_modulos):
@@ -76,6 +82,8 @@ class Estatistica:
         self.lista_salarios_medicos.append(0)
         self.lista_manutencao_modulos.append(0)
         self.lista_atr_mod.append(0)
+        self.lista_id_emprestimos.append([])
+        self.lista_valores_emprestimos.append(0)
 
 
     def get_ultimo_caixa(self):
@@ -89,19 +97,19 @@ class Estatistica:
 
         for i in range(0, len(self.lista_salarios_medicos)):
             total_saida.append(self.comprasModulo[i] + self.lista_manutencao_modulos[i] + self.lista_salarios_medicos[i]) #TODO: depois vai ter - saida de emprestimo[i] aqui
-            total_entrada.append(self.entrada_atendimento[i] + self.vendasModulo[i]) # TODO: depois vai ter + entrada de emprestimo[i]
+            total_entrada.append(self.entrada_atendimento[i] + self.vendasModulo[i] + self.lista_valores_emprestimos[i])
             lucro.append(total_entrada[-1] - total_saida[-1])
 
         data = {
-            # TODO: no futuro vai ter entrada e saida de emprestimo aqui
-            'vendas_modulos': self.vendasModulo,
-             'total_entrada': total_entrada,
-            'custo_aquisicao': self.comprasModulo,
-            'custos_modulos': self.lista_manutencao_modulos,
-            'salarios_medicos': self.lista_salarios_medicos,
-            'total_saida': total_saida,
-            'lucro': lucro,
-            'caixa': self.caixa
+            'Vendas De Modulos': self.vendasModulo,
+            'Emprestimos': self.lista_valores_emprestimos,
+            'Total Entrada': total_entrada,
+            'Custo Aquisicao': self.comprasModulo,
+            'Custos Modulos': self.lista_manutencao_modulos,
+            'Salarios Medicos': self.lista_salarios_medicos,
+            'Total Saida': total_saida,
+            'Lucro': lucro,
+            'Caixa': self.caixa
         }
 
         # Adicionando lista de entradas por area
@@ -111,15 +119,24 @@ class Estatistica:
             data.update({area: entradas_da_area})
         return data
 
+    def fim_de_jogo(self):
+        #TODO: Todo o codigo de fim de jogo de cada time (fechamento de contas).. tem mais coisa?
+
+        # Pagamento dos emprestimos
+        total_emprestimos = 0
+        for i in range(len(self.lista_valores_emprestimos)):
+            total_emprestimos += self.lista_valores_emprestimos[i]
+
+        self.caixa[-1] -= total_emprestimos
 
 class Time:
 
-    def __init__(self, nome='Team with no name'):
+    def __init__(self, nome='Team with no name', caixa_inicial=200000):
         self.nome = nome
         self.medicos = []
         self.modulos = []
 
-        self.estatisticas = Estatistica()
+        self.estatisticas = Estatistica(caixa_inicial)
 
         self.atributos = {}
         self.nome = nome
@@ -147,6 +164,20 @@ class Time:
             return True
         else:
             return False
+
+    def adicionar_emprestimo(self, id_emprestimo):
+        emprestimo = Emprestimo.objects.get(id=id_emprestimo)
+        if emprestimo.id in self.estatisticas.lista_id_emprestimos[-1]:
+            return False
+        else:
+            print("CAIXA ANTES: ",  self.estatisticas.caixa[-1])
+            self.estatisticas.lista_id_emprestimos[-1].append(emprestimo.id)
+            self.estatisticas.lista_valores_emprestimos[-1] += emprestimo.valor
+            self.estatisticas.caixa[-1] += emprestimo.valor
+            print("ADICIONEI EMPRESTIMO!")
+
+            print("CAIXA DEPOIS: ",  self.estatisticas.caixa[-1])
+            return True
 
     def atributos_medicos(self):
         expertise = 0

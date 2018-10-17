@@ -58,13 +58,13 @@ urlpatterns = [
     url(r'^jogo/vender_modulo', ajax.vender_modulo, name='vender_modulo'),
     url(r'^jogo/contratar_medico', ajax.contratar_medico, name='contratar_medico'),
     url(r'^jogo/despedir_medico', ajax.despedir_medico, name='despedir_medico'),
-    url(r'^jogo/busca_modulo', ajax.busca_modulo, name='busca_modulo'),
-    url(r'^jogo/busca_medico', ajax.busca_medico, name='busca_medico'),
+    url(r'^jogo/abre_emprestimos', ajax.abre_emprestimos, name='abre_emprestimos'),
     url(r'^jogo/hospital/medicos/$', ajax.tela_de_jogo_hospital_medicos, name='tela_de_jogo_hospital_med'),
     url(r'^jogo/hospital/modulos/$', ajax.tela_de_jogo_hospital_modulos, name='tela_de_jogo_hospital_mod'),
     url(r'^jogo/hospital/$', views.tela_de_jogo_hospital, name='tela_de_jogo_hospital'),
     url(r'^jogo/dashboard', views.tela_de_jogo_dashboard, name='tela_de_jogo_dashboard'),
     url(r'^jogo/dados_graficos', ajax.tela_de_jogo_graficos, name='tela_de_jogo_graficos'),
+    url(r'^jogo/ranking/$', views.jogo_ranking, name='jogo_ranking'),    
 
     url(r'^jogo/$', views.tela_de_jogo, name='tela_de_jogo'),
 

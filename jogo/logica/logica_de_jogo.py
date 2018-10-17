@@ -11,12 +11,15 @@ from random import randint
 import _thread
 import random
 import datetime
+SUCESSO = 0
+CAIXA_INSUFICIENTE = 1
+ID_NAO_EXISTENTE = 2
 
 class Logica(object):
     def __init__(self, modulos, tps_medico, rodadas, times):
         self.qtd_rodadas = list(rodadas)
         self.medicos = {}
-        self.modulos = []
+        self.modulos = {}
         self.times = dict()
         self.rodadas = rodadas
         self.rodada_atual = 0
@@ -28,22 +31,23 @@ class Logica(object):
             # inicia todos os perfis existentes no bd com 3 médicos
             self.medicos[tp_med[0]] = tp_med[1]
         for modulo_id in modulos:
-            self.modulos.append(modulo_id)
+            self.modulos[modulo_id] = 5
 
     def add_time(self, time):
         self.times[time.nome] = time
 
     def comprar_modulo(self, id_time, id_modulo):
-        if id_modulo in self.modulos:           # verificação se existe esse módulo
+        if id_modulo in self.modulos.keys():           # verificação se existe esse módulo
             time = self.times[id_time]
             custo_modulo = Modulo.objects.get(id=id_modulo).custo_de_aquisicao
             if time.estatisticas.get_ultimo_caixa() >= custo_modulo:
                 time.adicionar_modulo(id_modulo)
                 time.estatisticas.comprasModulo[-1] += custo_modulo # [-1] acessa a última posição do vetor
                 time.estatisticas.caixa[-1] -= custo_modulo # ja deve ser feito essa conta na hora pois não pode ficar endividado por compra, apenas por má administração
-                return True
+                self.modulos[id_modulo] = self.modulos[id_modulo] - 1;
+                return SUCESSO
             else:
-                return False
+                return CAIXA_INSUFICIENTE
 
     def vender_modulo(self, id_time, id_modulo):
         if self.rodada_atual < len(self.rodadas) - 1:         # Só pode vender módulos até antes do último mês
@@ -78,6 +82,15 @@ class Logica(object):
             return True
 
         return False
+
+    def pedir_emprestimo(self, id_time, id_emprestimo):
+        print("VOU PEDIR UM EMPRESTIMO")
+        time = self.times[id_time]
+        if time.adicionar_emprestimo(id_emprestimo):
+            return True
+
+        return False
+
 
     def get_multiplicador(self, nomeEvento):
         evento = Evento.objects.get(nome=nomeEvento)
@@ -129,10 +142,18 @@ class Logica(object):
 
         if(self.rodada_atual == len(self.rodadas)):
             # Notificar fim de jogo
+            self.fim_de_jogo()
             return None
 
         # Notificar os clients que a proxima rodada comecou
         return self.rodadas[self.rodada_atual].duracao * 60 * 1000000
+
+    def fim_de_jogo(self):
+        #TODO: Todo o codigo de fim de jogo aqui (ou tudo no time(?))
+        print("fim de jogo")
+        for time in self.times.values():
+            time.estatisticas.fim_de_jogo()
+
 
     def atualiza_timer(self):
         timer = self.rodadas[0].duracao * 60 * 1000000

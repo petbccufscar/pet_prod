@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login as django_login, logout as d
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse #utilizado apenas para teste
+from django.shortcuts import redirect
 # NAO ESQUEÇAM DE ATUALIZAR OS IMPORTS
 from .models import Medico, Modulo
 from .models import Evento
@@ -645,10 +646,15 @@ def tela_de_jogo(request):
 
     if controlador.get_estado_jogo() == ctrler.JG_NAO_INICIADO:
         return HttpResponse("Jogo Ainda não comecou")
-    if controlador.get_estado_jogo() == ctrler.JG_PRONTO:
-        return HttpResponse("Jogo Ainda não comecou")
+
     if 'nome_time' not in request.session:
-        return HttpResponse("Usuário Não Logado")
+        return HttpResponseRedirect("/jogo/")
+
+    if controlador.get_estado_jogo() == ctrler.JG_PRONTO:
+        return render(request, 'jogo/nao_iniciado.html')
+
+    if controlador.get_estado_jogo() == ctrler.JG_FINALIZADO:
+        return HttpResponseRedirect("/jogo/ranking")
 
     nome_time = request.session['nome_time']
     time = controlador.jogo_atual.times[nome_time]
@@ -780,10 +786,16 @@ def logar(request):
             logado = True
             request.session['nome_time'] = time.nome
     if logado:
-        return HttpResponse("Logado")
+        return HttpResponseRedirect('/jogo/')
     else:
         return HttpResponse("Login Falhou: token inexistente")
 
 def login_jogador(request):
-
     return render(request, 'jogo/login_jogador.html',{})
+
+def jogo_ranking(request):
+    controlador = ctrler.InstanciaJogo()
+    if controlador.get_estado_jogo() != ctrler.JG_FINALIZADO:
+        return HttpResponse("Não há jogo Finalizado")
+    scores = controlador.pontuacao()
+    return render(request, 'jogo/jogo_ranking.html', {"scores": scores})

@@ -1,0 +1,21 @@
+<html>
+  <head>
+  </head>
+
+  <body>
+    Esperando Inicio de Jogo
+
+  <script>
+  var url = "ws://" + window.location.host + "/rodada/";
+  var socket_rodada = new WebSocket(url);
+  var rodada_atual = 0;
+  console.log(socket_rodada)
+
+  socket_rodada.onmessage = function(e) {
+    console.log("afff")
+
+       location.reload();
+  }
+  </script>
+  </body>
+</html>
