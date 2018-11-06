@@ -1,7 +1,6 @@
 from jogo.logica import logica_de_jogo as lj
 from jogo.logica import utils
-from jogo.models import Modulo, Medico, Rodada
-from jogo.logica.time import Time
+from jogo.models import Modulo, Medico, Rodada, Time
 import jogo.logica.utils as utils
 from threading import Lock
 import datetime
@@ -255,18 +254,18 @@ class InstanciaJogo:
             return [(x.nome, x.estatisticas.get_ultimo_caixa()) for x in self.jogo_atual.times.values()]
 
 
-def __inicializa_jogo_pra_teste():
+def __inicializa_jogo():
     if(InstanciaJogo.jogo_atual != None):
         return False
     i_jogo = InstanciaJogo()
     rodadas = Rodada.objects.all()
+    timesCadastrados = Time.objects.order_by('id')
     times = []
-    times.append(Time("Time 1",200000))
-    tokens = utils.gerar_token(1)
-    times[-1].codigo_login = tokens[-1]
-    times.append(Time("Time 2"))
-    tokens = utils.gerar_token(1)
-    times[-1].codigo_login = tokens[-1]
+    for t in timesCadastrados:
+        times.append(t)
+        tokens = utils.gerar_token(1)
+        times[-1].codigo_login = tokens[-1]
+
     modulos = Modulo.objects.all()
     medicos = Medico.objects.all()
     modulos = [x.id for x in modulos]

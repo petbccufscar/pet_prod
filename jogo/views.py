@@ -620,24 +620,31 @@ def iniciar_jogo(request):
     rodadas = Rodada.objects.all()
     times = [] #TODO: inicializar times
     # times hardcoded para fins de teste
-    times.append(LTime("time1"))
-    tokens = utils.gerar_token(1)
-    times[-1].codigo_login = tokens[-1]
-    print("codigo: ", times[-1].codigo_login)
-    request.session['nome_time'] = "time1"
+    timesCadastrados = Time.objects.order_by(id)
+    for t in timesCadastrados:
+        times.append(LTime(t.nome))
+        tokens = utils.gerar_token(1)
+        times[-1].codigo_login = tokens[-1]
+        print("codigo: ", times[-1].codigo_login)
+        request.session['nome_time'] = t.nome
+    print(request.session['nome_time'])
     logica_jogo.inicializa_jogo(rodadas, times)
     return HttpResponse("Iniciou")
 
 @ensure_csrf_cookie
 def tela_aplicar_dinamica(request):
 
-    ctrler.__inicializa_jogo_pra_teste()
+    ctrler.__inicializa_jogo()
     controlador = ctrler.InstanciaJogo()
 
     times = controlador.jogo_atual.times
     contexto = {
         "times" : [{"nome": x.nome, "codigo": x.codigo_login} for x in times.values()]
     }
+    request.session['nome_time'] = {}
+    for x in times.values():
+        request.session['nome_time'] = x.nome
+    print(request.session['nome_time'])
     return render(request, 'jogo/base_aplicar_dinamica.html', contexto)
 
 @ensure_csrf_cookie
