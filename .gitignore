@@ -12,6 +12,8 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+db.sqlite3
+timelog.txt
 
 # Generated files
 .idea/**/contentModel.xml
