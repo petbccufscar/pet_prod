@@ -25,6 +25,7 @@ from .forms import Rodada_Form
 from .forms import Modulo_Form
 from .forms import Area_Classe_Social_Form
 from jogo.logica import utils
+from jogo.logica import time as timeClass
 from django.views.decorators.csrf import ensure_csrf_cookie
 import jogo.logica.logica_de_jogo as logica_jogo
 from jogo.logica.time import Time as LTime
@@ -663,8 +664,8 @@ def tela_de_jogo(request):
     if controlador.get_estado_jogo() == ctrler.JG_FINALIZADO:
         return HttpResponseRedirect("/jogo/ranking")
 
-    nome_time = request.session['nome_time']
-    time = controlador.jogo_atual.times[nome_time]
+    nome_time = 'Time Vermelho'
+    time = timeClass.Time(nome_time)
     modulos_p_areas = {}
 
     labels = time.estatisticas.lista_demandas[0].keys()
