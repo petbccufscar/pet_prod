@@ -134,8 +134,6 @@ class InstanciaJogo:
             lj.SUCESSO: (200, "Modulo Comprado"),
             lj.CAIXA_INSUFICIENTE: (405, "Caixa Insuficiente"),
         }
-        ret = None
-        qtd = -1
         with self.jogo_lock:
             ret = self.jogo_atual.comprar_modulo(nome_time, modulo_id)
             qtd = self.jogo_atual.modulos[modulo_id]
@@ -198,18 +196,6 @@ class InstanciaJogo:
                 medicos.append(med)
             return medicos
 
-        medicos = []
-        for id_med, qtd in lista_medicos.items():
-            medico = Medico.objects.get(id = id_med)
-            med = {}
-            med["id"] = medico.id
-            med["salario"] = "{:,.2f}".format(medico.salario)
-            med["expertise"] = range(0, medico.expertise)
-            med["atendimento"] = range(0, medico.atendimento)
-            med["pontualidade"] = range(0, medico.pontualidade)
-            med["qtd_disponiveis"] = qtd
-            medicos.append(med)
-        return medicos
 
     def get_modulos(self, nome_time=None):
         modulos = None
@@ -263,7 +249,7 @@ def __inicializa_jogo():
     times = []
     for t in timesCadastrados:
         times.append(t)
-        tokens = utils.gerar_token(1)
+        tokens = utils.gerar_token()
         times[-1].codigo_login = tokens[-1]
 
     modulos = Modulo.objects.all()

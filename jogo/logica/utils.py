@@ -1,15 +1,8 @@
 # -*- coding: UTF-8 -*-
-import random
-import string
+from secrets import token_urlsafe
 
-
-def gerar_token(N):
-    token = []
-    tam = 5  # tamanho do token
-    for i in range(0, N):
-        token.append("asdf")
-
-    return token
+def gerar_token():
+    return token_urlsafe(16)
 
 def json_para_mercado(tipo, id, qtd):
     return "{\"tipo\": \""+tipo+"\",\"id\":"+ str(id) +",\"qtd\":"+ str(qtd)+"}"
