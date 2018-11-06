@@ -54,9 +54,7 @@ class Timer(threading.Thread):
                 self.timer = self.jogo.nova_rodada()
 
         InstanciaJogo.estado_jogo = JG_FINALIZADO
-        Group("rodada").send({
-            "text": "Rodada:",
-        })
+        Group("rodada").send(dict(text="Rodada:"))
 
 
 class InstanciaJogo:
@@ -89,9 +87,7 @@ class InstanciaJogo:
         self.timer_thread.timer = self.jogo_atual.nova_rodada()
         segundos = (round(self.timer_thread.timer / 1e6)) % 60
         minutos = (round(self.timer_thread.timer) / 1e6) / 60
-        Group("timer").send({
-            "text": "%02d:%02d" % (minutos, segundos),
-        })
+        Group("timer").send(dict(text="%02d:%02d" % (minutos, segundos)))
         self.pausado.set()
         print("saind0")
 
@@ -124,9 +120,7 @@ class InstanciaJogo:
         with self.jogo_lock:
             ret = self.jogo_atual.comprar_modulo(nome_time, modulo_id)
             qtd = self.jogo_atual.modulos[modulo_id]
-        Group("mercado").send({
-            "text": utils.json_para_mercado("Modulo", modulo_id, qtd)
-        })
+        Group("mercado").send(dict(text=utils.json_para_mercado("Modulo", modulo_id, qtd)))
         # Retorna mensagem de erro ou sucesso
         return resultados[ret]
 
@@ -134,9 +128,7 @@ class InstanciaJogo:
         with self.jogo_lock:
             self.jogo_atual.comprar_medico(nome_time, medico_id)
             qtd = self.jogo_atual.medicos[medico_id]
-        Group("mercado").send({
-            "text": utils.json_para_mercado("Medico", medico_id, qtd)
-        })
+        Group("mercado").send(dict(text=utils.json_para_mercado("Medico", medico_id, qtd)))
         return "ok"
 
     def despedir_medico(self, nome_time, medico_id):
@@ -171,13 +163,14 @@ class InstanciaJogo:
             medicos = []
             for id_med in lista_medicos:
                 medico = Medico.objects.get(id=id_med)
-                med = {"id": medico.id,
+                med = {
+                       "id": medico.id,
                        "salario":
                        "{:,.2f}".format(medico.salario),
                        "expertise": range(0, medico.expertise),
                        "atendimento": range(0, medico.atendimento),
                        "pontualidade": range(0, medico.pontualidade)
-                       }
+                    }
                 medicos.append(med)
             return medicos
 
