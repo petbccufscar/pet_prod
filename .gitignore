@@ -14,7 +14,7 @@
 .idea/**/shelf
 db.sqlite3
 timelog.txt
-
+secrets
 # Generated files
 .idea/**/contentModel.xml
 __pycache__/

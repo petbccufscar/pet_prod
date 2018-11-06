@@ -731,7 +731,7 @@ def tela_de_jogo_hospital(request):
     # Separando modulos por area
     time_modulos_p_areas = {}
     medicos = []
-    time = logica_de_jogo.JogoAtual.times[nome_time];
+    time = logica_jogo.JogoAtual.times[nome_time]
     for id_med in time.medicos:
         medico = Medico.objects.get(id=id_med)
         medicos.append(medico)
