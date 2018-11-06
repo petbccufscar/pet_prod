@@ -1,13 +1,15 @@
 from django.test import TestCase
-from jogo.logica import logica_de_jogo as lj
-from jogo.models import Rodada, Modulo, Area
-from jogo.logica.time import Time
-from jogo.logica.logica_de_jogo import Logica
+
 import jogo.logica.time as time
+from jogo.logica.logica_de_jogo import Logica
+from jogo.logica.time import Time
+from jogo.models import Rodada
+
 
 class TesteLogica(TestCase):
     fixtures = ['jogo/initial_data.json']
     JogoAtual = None
+
     def setUp(self):
         times = []
         time1 = Time("time1")
@@ -21,9 +23,9 @@ class TesteLogica(TestCase):
         timeT = Time("timeT")
         TesteLogica.JogoAtual.modulos.append(0)
         TesteLogica.JogoAtual.add_time(timeT)
-        TesteLogica.JogoAtual.comprar_modulo("timeT",0)
-        assert(len(timeT.modulos) == 1)
-        TesteLogica.JogoAtual.comprar_modulo("timeT",0)
+        TesteLogica.JogoAtual.comprar_modulo("timeT", 0)
+        assert (len(timeT.modulos) == 1)
+        TesteLogica.JogoAtual.comprar_modulo("timeT", 0)
 
     def test_atributos_modulos(self):
         resultado_esperado = {
@@ -35,7 +37,7 @@ class TesteLogica(TestCase):
 
         obj = time.Time()
         """Quando o time não tem modulos"""
-        assert(resultado_esperado == obj.atributos_modulos("Psicologia"))
+        assert (resultado_esperado == obj.atributos_modulos("Psicologia"))
 
         obj.adicionar_modulo(1)
         obj.adicionar_modulo(2)
@@ -46,4 +48,4 @@ class TesteLogica(TestCase):
             'capacidade': 255
         }
         """Quando o time tem modulos"""
-        assert(resultado_esperado == obj.atributos_modulos("Psicologia"))
+        assert (resultado_esperado == obj.atributos_modulos("Psicologia"))

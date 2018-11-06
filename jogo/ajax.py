@@ -1,11 +1,10 @@
-from django.shortcuts import render, HttpResponseRedirect
-from django.http import JsonResponse
-import jogo.logica.logica_de_jogo as logica_jogo
-from jogo.logica.time import Time as LTime
-from jogo.models import Medico
-from jogo.models import Modulo
-from jogo.logica import controlador as ctrler
 from django.http import HttpResponse
+from django.http import JsonResponse
+from django.shortcuts import render
+
+from jogo.logica import controlador as ctrler
+from jogo.models import Modulo
+
 
 def ajax_sanitizer(func):
     def requisicao_ajax(request):
@@ -20,7 +19,9 @@ def ajax_sanitizer(func):
             return HttpResponse("Usuário Não Logado")
 
         return func(request)
+
     return requisicao_ajax
+
 
 def encerrar_jogo():
     pass
@@ -41,6 +42,7 @@ def aplicar_acao(request):
             controlador.avancar_rodada()
     return HttpResponse("grrrr")
 
+
 @ajax_sanitizer
 def vender_modulo(request):
     controlador = ctrler.InstanciaJogo()
@@ -49,12 +51,13 @@ def vender_modulo(request):
     controlador.vender_modulo(nome_time, int(request.POST["modulo_id"]))
     return HttpResponse(controlador.get_caixa(nome_time))
 
+
 @ajax_sanitizer
 def comprar_modulo(request):
     controlador = ctrler.InstanciaJogo()
     nome_time = request.session['nome_time']
     print("Modulo comprado")
-    estado, msg = controlador.comprar_modulo(nome_time,int(request.POST["modulo_id"]))
+    estado, msg = controlador.comprar_modulo(nome_time, int(request.POST["modulo_id"]))
     if estado == 200:
         return HttpResponse(controlador.get_caixa(nome_time), status=200)
     else:
@@ -69,9 +72,9 @@ def contratar_medico(request):
     controlador.contratar_medico(nome_time, int(request.POST["medico_id"]))
     return HttpResponse("contratado")
 
+
 @ajax_sanitizer
 def despedir_medico(request):
-
     nome_time = request.session['nome_time']
     controlador = ctrler.InstanciaJogo()
 
@@ -79,9 +82,11 @@ def despedir_medico(request):
     print("despedido")
     return HttpResponse("despedido")
 
+
 def abre_emprestimos(request):
-    data = serializers.serialize("json", [Modulo.objects.get(id = request.POST["modulo_id"]), ])
+    data = serializers.serialize("json", [Modulo.objects.get(id=request.POST["modulo_id"]), ])
     return HttpResponse(data)
+
 
 @ajax_sanitizer
 def tela_de_jogo_graficos(request):
@@ -97,7 +102,7 @@ def tela_de_jogo_graficos(request):
     for i in procuraram_atendimento:
         demanda.append(sum(i.values()))
     labels_tabela = list(time.estatisticas.get_estatisticas().keys())
-    dados_graf_pizza = controlador.get_dados_graf_pizza(nome_time,rodada)
+    dados_graf_pizza = controlador.get_dados_graf_pizza(nome_time, rodada)
     json = {
         "nome_time": time.nome,
         "labels": labels,
@@ -105,8 +110,9 @@ def tela_de_jogo_graficos(request):
         "procuraram_atendimento": demanda,
         "labels_tabela": labels_tabela,
         "dados_graf_pizza": dados_graf_pizza,
-        }
+    }
     return JsonResponse(json)
+
 
 @ajax_sanitizer
 def tela_de_jogo_hospital_medicos(request):
@@ -118,6 +124,7 @@ def tela_de_jogo_hospital_medicos(request):
         "medicos": medicos,
     }
     return render(request, 'jogo/hospital_medicos.html', contexto)
+
 
 @ajax_sanitizer
 def tela_de_jogo_hospital_modulos(request):
