@@ -1,7 +1,6 @@
 from jogo.logica import logica_de_jogo as lj
 from jogo.logica import utils
 from jogo.models import Modulo, Medico, Rodada, Time
-import jogo.logica.utils as utils
 from threading import Lock
 import datetime
 import threading
@@ -20,7 +19,7 @@ class Timer(threading.Thread):
     def __init__(self, pausado, jogo):
         threading.Thread.__init__(self)
         self.se_pausado = pausado
-        self.atualiza_timer = jogo.atualiza_timer;
+        self.atualiza_timer = jogo.atualiza_timer
         self.jogo = jogo
         self.timer = None
         self.lock = Lock()
@@ -30,12 +29,9 @@ class Timer(threading.Thread):
     def run(self):
         self.timer = self.jogo.rodadas[0].duracao * 60 * 1000000
         anterior = datetime.datetime.utcnow()
-        #print (anterior)
-        Group("rodada").send({
-        "text": "Rodada: %s" % str(1),
-        })
+        Group("rodada").send({"text": "Rodada: %s" % str(1)})
         while self.timer is not None:
-            if self.se_pausado.isSet() == False:
+            if not self.se_pausado.isSet():
                 self.waiting.set()
                 self.se_pausado.wait()
                 self.waiting.clear()
@@ -44,27 +40,22 @@ class Timer(threading.Thread):
             atual = datetime.datetime.utcnow()
             delta_time = atual - anterior
             anterior = datetime.datetime.utcnow()
-            self.timer = self.timer - delta_time.microseconds - delta_time.seconds*1000000
-            #print(self.timer)
-            segundos = (round(self.timer/1e6)) % 60
-            minutos = (round(self.timer)/1e6)/60
-            Group("timer").send({
-            "text" : "%02d:%02d" % (minutos, segundos),
-            })
+            self.timer = self.timer - delta_time.microseconds - delta_time.seconds * 1000000
+            segundos = (round(self.timer / 1e6)) % 60
+            minutos = (round(self.timer) / 1e6) / 60
+            Group("timer").send(dict(text="%02d:%02d" % (minutos, segundos)))
             print("%02d:%02d" % (minutos, segundos), file=open("timelog.txt", "a"))
-            #print("timer: %0d" % (timer /1e6))
             sleep(0.5)
             with self.lock:
                 if self.fim_jogo:
-                    break;
-            if(self.timer < 0):
+                    break
+            if self.timer < 0:
                 print("Nova Rodada:", file=open("timelog.txt", "a"))
                 self.timer = self.jogo.nova_rodada()
 
         InstanciaJogo.estado_jogo = JG_FINALIZADO
-        Group("rodada").send({
-        "text": "Rodada:",
-        })
+        Group("rodada").send(dict(text="Rodada:"))
+
 
 class InstanciaJogo:
     jogo_atual = None
@@ -72,6 +63,7 @@ class InstanciaJogo:
     pausado = None
     jogo_lock = None
     estado_jogo = JG_NAO_INICIADO
+
     def __init__(self):
         self.jogo = InstanciaJogo.jogo_atual
         self.timer_thread = InstanciaJogo.timer_thread
@@ -81,16 +73,9 @@ class InstanciaJogo:
 
     @staticmethod
     def inicializa_jogo(modulos, tp_medicos, rodadas, times):
-        """
-            times: Lista de jogo.logica.time.Time
-            rodadas: lista de jogo.models.Rodada
-            tp_medicos: listas de tupla (id, qtd) de jogo.models.Medico
-                        onde qtd é quantidade disponivel inicializar
-            modulos: listas de id de jogo.models.Modulo
-        """
         InstanciaJogo.jogo_atual = lj.Logica(modulos, tp_medicos, rodadas, times)
         InstanciaJogo.pausado = threading.Event()
-        InstanciaJogo.timer_thread = t = Timer( InstanciaJogo.pausado, InstanciaJogo.jogo_atual)
+        InstanciaJogo.timer_thread = Timer(InstanciaJogo.pausado, InstanciaJogo.jogo_atual)
         InstanciaJogo.jogo_lock = Lock()
         InstanciaJogo.estado_jogo = JG_PRONTO
 
@@ -99,12 +84,10 @@ class InstanciaJogo:
         print("wtf")
         self.timer_thread.waiting.wait()
         print("wtff")
-        self.timer_thread.timer = self.jogo_atual.nova_rodada();
-        segundos = (round(self.timer_thread.timer/1e6)) % 60
-        minutos = (round(self.timer_thread.timer)/1e6)/60
-        Group("timer").send({
-        "text" : "%02d:%02d" % (minutos, segundos),
-        })
+        self.timer_thread.timer = self.jogo_atual.nova_rodada()
+        segundos = (round(self.timer_thread.timer / 1e6)) % 60
+        minutos = (round(self.timer_thread.timer) / 1e6) / 60
+        Group("timer").send(dict(text="%02d:%02d" % (minutos, segundos)))
         self.pausado.set()
         print("saind0")
 
@@ -137,19 +120,15 @@ class InstanciaJogo:
         with self.jogo_lock:
             ret = self.jogo_atual.comprar_modulo(nome_time, modulo_id)
             qtd = self.jogo_atual.modulos[modulo_id]
-        Group("mercado").send({
-        "text" : utils.json_para_mercado("Modulo", modulo_id, qtd)
-        })
-        return resultados[ret] # Retorna mensagem de erro ou sucesso
+        Group("mercado").send(dict(text=utils.json_para_mercado("Modulo", modulo_id, qtd)))
+        # Retorna mensagem de erro ou sucesso
+        return resultados[ret]
 
     def contratar_medico(self, nome_time, medico_id):
-        qtd = -1
         with self.jogo_lock:
             self.jogo_atual.comprar_medico(nome_time, medico_id)
             qtd = self.jogo_atual.medicos[medico_id]
-        Group("mercado").send({
-        "text" : utils.json_para_mercado("Medico", medico_id, qtd)
-        })
+        Group("mercado").send(dict(text=utils.json_para_mercado("Medico", medico_id, qtd)))
         return "ok"
 
     def despedir_medico(self, nome_time, medico_id):
@@ -164,20 +143,17 @@ class InstanciaJogo:
         return self.jogo.times[nome_time].estatisticas.get_ultimo_caixa()
 
     def get_medicos(self, nome_time=None):
-        lista_medicos = None
-        if nome_time == None:
+        if not nome_time:
             with self.jogo_lock:
                 lista_medicos = copy.deepcopy(self.jogo_atual.medicos)
             medicos = []
             for id_med, qtd in lista_medicos.items():
-                medico = Medico.objects.get(id = id_med)
-                med = {}
-                med["id"] = medico.id
-                med["salario"] = "{:,.2f}".format(medico.salario)
-                med["expertise"] = range(0, medico.expertise)
-                med["atendimento"] = range(0, medico.atendimento)
-                med["pontualidade"] = range(0, medico.pontualidade)
-                med["qtd_disponiveis"] = qtd
+                medico = Medico.objects.get(id=id_med)
+                med = {"id": medico.id,
+                       "salario": "{:,.2f}".format(medico.salario),
+                       "expertise": range(0, medico.expertise),
+                       "atendimento": range(0, medico.atendimento),
+                       "pontualidade": range(0, medico.pontualidade), "qtd_disponiveis": qtd}
                 medicos.append(med)
             return medicos
         else:
@@ -186,19 +162,19 @@ class InstanciaJogo:
                 lista_medicos = copy.deepcopy(time.medicos)
             medicos = []
             for id_med in lista_medicos:
-                medico = Medico.objects.get(id = id_med)
-                med = {}
-                med["id"] = medico.id
-                med["salario"] = "{:,.2f}".format(medico.salario)
-                med["expertise"] = range(0, medico.expertise)
-                med["atendimento"] = range(0, medico.atendimento)
-                med["pontualidade"] = range(0, medico.pontualidade)
+                medico = Medico.objects.get(id=id_med)
+                med = {
+                       "id": medico.id,
+                       "salario":
+                       "{:,.2f}".format(medico.salario),
+                       "expertise": range(0, medico.expertise),
+                       "atendimento": range(0, medico.atendimento),
+                       "pontualidade": range(0, medico.pontualidade)
+                    }
                 medicos.append(med)
             return medicos
 
-
     def get_modulos(self, nome_time=None):
-        modulos = None
         if nome_time is None:
             with self.jogo_lock:
                 modulos = copy.deepcopy(self.jogo_atual.modulos)
@@ -209,17 +185,17 @@ class InstanciaJogo:
 
         modulos_p_areas = {}
         for id_mod in modulos:
-            modulo = Modulo.objects.get(id = id_mod)
+            modulo = Modulo.objects.get(id=id_mod)
             if modulo.area.nome in modulos_p_areas:
                 modulos_p_areas[modulo.area.nome].append(modulo)
             else:
                 modulos_p_areas[modulo.area.nome] = [modulo]
 
-            modulo.custo_de_aquisicao = "{:,.2f}".format(modulo.custo_de_aquisicao)
-            modulo.custo_mensal = "{:,.0f}".format(modulo.custo_mensal)
-            modulo.preco_do_tratamento = "{:,.0f}".format(modulo.preco_do_tratamento)
-            modulo.tecnologia = range(0, modulo.tecnologia)
-            modulo.conforto = range(0, modulo.conforto)
+            modulo.custo_de_aquisicao = f"{modulo.custo_de_aquisicao:,.2f}"
+            modulo.custo_mensal = f"{modulo.custo_mensal:,.0f}"
+            modulo.preco_do_tratamento = f"{modulo.preco_do_tratamento:,.0f}"
+            modulo.tecnologia = modulo.tecnologia
+            modulo.conforto = modulo.conforto
             modulo.__dict__["qtd_disponiveis"] = modulos[id_mod]
 
         return list(modulos_p_areas.keys()), modulos_p_areas
@@ -231,7 +207,7 @@ class InstanciaJogo:
             temp = {}
             """lista com capacidades d"""
             temp["capacidade"] = estat.lista_atr_mod[rodada][area]["capacidade"]
-            temp["total_atendidos"] =  estat.lista_total_atendidos[rodada][area]
+            temp["total_atendidos"] = estat.lista_total_atendidos[rodada][area]
             data[area] = temp
         return data
 
@@ -241,13 +217,12 @@ class InstanciaJogo:
 
 
 def __inicializa_jogo():
-    if(InstanciaJogo.jogo_atual != None):
+    if InstanciaJogo.jogo_atual:
         return False
-    i_jogo = InstanciaJogo()
     rodadas = Rodada.objects.all()
-    timesCadastrados = Time.objects.order_by('id')
+    times_cadastrados = Time.objects.order_by('id')
     times = []
-    for t in timesCadastrados:
+    for t in times_cadastrados:
         times.append(t)
         tokens = utils.gerar_token()
         times[-1].codigo_login = tokens[-1]
