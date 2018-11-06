@@ -664,7 +664,7 @@ def tela_de_jogo(request):
     if controlador.get_estado_jogo() == ctrler.JG_FINALIZADO:
         return HttpResponseRedirect("/jogo/ranking")
 
-    nome_time = 'Time Vermelho'
+    nome_time = request.session['nome_time']
     time = timeClass.Time(nome_time)
     modulos_p_areas = {}
 
