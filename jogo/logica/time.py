@@ -131,7 +131,7 @@ class Estatistica:
 
 class Time:
 
-    def __init__(self, nome='Team with no name', caixa_inicial=200000):
+    def __init__(self, token=0, nome='Team with no name', caixa_inicial=200000):
         self.nome = nome
         self.medicos = []
         self.modulos = []
@@ -140,7 +140,7 @@ class Time:
 
         self.atributos = {}
         self.nome = nome
-        self.codigo_login = None
+        self.codigo_login = token
 
     def adicionar_medico(self, med_id):
         self.medicos.append(med_id)
