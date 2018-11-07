@@ -112,7 +112,7 @@ def medico_new(request):
         else:
             return render(request, TEMPLATE_MEDICO_NEW, {'form':form})
     else:
-        form = Medico_Form()
+        form = MedicoForm()
         return render(request, TEMPLATE_MEDICO_NEW, {'form': form})
 
 
@@ -256,7 +256,7 @@ def rodada_new(request):
         else:
             return render(request, TEMPLATE_RODADA_NEW, {'form': form})
     else:
-        form = Rodada_Form()
+        form = RodadaForm()
         return render(request, TEMPLATE_RODADA_NEW, {'form': form})
 
 
@@ -470,7 +470,7 @@ def time_new(request):
         else:
             return render(request, TEMPLATE_TIME_NEW, {'form': form, 'id': id})
     else:
-        form = Time_Form()
+        form = TimeForm()
         return render(request, TEMPLATE_TIME_NEW, {'form': form, 'id': id})
 
 
@@ -510,7 +510,7 @@ def emprestimo_new(request):
         else:
             return render(request, TEMPLATE_EMPRESTIMO_NEW, {'form': form})
     else:
-        form = Emprestimo_Form()
+        form = EmprestimoForm()
         return render(request, TEMPLATE_EMPRESTIMO_NEW, {'form': form})
 #@login_required(login_url='/adm/login/')
 
@@ -565,7 +565,7 @@ def classe_social_new(request):
         else:
             return render(request, TEMPLATE_CLASSESOCIAL_NEW, {'form': form, 'id': id})
     else:
-        form = Classe_Social_Form()
+        form = ClasseSocialForm()
         return render(request, TEMPLATE_CLASSESOCIAL_NEW, {'form': form, 'id': id})
 
 
@@ -614,7 +614,7 @@ def modulo_new(request):
         else:
             return render(request, TEMPLATE_MODULO_NEW, {'form': form, 'id': id})
     else:
-        form = Modulo_Form()
+        form = ModuloForm()
         return render(request, TEMPLATE_MODULO_NEW, {'form': form, 'id': id})
 
 
@@ -731,7 +731,7 @@ def tela_de_jogo_hospital(request):
     # Separando modulos por area
     time_modulos_p_areas = {}
     medicos = []
-    time = logica_de_jogo.JogoAtual.times[nome_time];
+    time = logica_jogo.JogoAtual.times[nome_time]
     for id_med in time.medicos:
         medico = Medico.objects.get(id=id_med)
         medicos.append(medico)
