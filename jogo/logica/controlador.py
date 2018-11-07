@@ -5,6 +5,11 @@ from threading import Lock
 from time import sleep
 
 from channels import Group
+
+from jogo.logica import logica_de_jogo as lj
+from jogo.logica import utils
+from jogo.models import Modulo, Medico, Rodada, Time
+
 from jogo.logica import time as timeClass
 JG_PRONTO = 0
 JG_PAUSADO = 1
