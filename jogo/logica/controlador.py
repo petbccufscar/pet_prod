@@ -225,10 +225,10 @@ def __inicializa_jogo():
     rodadas = Rodada.objects.all()
     times_cadastrados = Time.objects.order_by('id')
     times = []
-    for t in timesCadastrados:
-        token = utils.gerar_token()
-        time = timeClass.Time(token, t.nome, t.caixa)
-        times.append(time)
+    for t in times_cadastrados:
+        times.append(t)
+        tokens = utils.gerar_token()
+        times[-1].codigo_login = tokens[-1]
 
     modulos = Modulo.objects.all()
     medicos = Medico.objects.all()
