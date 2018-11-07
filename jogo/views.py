@@ -88,7 +88,7 @@ def logout(request):
 
 def medico_index(request):
     medicos = Medico.objects.order_by('perfil')
-    return render(request, 'medico/medico_index.html', {'medicos':medicos})
+    return render(request, TEMPLATE_MEDICO_INDEX, {'medicos':medicos})
 
 # TODO login_required
 #@login_required(login_url='/adm/login/')
@@ -109,10 +109,10 @@ def medico_new(request):
             form.save()
             return HttpResponseRedirect('/medico')
         else:
-            return render(request, 'medico/medico_new.html', {'form':form})
+            return render(request, TEMPLATE_MEDICO_NEW, {'form':form})
     else:
         form = Medico_Form()
-        return render(request, 'medico/medico_new.html', {'form': form})
+        return render(request, TEMPLATE_MEDICO_NEW, {'form': form})
 
 # TODO login_required
 #@login_required(login_url='/adm/login/')
@@ -126,7 +126,7 @@ def medico_edit(request, id):
             form.save()
             return HttpResponseRedirect('/medico')
 
-    return render(request, 'medico/medico_edit.html', {'form':form, 'id':id})
+    return render(request, TEMPLATE_MEDICO_EDIT, {'form':form, 'id':id})
 
 # TODO login_required
 #@login_required(login_url='/adm/login/')
@@ -154,7 +154,7 @@ def evento_index(request):
         event.append(mult)
         listaEventos.append(event)
         print(listaEventos)
-    return render(request, 'evento/evento_index.html', {'eventos': eventos, 'classes': classes, 'listaEventos':listaEventos})
+    return render(request, TEMPLATE_EVENTO_INDEX, {'eventos': eventos, 'classes': classes, 'listaEventos':listaEventos})
 
 def evento_new(request):
     classes = Classe_Social.objects.all()
@@ -183,7 +183,7 @@ def evento_new(request):
             return HttpResponseRedirect('/evento')
         else:
             print(form.errors)
-            return render(request, 'evento/evento_new.html', {'form': form, 'multiForm': multiForm})
+            return render(request, TEMPLATE_EVENTO_NEW, {'form': form, 'multiForm': multiForm})
     else:
         form = Evento_Form()
         multiForm = []
@@ -193,7 +193,7 @@ def evento_new(request):
             m = Multiplicador_Form()
             mul.append(m)
             multiForm.append(mul)
-        return render(request, 'evento/evento_new.html', {'form': form, 'multiForm': multiForm})
+        return render(request, TEMPLATE_EVENTO_NEW, {'form': form, 'multiForm': multiForm})
 
 
 def evento_edit(request, id):
@@ -222,7 +222,7 @@ def evento_edit(request, id):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/evento')
-    return render(request, 'evento/evento_edit.html', {'form': form, 'multiForm': multiForm})
+    return render(request, TEMPLATE_EVENTO_EDIT, {'form': form, 'multiForm': multiForm})
 
 def evento_delete(request, id):
     classes = Classe_Social.objects.all()
@@ -235,7 +235,7 @@ def evento_delete(request, id):
 # Views para Rodada
 def rodada_index(request):
     rodadas = Rodada.objects.order_by('numeroRodada')
-    return render(request, 'rodada/rodada_index.html', {'rodadas':rodadas})
+    return render(request, TEMPLATE_RODADA_INDEX, {'rodadas':rodadas})
 # Views para Area e Area Classe Social
 # Preciso do Classe Social para testar TODO mudar ClasseSocial para Classe_Social
 
@@ -246,10 +246,10 @@ def rodada_new(request):
             form.save()
             return HttpResponseRedirect('/rodada')
         else:
-            return render(request, 'rodada/rodada_new.html', {'form': form})
+            return render(request, TEMPLATE_RODADA_NEW, {'form': form})
     else:
         form = Rodada_Form()
-        return render(request, 'rodada/rodada_new.html', {'form': form})
+        return render(request, TEMPLATE_RODADA_NEW, {'form': form})
 
 # TODO login_required
 #@login_required(login_url='/adm/login/')
@@ -262,7 +262,7 @@ def rodada_edit(request, id):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/rodada')
-    return render(request, 'rodada/rodada_edit.html', {'form':form})
+    return render(request, TEMPLATE_RODADA_EDIT, {'form':form})
 
 
 def rodada_delete(request, id):
@@ -290,7 +290,7 @@ def area_index(request):
         desvios_entradas_areas.append(valores)
 
     print (desvios_entradas_areas)
-    return render(request, 'area/area_index.html', {'desvios_entradas_areas': desvios_entradas_areas , 'classesNomes': classesNomes})
+    return render(request, TEMPLATE_AREA_INDEX, {'desvios_entradas_areas': desvios_entradas_areas , 'classesNomes': classesNomes})
 
 def area_new(request):
     if request.method == 'POST':
@@ -319,7 +319,7 @@ def area_new(request):
                 form_area_classesocial = Area_Classe_Social_Form(request.POST)
                 if not form_area_classesocial.is_valid():
                         #retorna o erro
-                        return render(request, 'area/area_edit.html',
+                        return render(request, TEMPLATE_AREA_EDIT,
                                       {'form': form, 'id': id, 'classes_sociais': classes_sociais,
                                        'form_area_classesocial': form_area_classesocial,'list':list})
             for desvio in list_desvios:
@@ -327,7 +327,7 @@ def area_new(request):
                 form_area_classesocial = Area_Classe_Social_Form(request.POST)
                 if not form_area_classesocial.is_valid():
                     # retorna o erro
-                    return render(request, 'area/area_edit.html',
+                    return render(request, TEMPLATE_AREA_EDIT,
                                   {'form': form, 'id': id, 'classes_sociais': classes_sociais,
                                    'form_area_classesocial': form_area_classesocial,'list':list})
 
@@ -341,7 +341,7 @@ def area_new(request):
             return HttpResponseRedirect('/area')
         else:
             #form_area_classesocial = Area_ClasseSocial_Form(request.POST)
-            return render(request, 'area/area_edit.html',
+            return render(request, TEMPLATE_AREA_EDIT,
                           {'form': form, 'id': id, 'classes_sociais': classes_sociais,
                            'form_area_classesocial': form_area_classesocial,'list':list})
     else:
@@ -354,7 +354,7 @@ def area_new(request):
             form_ac.append(form_area_classesocial)
             nomes.append(a.nome)
         list = zip(form_ac, nomes)
-        return render(request, 'area/area_new.html',
+        return render(request, TEMPLATE_AREA_NEW,
                       {'form': form, 'id': id, 'classes_sociais': classes_sociais, 'list':list})
 
 
@@ -386,7 +386,7 @@ def area_edit(request, id):
                 if not form_area_classesocial.is_valid():
                     #form_ac[iterador-1] = Area_ClasseSocial_Form(initial={'desvios': list_desvios[iterador-1]})
                     # retorna o erro em form_area_classesocial e valores em form_ac
-                    return render(request, 'area/area_edit.html',
+                    return render(request, TEMPLATE_AREA_EDIT,
                                   {'form': form, 'id': id, 'classes_sociais': classes_sociais, 'form_area_classesocial': form_area_classesocial,'list':list})
 
 
@@ -397,7 +397,7 @@ def area_edit(request, id):
                 if not form_area_classesocial.is_valid():
                     # retorna o erro
                     #form_ac[iterador - 1] = Area_ClasseSocial_Form(initial={'entrada': list_entradas[iterador - 1]})
-                    return render(request, 'area/area_edit.html',
+                    return render(request, TEMPLATE_AREA_EDIT,
                                   {'form': form, 'id': id, 'classes_sociais': classes_sociais,
                                    'form_area_classesocial': form_area_classesocial,'list':list})
 
@@ -413,7 +413,7 @@ def area_edit(request, id):
 
             return HttpResponseRedirect('/area')
         else:
-            return render(request, 'area/area_edit.html',
+            return render(request, TEMPLATE_AREA_EDIT,
                           {'form': form, 'id': id, 'classes_sociais': classes_sociais,
                            'form_area_classesocial': form_area_classesocial,'list':list})
 
@@ -431,7 +431,7 @@ def area_edit(request, id):
     for a in classes_sociais:
         nomes.append(a.nome)
     list = zip(form_ac, nomes)
-    return render(request, 'area/area_edit.html', {'form': form, 'id': id, 'classes_sociais':classes_sociais,'list':list})
+    return render(request, TEMPLATE_AREA_EDIT, {'form': form, 'id': id, 'classes_sociais':classes_sociais,'list':list})
 
 def area_delete(request, id):
     get_object_or_404(Area, id = id).delete()
@@ -443,7 +443,7 @@ def area_delete(request, id):
 #VIEWS PARA TIME
 def time_index(request):
     times = Time.objects.order_by('id')
-    return render(request, 'time/time_index.html', {'times': times})
+    return render(request, TEMPLATE_TIME_INDEX, {'times': times})
 
 #@login_required(login_url='/adm/login')
 def time_new(request):
@@ -456,12 +456,12 @@ def time_new(request):
                 form.save()
                 return HttpResponseRedirect('/time')
             else:
-                return render(request, 'time/time_new.html', {'form': form, 'id': id})
+                return render(request, TEMPLATE_TIME_NEW, {'form': form, 'id': id})
         else:
-            return render(request, 'time/time_new.html', {'form': form, 'id': id})
+            return render(request, TEMPLATE_TIME_NEW, {'form': form, 'id': id})
     else:
         form = Time_Form()
-        return render(request, 'time/time_new.html', {'form': form, 'id': id})
+        return render(request, TEMPLATE_TIME_NEW, {'form': form, 'id': id})
 
 #@login_required(login_url='/adm/login/')
 def time_edit(request, id):
@@ -474,7 +474,7 @@ def time_edit(request, id):
             form.save()
             return HttpResponseRedirect('/time')
 
-    return render(request, 'time/time_edit.html', {'form':form, 'id':id})
+    return render(request, TEMPLATE_TIME_EDIT, {'form':form, 'id':id})
 
 #@login_required(login_url='/adm/login/')
 def time_delete(request, id):
@@ -485,7 +485,7 @@ def time_delete(request, id):
 # Views para empréstimo:
 def emprestimo_index(request):
     emprestimos = Emprestimo.objects.order_by('valor')
-    return render(request, 'emprestimo/emprestimo_index.html', {'emprestimos':emprestimos})
+    return render(request, TEMPLATE_EMPRESTIMO_INDEX, {'emprestimos':emprestimos})
 
 def emprestimo_new(request):
     if request.method == 'POST':
@@ -495,10 +495,10 @@ def emprestimo_new(request):
             form.save()
             return HttpResponseRedirect('/emprestimo')
         else:
-            return render(request, 'emprestimo/emprestimo_new.html', {'form': form})
+            return render(request, TEMPLATE_EMPRESTIMO_NEW, {'form': form})
     else:
         form = Emprestimo_Form()
-        return render(request, 'emprestimo/emprestimo_new.html', {'form': form})
+        return render(request, TEMPLATE_EMPRESTIMO_NEW, {'form': form})
 #@login_required(login_url='/adm/login/')
 
 def emprestimo_edit(request, id):
@@ -511,7 +511,7 @@ def emprestimo_edit(request, id):
             form.save()
             return HttpResponseRedirect('/emprestimo')
 
-    return render(request, 'emprestimo/emprestimo_edit.html', {'form': form})
+    return render(request, TEMPLATE_EMPRESTIMO_EDIT, {'form': form})
 
 def emprestimo_delete(request, id):
     get_object_or_404(Emprestimo, pk=id).delete()
@@ -520,7 +520,7 @@ def emprestimo_delete(request, id):
 
 def classe_social_index(request):
     classes = Classe_Social.objects.order_by('id')
-    return render(request, 'classe_social/classe_social_index.html', {'classes':classes})
+    return render(request, TEMPLATE_CLASSESOCIAL_INDEX, {'classes':classes})
 
 def classe_social_new(request):
     if request.method == 'POST':
@@ -545,10 +545,10 @@ def classe_social_new(request):
             form.save()
             return HttpResponseRedirect('/classe_social')
         else:
-            return render(request, 'classe_social/classe_social_new.html', {'form': form, 'id': id})
+            return render(request, TEMPLATE_CLASSESOCIAL_NEW, {'form': form, 'id': id})
     else:
         form = Classe_Social_Form()
-        return render(request, 'classe_social/classe_social_new.html', {'form': form, 'id': id})
+        return render(request, TEMPLATE_CLASSESOCIAL_NEW, {'form': form, 'id': id})
 
 def classe_social_edit(request, id):
     classe = get_object_or_404(Classe_Social, pk=id)
@@ -568,7 +568,7 @@ def classe_social_edit(request, id):
                 multi.update(classe_social=form['nome'].value())
             return HttpResponseRedirect('/classe_social')
 
-    return render(request, 'classe_social/classe_social_edit.html', {'form': form, 'id': id})
+    return render(request, TEMPLATE_CLASSESOCIAL_EDIT, {'form': form, 'id': id})
 
 def classe_social_delete(request, id):
     eventos = Evento.objects.all()
@@ -582,7 +582,7 @@ def classe_social_delete(request, id):
 
 def modulo_index(request):
     modulos = Modulo.objects.order_by('codigo')
-    return render(request, 'modulo/modulo_index.html', {'modulos':modulos})
+    return render(request, TEMPLATE_MODULO_INDEX, {'modulos':modulos})
 
 #@login_required(login_url='/adm/login/')
 def modulo_new(request):
@@ -592,10 +592,10 @@ def modulo_new(request):
             form.save()
             return HttpResponseRedirect('/modulo')
         else:
-            return render(request, 'modulo/modulo_new.html', {'form': form, 'id': id})
+            return render(request, TEMPLATE_MODULO_NEW, {'form': form, 'id': id})
     else:
         form = Modulo_Form()
-        return render(request, 'modulo/modulo_new.html', {'form': form, 'id': id})
+        return render(request, TEMPLATE_MODULO_NEW, {'form': form, 'id': id})
 
 
 #@login_required(login_url='/adm/login/')
@@ -609,7 +609,7 @@ def modulo_edit(request, id):
             form.save()
             return HttpResponseRedirect('/modulo')
 
-    return render(request, 'modulo/modulo_edit.html', {'form': form, 'id': id})
+    return render(request, TEMPLATE_MODULO_EDIT, {'form': form, 'id': id})
 
 #@login_required(login_url='/adm/login/')
 def modulo_delete(request, id):
@@ -764,19 +764,19 @@ def tela_de_jogo_dashboard(request):
     return render(request, TEMPLATE_JOGO_DASHBOARD, contexto)
 
 def pre_jogo_1(request):
-    return render(request, 'pre_jogo/tela_pre_jogo_1.html',{})
+    return render(request, TEMPLATE_PREJOGO_1,{})
 
 def pre_jogo_2(request):
-    return render(request, 'pre_jogo/tela_pre_jogo_2.html',{})
+    return render(request, TEMPLATE_PREJOGO_2,{})
 
 def pre_jogo_3(request):
-    return render(request, 'pre_jogo/tela_pre_jogo_3.html',{})
+    return render(request, TEMPLATE_PREJOGO_3,{})
 
 def pre_jogo_4(request):
-    return render(request, 'pre_jogo/tela_pre_jogo_4.html',{})
+    return render(request, TEMPLATE_PREJOGO_4,{})
 
 def pre_jogo_5(request):
-    return render(request, 'pre_jogo/tela_pre_jogo_5.html',{})
+    return render(request, TEMPLATE_PREJOGO_5,{})
 
 def logar(request):
     print(request.POST["senha"])
