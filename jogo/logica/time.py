@@ -125,6 +125,7 @@ class Estatistica:
 
         self.caixa[-1] -= total_emprestimos
 
+class Time:
 
     def __init__(self, token=0, nome='Team with no name', caixa_inicial=200000):
         self.nome = nome
