@@ -1,12 +1,14 @@
+import copy
+import datetime
+import threading
+from threading import Lock
+from time import sleep
+
+from channels import Group
+
 from jogo.logica import logica_de_jogo as lj
 from jogo.logica import utils
 from jogo.models import Modulo, Medico, Rodada, Time
-from threading import Lock
-import datetime
-import threading
-import copy
-from time import sleep
-from channels import Group
 
 JG_PRONTO = 0
 JG_PAUSADO = 1
@@ -164,13 +166,13 @@ class InstanciaJogo:
             for id_med in lista_medicos:
                 medico = Medico.objects.get(id=id_med)
                 med = {
-                       "id": medico.id,
-                       "salario":
-                       "{:,.2f}".format(medico.salario),
-                       "expertise": range(0, medico.expertise),
-                       "atendimento": range(0, medico.atendimento),
-                       "pontualidade": range(0, medico.pontualidade)
-                    }
+                    "id": medico.id,
+                    "salario":
+                        "{:,.2f}".format(medico.salario),
+                    "expertise": range(0, medico.expertise),
+                    "atendimento": range(0, medico.atendimento),
+                    "pontualidade": range(0, medico.pontualidade)
+                }
                 medicos.append(med)
             return medicos
 

@@ -1,7 +1,8 @@
 from django.conf.urls import url
-from jogo import views
-from django.urls import path
+
 from jogo import ajax
+from jogo import views
+
 app_name = 'jogo'
 urlpatterns = [
     # URLs para home
@@ -31,7 +32,7 @@ urlpatterns = [
     url(r'^emprestimo/edit/(?P<id>\d+)/$', views.emprestimo_edit, name='emprestimo_edit'),
     url(r'^emprestimo/delete/(?P<id>\d+)/$', views.emprestimo_delete, name='emprestimo_delete'),
     url(r'^emprestimo/new/$', views.emprestimo_new, name='emprestimo_new'),
-    #URLs para Time
+    # URLs para Time
     url(r'^time/$', views.time_index, name='time_index'),
     url(r'^time/edit/(?P<id>\d+)/$', views.time_edit, name='time_edit'),
     url(r'^time/delete/(?P<id>\d+)/$', views.time_delete, name='time_delete'),
@@ -52,7 +53,7 @@ urlpatterns = [
     url(r'^modulo/delete/(?P<id>\d+)/$', views.modulo_delete, name='modulo_delete'),
     url(r'^modulo/new/$', views.modulo_new, name='modulo_new'),
 
-    #interações do jogador
+    # interações do jogador
     url(r'^irrelevante', views.iniciar_jogo, name='iniciar_jogo'),
     url(r'^jogo/comprar_modulo', ajax.comprar_modulo, name='comprar_modulo'),
     url(r'^jogo/vender_modulo', ajax.vender_modulo, name='vender_modulo'),
@@ -64,18 +65,18 @@ urlpatterns = [
     url(r'^jogo/hospital/$', views.tela_de_jogo_hospital, name='tela_de_jogo_hospital'),
     url(r'^jogo/dashboard', views.tela_de_jogo_dashboard, name='tela_de_jogo_dashboard'),
     url(r'^jogo/dados_graficos', ajax.tela_de_jogo_graficos, name='tela_de_jogo_graficos'),
-    url(r'^jogo/ranking/$', views.jogo_ranking, name='jogo_ranking'),    
+    url(r'^jogo/ranking/$', views.jogo_ranking, name='jogo_ranking'),
 
     url(r'^jogo/$', views.tela_de_jogo, name='tela_de_jogo'),
 
-    #telas de pre jogo
+    # telas de pre jogo
     url(r'^pre_jogo_1/$', views.pre_jogo_1, name='pre_jogo_1'),
     url(r'^pre_jogo_2/$', views.pre_jogo_2, name='pre_jogo_2'),
     url(r'^pre_jogo_3/$', views.pre_jogo_3, name='pre_jogo_3'),
     url(r'^pre_jogo_4/$', views.pre_jogo_4, name='pre_jogo_4'),
     url(r'^pre_jogo_5/$', views.pre_jogo_5, name='pre_jogo_5'),
 
-    #tela login do jogador
+    # tela login do jogador
     url(r'^login_jogador/$', views.login_jogador, name='login_jogador'),
     url(r'^logar/$', views.logar, name='logar'),
 ]

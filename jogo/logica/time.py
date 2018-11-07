@@ -1,5 +1,5 @@
-from django.http import JsonResponse
 from jogo.models import Medico, Modulo, Emprestimo
+
 
 class Estatistica:
     """
@@ -7,22 +7,22 @@ class Estatistica:
         porque ai pode acessar a documentacao com "Estatistica.__doc__"
 
     """
-    def __init__(self, caixa_inicial = 2000000):
-        #TODO: Explicação do que são essas variaveis todas
-        self.entrada_atendimento = [] # total ganho com a soma do que foi ganho em cada area
+
+    def __init__(self, caixa_inicial=2000000):
+        # TODO: Explicação do que são essas variaveis todas
+        self.entrada_atendimento = []  # total ganho com a soma do que foi ganho em cada area
         self.caixa = []
 
-        self.lista_demandas = [] # lista de dicionarios
+        self.lista_demandas = []  # lista de dicionarios
 
-        self.lista_total_atendidos = [] # lista de dicionarios com o total de pessoas atendidas separadas por area (cada indice é uma rodada)
+        self.lista_total_atendidos = []  # lista de dicionarios com o total de pessoas atendidas separadas por area (cada indice é uma rodada)
 
-        self.lista_entradas_por_area = [] # lista de dicionarios
+        self.lista_entradas_por_area = []  # lista de dicionarios
 
         # Todas as contas do caixa são realizadas no final, porem o jogador não pode ficar endividado por compra sem dinheiro,
         # apenas por má administração. Então as compras de módulos já são descontadas do caixa na hora. Porém é necessário armazenar
         # isso para aparecer no relatório depois, somado à saída, obtendo o valor total de gastos da rodada
         self.comprasModulo = []
-
 
         # O mesmo descrito acima serve para a venda de módulos
         self.vendasModulo = []
@@ -31,10 +31,8 @@ class Estatistica:
         self.lista_salarios_medicos = []
         self.lista_manutencao_modulos = []
 
-
-        self.lista_id_emprestimos = [] #lista (de listas de id de emprestimos) por rodada
-        self.lista_valores_emprestimos = [] #lista (de listas de valores de emprestimos) por rodada
-
+        self.lista_id_emprestimos = []  # lista (de listas de id de emprestimos) por rodada
+        self.lista_valores_emprestimos = []  # lista (de listas de valores de emprestimos) por rodada
 
         # Lista de dicionarios que contem dicionarios com os atributos de modulos de cada rodada
         self.lista_atr_mod = []
@@ -53,8 +51,8 @@ class Estatistica:
         self.lista_id_emprestimos.append([])
         self.lista_valores_emprestimos.append(0)
 
-
-    def nova_rodada(self, entrada_atendimento, demanda, total_atendidos, entradas_por_area, salarios_medicos, manutencao_modulos, atributos_modulos):
+    def nova_rodada(self, entrada_atendimento, demanda, total_atendidos, entradas_por_area, salarios_medicos,
+                    manutencao_modulos, atributos_modulos):
         # Atualizando ultima posição de cada vetor
         self.entrada_atendimento[-1] = entrada_atendimento
 
@@ -67,7 +65,6 @@ class Estatistica:
         self.lista_salarios_medicos[-1] = salarios_medicos
         self.lista_manutencao_modulos[-1] = manutencao_modulos
         self.lista_atr_mod[-1] = atributos_modulos
-
 
         print("TEM CAIXA: ", self.caixa)
 
@@ -85,10 +82,8 @@ class Estatistica:
         self.lista_id_emprestimos.append([])
         self.lista_valores_emprestimos.append(0)
 
-
     def get_ultimo_caixa(self):
         return self.caixa[-1]
-
 
     def get_estatisticas(self):
         total_saida = []
@@ -96,7 +91,8 @@ class Estatistica:
         lucro = []
 
         for i in range(0, len(self.lista_salarios_medicos)):
-            total_saida.append(self.comprasModulo[i] + self.lista_manutencao_modulos[i] + self.lista_salarios_medicos[i]) #TODO: depois vai ter - saida de emprestimo[i] aqui
+            total_saida.append(self.comprasModulo[i] + self.lista_manutencao_modulos[i] + self.lista_salarios_medicos[
+                i])  # TODO: depois vai ter - saida de emprestimo[i] aqui
             total_entrada.append(self.entrada_atendimento[i] + self.vendasModulo[i] + self.lista_valores_emprestimos[i])
             lucro.append(total_entrada[-1] - total_saida[-1])
 
@@ -120,7 +116,7 @@ class Estatistica:
         return data
 
     def fim_de_jogo(self):
-        #TODO: Todo o codigo de fim de jogo de cada time (fechamento de contas).. tem mais coisa?
+        # TODO: Todo o codigo de fim de jogo de cada time (fechamento de contas).. tem mais coisa?
 
         # Pagamento dos emprestimos
         total_emprestimos = 0
@@ -129,8 +125,8 @@ class Estatistica:
 
         self.caixa[-1] -= total_emprestimos
 
-class Time:
 
+class Time:
     def __init__(self, nome='Team with no name', caixa_inicial=200000):
         self.nome = nome
         self.medicos = []
@@ -171,13 +167,13 @@ class Time:
         if emprestimo.id in self.estatisticas.lista_id_emprestimos[-1]:
             return False
         else:
-            print("CAIXA ANTES: ",  self.estatisticas.caixa[-1])
+            print("CAIXA ANTES: ", self.estatisticas.caixa[-1])
             self.estatisticas.lista_id_emprestimos[-1].append(emprestimo.id)
             self.estatisticas.lista_valores_emprestimos[-1] += emprestimo.valor
             self.estatisticas.caixa[-1] += emprestimo.valor
             print("ADICIONEI EMPRESTIMO!")
 
-            print("CAIXA DEPOIS: ",  self.estatisticas.caixa[-1])
+            print("CAIXA DEPOIS: ", self.estatisticas.caixa[-1])
             return True
 
     def cabe_comprar_modulo(self):
@@ -190,7 +186,7 @@ class Time:
         expertise = 0
         atendimento = 0
         pontualidade = 0
-        total_salarios =0
+        total_salarios = 0
         quantidade = len(self.medicos)
         if quantidade == 0:
             return {
@@ -222,7 +218,7 @@ class Time:
 
         for modulo_id in self.modulos:
             mod = Modulo.objects.get(id=modulo_id)
-            if mod.area.nome == area.nome: # transformar para id
+            if mod.area.nome == area.nome:  # transformar para id
                 quantidade += 1
                 tecnologia += mod.tecnologia
                 conforto += mod.conforto
@@ -251,7 +247,6 @@ class Time:
         pass
         # TODO: gerar link (logica do jogo)
 
-
     def calcular_total_atendidos(self, demanda, areas, classes):
 
         #  VERIFICAR SE AS CLASSES SAO DE ACORDO
@@ -273,12 +268,12 @@ class Time:
             for classe in classes:
 
                 if (classe.media_conforto <= atr_mod['conforto'] and
-                        classe.nivel_tecnologia <= atr_mod['tecnologia'] and
-                        classe.preco_atendimento >= atr_mod['preco_do_tratamento'] and
-                        classe.nivel_especialidade <= atr_med['expertise'] and
-                        classe.velocidade_atendimento <= atr_med['atendimento']):
+                            classe.nivel_tecnologia <= atr_mod['tecnologia'] and
+                            classe.preco_atendimento >= atr_mod['preco_do_tratamento'] and
+                            classe.nivel_especialidade <= atr_med['expertise'] and
+                            classe.velocidade_atendimento <= atr_med['atendimento']):
 
-                     #TODO: faltou o pontualidade. E velocidade_atendimento = atendimento?
+                    # TODO: faltou o pontualidade. E velocidade_atendimento = atendimento?
 
                     # CALCULAR TOTAL DE ATENDIDOS
 
