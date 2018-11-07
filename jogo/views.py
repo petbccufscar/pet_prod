@@ -10,7 +10,6 @@ import jogo.logica.controlador as ctrler
 import jogo.logica.logica_de_jogo as logica_jogo
 from jogo.logica import time as timeClass
 from jogo.logica import utils
-from jogo.logica.time import Time as LTime
 from .forms import AreaClasseSocialForm
 from .forms import AreaForm
 from .forms import ClasseSocialForm, MultiplicadorForm
@@ -649,10 +648,7 @@ def iniciar_jogo(request):
     # times hardcoded para fins de teste
     timesCadastrados = Time.objects.order_by(id)
     for t in timesCadastrados:
-        times.append(LTime(t.nome))
-        tokens = utils.gerar_token(1)
-        times[-1].codigo_login = tokens[-1]
-        print("codigo: ", times[-1].codigo_login)
+        times.append(timeClass(t.login, t.nome, t.caixa))
         request.session['nome_time'] = t.nome
     print(request.session['nome_time'])
     logica_jogo.inicializa_jogo(rodadas, times)
