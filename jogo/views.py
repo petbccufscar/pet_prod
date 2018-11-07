@@ -30,21 +30,22 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 import jogo.logica.logica_de_jogo as logica_jogo
 from jogo.logica.time import Time as LTime
 import jogo.logica.controlador as ctrler
+from jogo.constants import *
 # from django.core.exceptions import ObjectDoesNotExist
 
 # views para home
 
 @login_required(login_url='/login/')
 def index(request):
-    return render(request, 'jogo/index.html', {})
+    return render(request, TEMPLATE_JOGO_INDEX, {})
 
 
 def base_configuracoes(request):
-    return render(request, 'jogo/base_configuracoes.html', {})
+    return render(request, TEMPLATE_JOGO_BASE_CONFIGURACOES, {})
 
 
 def base_aplicar_dinamica(request):
-    return render(request, 'jogo/base_aplicar_dinamica.html', {})
+    return render(request, TEMPLATE_JOGO_BASE_APLICAR_DINAMICA, {})
 
 
 def login(request):
@@ -72,7 +73,7 @@ def login(request):
         except:
             contexto['erro'] = 'Parâmetros inválidos.'
 
-    return render(request, 'jogo/login.html', contexto)
+    return render(request, TEMPLATE_JOGO_LOGIN, contexto)
 
 
 def logout(request):
@@ -646,7 +647,7 @@ def tela_aplicar_dinamica(request):
     for x in times.values():
         request.session['nome_time'] = x.nome
     print(request.session['nome_time'])
-    return render(request, 'jogo/base_aplicar_dinamica.html', contexto)
+    return render(request, TEMPLATE_JOGO_BASE_APLICAR_DINAMICA, contexto)
 
 @ensure_csrf_cookie
 def tela_de_jogo(request):
@@ -659,7 +660,7 @@ def tela_de_jogo(request):
         return HttpResponseRedirect("/jogo/")
 
     if controlador.get_estado_jogo() == ctrler.JG_PRONTO:
-        return render(request, 'jogo/nao_iniciado.html')
+        return render(request, TEMPLATE_JOGO_NAO_INICIADO)
 
     if controlador.get_estado_jogo() == ctrler.JG_FINALIZADO:
         return HttpResponseRedirect("/jogo/ranking")
@@ -695,7 +696,7 @@ def tela_de_jogo(request):
         "rodadas_ate_atual":range(0,controlador.jogo_atual.rodada_atual),
         "rodadas": range(1,len(controlador.jogo_atual.rodadas)+2),
         }
-    return render(request, 'jogo/tela_de_jogo.html', contexto)
+    return render(request, TEMPLATE_JOGO_TELA_DE_JOGO, contexto)
 
 def tela_de_jogo_hospital(request):
     if logica_jogo.JogoAtual is None:
@@ -734,7 +735,7 @@ def tela_de_jogo_hospital(request):
         "t_mod_p_area": time_modulos_p_areas,
         "medicos": medicos,
     }
-    return render(request, 'jogo/meu_hospital.html', contexto)
+    return render(request, TEMPLATE_JOGO_MEU_HOSPITAL, contexto)
 
 def tela_de_jogo_dashboard(request):
 
@@ -760,7 +761,7 @@ def tela_de_jogo_dashboard(request):
         "estatisticas": time.estatisticas.get_estatisticas(),
         "rodadas": range(1,len(controlador.jogo_atual.rodadas)+2),
         }
-    return render(request, 'jogo/dashboard.html', contexto)
+    return render(request, TEMPLATE_JOGO_DASHBOARD, contexto)
 
 def pre_jogo_1(request):
     return render(request, 'pre_jogo/tela_pre_jogo_1.html',{})
@@ -799,11 +800,11 @@ def logar(request):
         return HttpResponse("Login Falhou: token inexistente")
 
 def login_jogador(request):
-    return render(request, 'jogo/login_jogador.html',{})
+    return render(request, TEMPLATE_JOGO_LOGIN_JOGADOR,{})
 
 def jogo_ranking(request):
     controlador = ctrler.InstanciaJogo()
     if controlador.get_estado_jogo() != ctrler.JG_FINALIZADO:
         return HttpResponse("Não há jogo Finalizado")
     scores = controlador.pontuacao()
-    return render(request, 'jogo/jogo_ranking.html', {"scores": scores})
+    return render(request, TEMPLATE_JOGO_RANKING, {"scores": scores})
