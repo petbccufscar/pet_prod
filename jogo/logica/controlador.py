@@ -222,7 +222,7 @@ def __inicializa_jogo():
     rodadas = Rodada.objects.all()
     times_cadastrados = Time.objects.order_by('id')
     times = []
-    for t in timesCadastrados:
+    for t in times_cadastrados:
         token = utils.gerar_token()
         time = timeClass.Time(token, t.nome, t.caixa)
         times.append(time)
