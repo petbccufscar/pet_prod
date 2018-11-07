@@ -10,6 +10,7 @@ from jogo.logica import logica_de_jogo as lj
 from jogo.logica import utils
 from jogo.models import Modulo, Medico, Rodada, Time
 
+from jogo.logica import time as timeClass
 JG_PRONTO = 0
 JG_PAUSADO = 1
 JG_NAO_INICIADO = 2
@@ -224,10 +225,10 @@ def __inicializa_jogo():
     rodadas = Rodada.objects.all()
     times_cadastrados = Time.objects.order_by('id')
     times = []
-    for t in times_cadastrados:
-        times.append(t)
-        tokens = utils.gerar_token()
-        times[-1].codigo_login = tokens[-1]
+    for t in timesCadastrados:
+        token = utils.gerar_token()
+        time = timeClass.Time(token, t.nome, t.caixa)
+        times.append(time)
 
     modulos = Modulo.objects.all()
     medicos = Medico.objects.all()

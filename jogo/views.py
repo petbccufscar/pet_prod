@@ -691,8 +691,8 @@ def tela_de_jogo(request):
     if controlador.get_estado_jogo() == ctrler.JG_FINALIZADO:
         return HttpResponseRedirect("/jogo/ranking")
 
-    nome_time = request.session['nome_time']
-    time = timeClass.Time(nome_time)
+    nome_time = request.session['time_nome']
+    time = controlador.jogo_atual.times[nome_time]
     modulos_p_areas = {}
 
     labels = time.estatisticas.lista_demandas[0].keys()
@@ -824,9 +824,11 @@ def logar(request):
         print("Tenho codigo login: ", time.codigo_login)
         print("Tenho request senha: ", request.POST["senha"])
         if time.codigo_login == request.POST["senha"]:
-            # request.session.clear()
+            print(time.estatisticas)
+            #request.session.clear()
             logado = True
-            request.session['nome_time'] = time.nome
+            request.session['time_nome'] = time.nome
+            print(time.nome)
     if logado:
         return HttpResponseRedirect('/jogo/')
     else:
