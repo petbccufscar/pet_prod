@@ -6,11 +6,10 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, HttpResponseRedirect
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-import jogo.logica.controlador as ctrler
-import jogo.logica.logica_de_jogo as logica_jogo
+from jogo.logica import controlador as ctrler
+from jogo.logica import logica_de_jogo
 from jogo.logica import time as timeClass
 from jogo.logica import utils
-from jogo.logica.time import Time as LTime
 from .forms import AreaClasseSocialForm
 from .forms import AreaForm
 from .forms import ClasseSocialForm, MultiplicadorForm
@@ -641,19 +640,14 @@ def modulo_delete(request, id):
 
 
 def iniciar_jogo(request):
-    # TODO: codigo de inicialização de jogo
     rodadas = Rodada.objects.all()
-    times = []  # TODO: inicializar times
+    times = []
     # times hardcoded para fins de teste
     timesCadastrados = Time.objects.order_by(id)
     for t in timesCadastrados:
-        times.append(LTime(t.nome))
-        tokens = utils.gerar_token(1)
-        times[-1].codigo_login = tokens[-1]
-        print("codigo: ", times[-1].codigo_login)
         request.session['nome_time'] = t.nome
-    print(request.session['nome_time'])
-    logica_jogo.inicializa_jogo(rodadas, times)
+    times = ctrler.InstanciaJogo.jogo_atual.times
+    logica_de_jogo.inicializa_jogo(rodadas, times)
     return HttpResponse("Iniciou")
 
 
@@ -689,8 +683,9 @@ def tela_de_jogo(request):
     if controlador.get_estado_jogo() == ctrler.JG_FINALIZADO:
         return HttpResponseRedirect("/jogo/ranking")
 
-    nome_time = request.session['nome_time']
-    time = timeClass.Time(nome_time)
+    nome_time = request.session['time_nome']
+    time = controlador.jogo_atual.times[nome_time]
+    print(time.estatisticas)
     modulos_p_areas = {}
 
     labels = time.estatisticas.lista_demandas[0].keys()
@@ -705,6 +700,7 @@ def tela_de_jogo(request):
 
     medicos = controlador.get_medicos()
     areas, modulos_p_areas = controlador.get_modulos()
+    print(modulos_p_areas)
     contexto = {
         "areas": areas,
         "mod_p_area": modulos_p_areas,
@@ -724,18 +720,18 @@ def tela_de_jogo(request):
 
 
 def tela_de_jogo_hospital(request):
-    if logica_jogo.JogoAtual is None:
+    if logica_de_jogo.JogoAtual is None:
         return HttpResponse("Jogo Não Iniciado")
     if 'nome_time' not in request.session:
         return HttpResponse("Usuário Não Logado")
 
     nome_time = request.session['nome_time']
 
-    time = logica_jogo.JogoAtual.times[nome_time]
+    time = logica_de_jogo.JogoAtual.times[nome_time]
     # Separando modulos por area
     time_modulos_p_areas = {}
     medicos = []
-    time = logica_jogo.JogoAtual.times[nome_time];
+    time = logica_de_jogo.JogoAtual.times[nome_time];
     for id_med in time.medicos:
         medico = Medico.objects.get(id=id_med)
         medicos.append(medico)
@@ -822,9 +818,11 @@ def logar(request):
         print("Tenho codigo login: ", time.codigo_login)
         print("Tenho request senha: ", request.POST["senha"])
         if time.codigo_login == request.POST["senha"]:
-            # request.session.clear()
+            print(time.estatisticas)
+            #request.session.clear()
             logado = True
-            request.session['nome_time'] = time.nome
+            request.session['time_nome'] = time.nome
+            print(time.nome)
     if logado:
         return HttpResponseRedirect('/jogo/')
     else:

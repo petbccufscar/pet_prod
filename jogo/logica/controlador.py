@@ -9,6 +9,7 @@ from channels import Group
 from jogo.logica import logica_de_jogo as lj
 from jogo.logica import utils
 from jogo.models import Modulo, Medico, Rodada, Time
+from jogo.logica import time as timeClass
 
 JG_PRONTO = 0
 JG_PAUSADO = 1
@@ -196,8 +197,8 @@ class InstanciaJogo:
             modulo.custo_de_aquisicao = f"{modulo.custo_de_aquisicao:,.2f}"
             modulo.custo_mensal = f"{modulo.custo_mensal:,.0f}"
             modulo.preco_do_tratamento = f"{modulo.preco_do_tratamento:,.0f}"
-            modulo.tecnologia = modulo.tecnologia
-            modulo.conforto = modulo.conforto
+            modulo.tecnologia = range(0,modulo.tecnologia)
+            modulo.conforto = range(0,modulo.conforto)
             modulo.__dict__["qtd_disponiveis"] = modulos[id_mod]
 
         return list(modulos_p_areas.keys()), modulos_p_areas
@@ -225,9 +226,9 @@ def __inicializa_jogo():
     times_cadastrados = Time.objects.order_by('id')
     times = []
     for t in times_cadastrados:
-        times.append(t)
         tokens = utils.gerar_token()
-        times[-1].codigo_login = tokens[-1]
+        time = timeClass.Time(tokens, t.nome, t.caixa)
+        times.append(time)
 
     modulos = Modulo.objects.all()
     medicos = Medico.objects.all()
