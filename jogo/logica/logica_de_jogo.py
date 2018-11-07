@@ -107,7 +107,6 @@ class Logica(object):
         return multiplicadores
 
     def encerrar_rodada(self):
-        print("ENCERRAR RODADA")
         areaClasse = Area_Classe_Social.objects.all()
         demanda = {}
         classeSocialDict = {}
@@ -115,8 +114,7 @@ class Logica(object):
 
             try:
                 classeSocialDict = demanda[i.area.nome]
-            except KeyError:
-                classeSocialDict = {}
+            except:
                 pass
             classeSocialDict[i.classe_social.nome] = randint(i.entrada - i.desvios, i.entrada + i.desvios)
             demanda[i.area.nome] = classeSocialDict
